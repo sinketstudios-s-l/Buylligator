@@ -1,0 +1,39 @@
+<ion-header mode="ios" no-border>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="end" mode="ios">
+      <ion-button (click)="closeModal()">
+        <ion-icon color="dark" name="close" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    
+  <div class="logForm" id="logForm">
+      
+    <h1 class="brandName">Buylligator</h1>
+
+    <ion-input type="text" class="inp" [(ngModel)]="username" placeholder="Usuario" padding></ion-input>
+    <ion-input type="password" class="inp" [(ngModel)]="passwd" placeholder="Contraseña" padding></ion-input>
+    <ion-button class="btn" (click)="login()">Iniciar Sesión</ion-button>
+    <br><br>
+    <ion-label class="text-muted">Todavía no tienes cuenta? <span class="spanForm" (click)="openReg()">Regístrate</span></ion-label>
+    
+  </div>
+  
+    <div class="regForm" id="regForm">
+
+      <h1 class="brandName">Buylligator</h1>
+  
+      <ion-input type="text" class="inp" [(ngModel)]="username" placeholder="Usuario" padding></ion-input>
+      <ion-input type="email" class="inp" [(ngModel)]="email" placeholder="Correo Electrónico" padding></ion-input>
+      <ion-input type="password" class="inp" [(ngModel)]="passwd" placeholder="Contraseña" padding></ion-input>
+      
+      <ion-button class="btn" (click)="register()">Registrarse</ion-button>
+      <br><br>
+      <ion-label class="text-muted">¿Ya tienes cuenta? <span class="spanForm" (click)="openLog()">Iniciar Sesión</span></ion-label>
+      
+    </div>
+    
+</ion-content>

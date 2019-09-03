@@ -1,5 +1,7 @@
 {
   "name": "Buylligator",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
