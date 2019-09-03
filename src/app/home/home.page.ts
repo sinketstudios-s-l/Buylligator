@@ -5,6 +5,7 @@ import { snapshotToArray } from 'src/environments/environment';
 import { ModalController, MenuController } from '@ionic/angular';
 import { UploadPage } from '../pages/upload/upload.page';
 import { LoginPage } from '../pages/login/login.page';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 interface product {
@@ -31,7 +32,11 @@ export class HomePage implements OnInit {
 
   prodDesc
 
-  constructor(private afs: AngularFirestore, private modalCtrl: ModalController, private menuCtrl: MenuController) {
+  constructor(
+    private afs: AngularFirestore, 
+    private modalCtrl: ModalController, 
+    private menuCtrl: MenuController,
+    private fcm: FCM) {
 
     afs.collection('products').valueChanges().pipe()
     .subscribe( event => {
@@ -46,6 +51,10 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(){
+
+    this.fcm.getToken().then(token => {
+      console.log(token)
+    });
 
     if(localStorage.getItem('times') != '1'){
       this.openLoginModal()

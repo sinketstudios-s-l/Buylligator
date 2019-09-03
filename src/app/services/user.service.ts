@@ -30,7 +30,7 @@ export class UserService {
 	}
 
 	reAuth(username: string, passwd: string) {
-		return this.afAuth.auth.currentUser.reauthenticateWithCredential(auth.EmailAuthProvider.credential(username + '@bravamania.com', passwd))
+		return this.afAuth.auth.currentUser.reauthenticateWithCredential(auth.EmailAuthProvider.credential(username + '@buylligator.com', passwd))
 	}
 
 	updatePassword(newpassword: string) {
@@ -38,7 +38,7 @@ export class UserService {
 	}
 
 	updateEmail(newemail: string) {
-		return this.afAuth.auth.currentUser.updateEmail(newemail + '@bravamania.com')
+		return this.afAuth.auth.currentUser.updateEmail(newemail + '@buylligator.com')
 	}
 
 	async isAuthenticated() {

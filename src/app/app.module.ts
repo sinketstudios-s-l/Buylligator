@@ -16,10 +16,14 @@ import { AngularFirestoreModule } from '@angular/fire/firestore'
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
-import { UploadPageModule } from './pages/upload/upload.module';
 import { CategoriesPageModule } from './pages/categories/categories.module';
+
+// MODALS
+import { UploadPageModule } from './pages/upload/upload.module';
 import { LoginPageModule } from './pages/login/login.module';
 
+// FIREBASE CLOUD MESSAGE
+import { FCM } from '@ionic-native/fcm/ngx';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
@@ -43,7 +47,7 @@ var firebaseConfig = {
     AngularFirestoreModule.enablePersistence(),
     UploadPageModule,
     CategoriesPageModule,
-    LoginPageModule
+    LoginPageModule,
   ],
   providers: [
     StatusBar,
@@ -52,6 +56,7 @@ var firebaseConfig = {
     AuthService,
     ModalController,
     MenuController,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
