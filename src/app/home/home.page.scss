@@ -3,6 +3,7 @@ ion-content, body, html {
     --pading:0;
     --margin: 0;
 }
+
 .notificationsMenuIcon{
     font-size: 30px;
     font-weight: 100;
@@ -20,16 +21,21 @@ ion-badge.notificationsMenu{
     z-index: 100;
 }
 
+.searchBar{
+    font-family: 'BuylligatorN';
+}
+
 .productsRow {
     padding: 10px;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
     column-count: 2;
     column-gap: 0px;
-
+    break-inside: avoid-column;
 }
 
 .productCard{
-    min-height: 300px;
-    max-height: auto;
+
     background: #fff;
     border-radius: 5px;
     margin: 5px;
@@ -37,6 +43,7 @@ ion-badge.notificationsMenu{
     -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
     position: relative;
+    break-inside: avoid-column;
 }
 
 .productCardExp{
@@ -57,6 +64,7 @@ ion-badge.notificationsMenu{
 }
 
 .productCardInfo{
+    font-family: sans-serif;
     padding: 10px;
     text-align-last: left;
 }
@@ -94,14 +102,39 @@ ion-badge.notificationsMenu{
 }
 
 ion-button.uploadBtn {
-    position: absolute;
-    display: none;
-    left: 30%;
-    bottom: 5%;
-    translate: (-50%, -50%);
-    
+    font-size: 17px;
+    position: fixed;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    background: #8be4a5 !important;
+}
 
+ion-fab{
+    bottom: 2rem;
 }
 
 
+.catSlider{
+    background: #f9f9f9;
+    padding: 10px 20px 10px 20px;  
+}
 
+.catSlide{
+    color: #5a5a5a;
+}
+
+.catSlide:focus{
+    color: #8a8a8a;
+}
+
+.catSlide span {
+    font-size: 13px;
+}
+.catSlide ion-icon{
+    font-size: 30px;
+}

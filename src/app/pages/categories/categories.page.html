@@ -4,6 +4,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+
+  <ion-row no-padding>
+    <ion-col size="4" *ngFor="let cat of categories">
+      <ion-button color="dark" fill="clear" [id]="cat.id" (click)="category($event)">
+        <ion-icon [mode]="cat.mode" [name]="cat.icon"></ion-icon>
+      </ion-button>
+      <br>
+      <span>{{cat.name}}</span>
+    </ion-col>
+  </ion-row>
 
 </ion-content>

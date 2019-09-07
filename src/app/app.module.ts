@@ -13,31 +13,34 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire'
 import { AngularFirestoreModule } from '@angular/fire/firestore'
+import { AngularFireStorageModule } from '@angular/fire/storage'
 import { AngularFireAuthModule } from '@angular/fire/auth'
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
-import { CategoriesPageModule } from './pages/categories/categories.module';
 
 // MODALS
 import { UploadPageModule } from './pages/upload/upload.module';
-import { LoginPageModule } from './pages/login/login.module';
+import { LoginModalPageModule } from './pages/login-modal/login-modal.module';
+import { UploadPage } from './pages/upload/upload.page';
+import { CategoriesPageModule } from './pages/categories/categories.module';
 
 // FIREBASE CLOUD MESSAGE
 import { FCM } from '@ionic-native/fcm/ngx';
+import { SessionService } from './services/session.service';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
   authDomain: "buylligator.firebaseapp.com",
   databaseURL: "https://buylligator.firebaseio.com",
   projectId: "buylligator",
-  storageBucket: "",
+  storageBucket: "buylligator.appspot.com",
   messagingSenderId: "888470690948",
   appId: "1:888470690948:web:76e47bab0a76e956"
 };
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [UploadPage],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
@@ -45,15 +48,17 @@ var firebaseConfig = {
     AngularFireAuthModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
     UploadPageModule,
     CategoriesPageModule,
-    LoginPageModule,
+    LoginModalPageModule,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     UserService,
     AuthService,
+    SessionService,
     ModalController,
     MenuController,
     FCM,

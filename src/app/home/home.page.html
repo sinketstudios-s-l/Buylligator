@@ -1,67 +1,75 @@
 <ion-header mode="ios" no-border>
-  
   <ion-toolbar mode="ios">
     <ion-buttons slot="start">
       <ion-button color="dark" mode="ios" (click)="openMenu()">
-        <ion-badge class="notificationsMenu" *ngIf="notifications" color="primary">99</ion-badge>
+        <ion-badge class="notificationsMenu" *ngIf="!notifications" color="primary">99</ion-badge>
         <ion-icon class="notificationsMenuIcon" name="menu" mode="ios"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-searchbar mode="ios" placeholder="Busca cualquier producto" showCancelButton="focus"></ion-searchbar>
+    <ion-searchbar mode="ios" placeholder="Busca en buylligator" [(ngModel)]="searchterm" showCancelButton="focus"
+      class="searchBar">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
 
+  <ion-slides class="catSlider" [options]="slideOpts">
+    <ion-slide *ngFor="let cat of categories" (click)="category($event)" [id]="cat.id">
+      <div class="catSlide" (click)="category($event)" [id]="cat.id">
+        <ion-icon [name]="cat.icon" [mode]="cat.mode" (click)="category($event)" [id]="cat.id"></ion-icon> <br>
+        <span (click)="category($event)" [id]="cat.id">{{cat.name}}</span>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+
   <div class="productsRow">
 
-    <div class="productCard" *ngFor="let item of products">
-      <div class="productCardExp" *ngIf="item.express == true">
-        <img [src]="item.expressImg" alt="">
-      </div>
-      <img [src]="item.img" alt="">
-      <div class="productCardInfo">
-          <span class="productCardPrice">P.A: {{item.price}} €</span> 
+    <div class="productCard" *ngFor="let item of products" >
+      <div *ngIf="item.verificated == true">
+        <div class="productCardExp" *ngIf="item.express == true">
+          <img [src]="item.expressImg" alt="">
+        </div>
+        <img [src]="item.img" (click)="view($event)" id="{{item.productID}}">
+        <div class="productCardInfo" (click)="view($event)" id="{{item.productID}}">
+          <span class="productCardPrice" (click)="view($event)" id="{{item.productID}}">P.A: {{item.PA}} €</span>
           <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon>
-          <p class="productCardDesc">{{item.desc}}</p>
-      </div>
-      <div class="productCardBtns">
-        <ion-button slot="end" color="light" class="btn" (click)="upload()" *ngIf="item.express == false">
-          <ion-icon name="heart-empty" color="danger" mode="md"></ion-icon>
-        </ion-button>
-        <ion-button slot="end" class="btn" (click)="upload()" *ngIf="item.express == false">
-          <ion-icon slot="start" name="trending-up" mode="ios"></ion-icon>
-          <ion-label slot="start">Pujar</ion-label>
-        </ion-button>
-        <ion-button slot="end" class="btn" (click)="upload()" *ngIf="item.express == true">
-           <!-- <ion-icon slot="start" name="trending-up" mode="ios"></ion-icon> -->
+          <p class="productCardDesc" (click)="view($event)" id="{{item.productID}}">{{item.desc}}</p>
+        </div>
+        <div class="productCardBtns">
+          <ion-button slot="end" mode="ios" color="light" class="btn" (click)="save()" *ngIf="item.express == false">
+            <ion-icon name="heart-empty" color="danger" mode="md"></ion-icon>
+          </ion-button>
+          <ion-button slot="end" mode="ios" class="btn" (click)="pujar($event)" id="{{item.productID}}" *ngIf="item.express == false">
+            <ion-icon slot="start" name="trending-up" mode="ios"></ion-icon>
+            <ion-label slot="start" >Pujar</ion-label>
+          </ion-button>
+          <ion-button slot="end" class="btn" (click)="pujaExp()" *ngIf="item.express == true">
+            <!-- <ion-icon slot="start" name="trending-up" mode="ios"></ion-icon> -->
             <ion-label slot="start">+ 1.00 €</ion-label>
           </ion-button>
+        </div>
       </div>
     </div>
-    
+
+
 
   </div>
 
   <!--
-  <ion-item lines="none">
-    <ion-label position="floating">Añade</ion-label>
-    <ion-input [(ngModel)]="example" type="text"></ion-input>
-    <ion-button slot="end" (click)="upload()">
-      <ion-icon name="send" mode="md"></ion-icon>
-    </ion-button>
-  </ion-item>
--->
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add-circle-outline" mode="ios"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+    -->
 
-
-
+  <ion-fab vertical="bottom" slot="fixed">
     <ion-button class="btn uploadBtn" mode="ios" (click)="openModal()">
       <ion-icon slot="start" name="add-circle-outline"></ion-icon>
       <ion-label slot="start">Empezar Subasta</ion-label>
     </ion-button>
-
-
-
-
+  </ion-fab>
 
 </ion-content>

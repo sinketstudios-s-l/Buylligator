@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { snapshotToArray } from 'src/environments/environment';
-import { ModalController, MenuController } from '@ionic/angular';
+import { ModalController, MenuController, AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+
+// SERVICES
+import { UserService } from '../services/user.service';
+
+// MODALS
 import { UploadPage } from '../pages/upload/upload.page';
-import { LoginPage } from '../pages/login/login.page';
-import { FCM } from '@ionic-native/fcm/ngx';
+import { LoginModalPage } from '../pages/login-modal/login-modal.page';
 
 
-interface product {
-  img: string,
-  price: string,
-  desc: string,
-  express: boolean 
-  expressImg: string
-}
+
+
 
 @Component({
   selector: 'app-home',
@@ -32,88 +32,189 @@ export class HomePage implements OnInit {
 
   prodDesc
 
+  username
+  mainuser
+  sub
+
+  searchterm
+
+  slideOpts = {
+    loop: false,
+    initialSlide: 0,
+    speed: 300,
+    slidesPerView: 4.5,
+    spaceBetween: 50,
+    centeredSlides: false
+  }
+
+  categories = [
+    {
+      name: "Coches",
+      icon: "car",
+      id: "cars",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "2",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "3",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "4",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "5",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "6",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "7",
+      mode: "ios"
+    },
+    {
+      name: "Coches",
+      icon: "car",
+      id: "8",
+      mode: "ios"
+    },
+  ]
+
   constructor(
-    private afs: AngularFirestore, 
-    private modalCtrl: ModalController, 
+    private afs: AngularFirestore,
+    private modalCtrl: ModalController,
     private menuCtrl: MenuController,
-    private fcm: FCM) {
+    private userSvc: UserService,
+    private router: Router,
+    private alertCtrl: AlertController) {
 
     afs.collection('products').valueChanges().pipe()
-    .subscribe( event => {
+      .subscribe(event => {
 
-      this.products = event
-      
-    })
+        this.products = event
+
+      })
 
     this.userRef.on('value', res => {
       this.items = snapshotToArray(res)
     })
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
-    this.fcm.getToken().then(token => {
-      console.log(token)
-    });
+    this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
+    this.sub = this.mainuser.valueChanges().subscribe(event => {
+      this.username = event.username
+      
+    })
 
-    if(localStorage.getItem('times') != '1'){
-      this.openLoginModal()
-      localStorage.setItem('times', '1')
-    } 
-    
   }
 
   async openLoginModal() {
 
-      const modal = await this.modalCtrl.create({
-          component: LoginPage
-      })
-      return await modal.present()
-    }
-  
+    const modal = await this.modalCtrl.create({
+      component: LoginModalPage
+    })
+    return await modal.present()
+  }
 
-  openMenu(){
-    if(this.menuCtrl.getOpen){
+
+  openMenu() {
+    if (this.menuCtrl.getOpen) {
       this.menuCtrl.close()
     }
     this.menuCtrl.enable(true, 'main')
     this.menuCtrl.open('main')
   }
 
-  upload(){
-
-    const ref = Math.random().toString(16) + Math.random().toString(16).toUpperCase()
-
-    this.afs.collection('products').doc(ref).set({
-      img: "https://www.akamai.com/es/es/multimedia/images/intro/image-manager-intro.png?imwidth=1366",
-      price: "12124",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae fugit quibusdam tempora praesentium quo. Et ipsum ad ullam ut! Modi voluptatem commodi odit sapiente, cum officiis fugiat totam tempora id?",
-      express: false,
-      expressImg: "../../../assets/flash.png"
-      
-    })
-
-
-    this.userRef.push().set({
-      img: "https://www.akamai.com/es/es/multimedia/images/intro/image-manager-intro.png?imwidth=1366",
-      price: "12124",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae fugit quibusdam tempora praesentium quo. Et ipsum ad ullam ut! Modi voluptatem commodi odit sapiente, cum officiis fugiat totam tempora id?",
-      express: false,
-      expressImg: "../../../assets/flash.png"
-    })
-
-  }
-
-  async openModal(){
+  async openModal() {
+    const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
     const modal = await this.modalCtrl.create({
-        component: UploadPage
+      component: UploadPage,
+      componentProps: {
+        id: ref,
+        username: this.username
+      }
     })
     return await modal.present()
   }
 
-  delItem(key){
-    firebase.database().ref('users/'+key).remove();
+  async pujaAlert(id: string) {
+    let productID = id
+    const puja = await this.alertCtrl.create({
+      header: id,
+      mode: "ios",
+      inputs: [
+        {
+          name: 'cant',
+          placeholder: 'Ej. 10€',
+          type: 'number'
+        }
+      ],
+      buttons: [
+        {
+          text: "Cancelar",
+          role: "cancel"
+        },
+        {
+          text: "Pujar",
+          handler: data => {
+            console.log(data.cant)
+          }
+        }
+      ]
+    })
+    if (productID != "") {
+      await puja.present()
+    }
+  }
+
+  pujar(event) {
+    if (!this.username) {
+      this.router.navigate(['/login'])
+    } else {
+      this.pujaAlert(event.target.id)
+    }
+  }
+
+  view(event) {
+    let id = event.target.id
+
+    this.router.navigate(['/view/' + id])
+
+    console.log(id)
+
+  }
+
+  delItem(key) {
+    firebase.database().ref('users/' + key).remove();
+  }
+
+
+
+  category(event) {
+    console.log(event.target.id)
   }
 
 
 }
+
+

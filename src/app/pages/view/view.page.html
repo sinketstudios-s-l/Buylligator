@@ -1,0 +1,30 @@
+<ion-content>
+
+  <div class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button text="" class="margin-start" mode="md" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </div>
+
+  <div class="product">
+
+    <div class="productImgDiv">
+      <img class="productImg" [src]="productImg" alt="">
+    </div>
+
+    <div class="productHead">
+      <span class="productPA">P.A: {{PA}} €</span><br>
+      <span class="productPI">P.E: --- € </span><br>
+      <span class="productPI">P.I: {{PI}} €</span>
+    </div>
+
+    <div class="productInfo">
+      <span class="productDesc">{{desc}}€</span>
+    </div>
+
+    <ion-input class="inp" [(ngModel)]="precioPuja" type="number" placeholder="Ej. 1.00 €"></ion-input>
+    <ion-button class="btn" color="primary" (click)="pujar()">Pujar</ion-button>
+
+  </div>
+
+</ion-content>

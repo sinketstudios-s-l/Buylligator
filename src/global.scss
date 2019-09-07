@@ -27,7 +27,16 @@
 
 @font-face{
     font-family: 'Buylligator';
-    src: url('./assets/fonts/buylligator.ttf');
+    src: url('./assets/fonts/Buylligator.ttf');
+}
+
+@font-face{
+    font-family: 'BuylligatorN';
+    src: url('./assets/fonts/buylligator-normal.ttf');
+}
+
+ion-app, ion-content{
+    font-family: 'Buylligator';
 }
 
 ion-modal.categoriesModal{

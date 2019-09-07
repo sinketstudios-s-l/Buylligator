@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, MenuController, AlertController } from '@ionic/angular';
-import { delay } from 'rxjs/operators';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { UserService } from 'src/app/services/user.service';
+import { MenuController, AlertController } from '@ionic/angular';
+import { SessionService } from 'src/app/services/session.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,6 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
+
 export class LoginPage implements OnInit {
 
   username:string
@@ -18,16 +16,13 @@ export class LoginPage implements OnInit {
   passwd:string
   profilePic:string = "../../../assets/default-user.jpg"
   verificated: boolean = false
-  constructor(private modalCtrl: ModalController, 
+  constructor(private route: Router, 
               private menuCtrl: MenuController, 
               private alertCtrl: AlertController,
-              private afAuth: AngularFireAuth,
-              private afs: AngularFirestore,
-              private userSvc: UserService,
-              private router: Router) { }
+              private session: SessionService) { }
 
   ngOnInit() {
-
+    this.menuCtrl.enable(false, 'main')
   }
 
   openReg(){
@@ -59,7 +54,7 @@ export class LoginPage implements OnInit {
         {
           text: 'Aceptar',
           handler: () => {
-            this.registro()
+            this.session.registro(this.username, this.passwd, this.email)
           }
         }
       ]
@@ -70,67 +65,14 @@ export class LoginPage implements OnInit {
 
   }
   
+  login(){
+    this.session.login(this.username, this.passwd)
+  }
   
-  async registro(){
-
-    const { username, passwd, email, profilePic, verificated } = this
-
-    try {
-			const res = await this.afAuth.auth.createUserWithEmailAndPassword(username + '@buylligator.com', passwd)
-
-
-			this.afs.doc(`users/${res.user.uid}`).set({
-				profilePic,
-				username,
-				email,
-        role: 0,
-        verificated: verificated
-
-			})
-
-			this.userSvc.setUser({
-				username,
-				uid: res.user.uid
-			})
-
-      this.router.navigate(['/home'])
-      this.closeModal()
-
-		} catch(error) {
-			console.dir(error)
-		}
-
-  }
-
-  async login(){
-
-    const { username, passwd } = this
-		
-		try {
-
-			const res = await this.afAuth.auth.signInWithEmailAndPassword(username + '@buylligator.com', passwd)
-			
-			if(res.user) {
-				this.userSvc.setUser({
-					username,
-					uid: res.user.uid
-				})
-        
-        this.router.navigate(['/home'])
-        this.closeModal()
-
-			}
-		
-		} catch(err) {
-      console.dir(err)
-      
-		}
-
-  }
 
 
   closeModal(){
-    this.modalCtrl.dismiss();
+    this.route.navigate(['./'])
   }
 
 }

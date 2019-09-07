@@ -3,10 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { Platform, MenuController, ModalController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+
 import { AngularFirestore } from '@angular/fire/firestore';
-import { UserService } from './services/user.service';
 import { Router } from '@angular/router';
-import { LoginPage } from './pages/login/login.page';
+
+//MODALS
+import { LoginModalPage } from './pages/login-modal/login-modal.page';
+import { UserService } from './services/user.service';
 
 
 @Component({
@@ -18,18 +21,26 @@ export class AppComponent implements OnInit{
   
   img = "https://www.akamai.com/es/es/multimedia/images/intro/image-manager-intro.png?imwidth=1366"
   
-  username:string=""
+  username
   mainuser
   sub
+  profilePic
+
+  menuOpts: menuOpts[] = [
+    {
+      title: "Ayuda",
+      redirectTo: "/help"
+    }
+  ]
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private afs: AngularFirestore,
-    private userSvc: UserService,
-    private route: Router,
     private menuCtrl: MenuController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private route: Router,
+    private afs: AngularFirestore,
+    private userSvc: UserService
   ) {
     this.initializeApp();
   }
@@ -43,32 +54,45 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
 
-    if(this.userSvc.isAuthenticated){
 
-      this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
-      this.sub = this.mainuser.valueChanges().subscribe(event => {
-          this.username = event.username
-         
-          //console.log(this.username)
-        
-      })
+   // let uid = localStorage.getItem('uid')
 
-    } else {
-      this.username = ""
-    }
+   /* this.mainuser = this.afs.doc(`users/${uid}`)
+    this.sub = this.mainuser.valueChanges().subscribe(event => {
+        this.username = event.username
+        this.profilePic = event.profilePic
+  
+    }) 
 
-    
-
-
+    this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
+    this.sub = this.mainuser.valueChanges().subscribe(event => {
+        this.username = event.username
+    })  
+*/
   }
 
-  async login(){
+  profile(){
+    this.menuCtrl.close()
+    this.route.navigate(['/profile'])
+  }
+
+  login(){
+    this.route.navigate(['/login'])
+  }
+
+ /* async login(){
     this.menuCtrl.close()
     const modal = await this.modalCtrl.create({
-        component: LoginPage,
+        component: LoginModalPage,
         cssClass: "loginPageModal",
     })
     return await modal.present()
   }
+ */
 
+}
+
+interface menuOpts {
+  title: string
+  redirectTo: string
 }
