@@ -9,36 +9,85 @@ import { NavParams, ModalController } from '@ionic/angular';
 })
 export class CategoriesPage implements OnInit {
 
-  categories: categories[] = [
+  categories: categories[] = [
+    {
+      name: "Todas las Categorias",
+      icon: "infinite",
+      id: "all",
+      mode: "ios"
+    },
     {
       name: "Coches",
       icon: "car",
-      mode: "ios",
-      id: "cars"
+      id: "cars",
+      mode: "ios"
     },
     {
-      name: "Motos",
-      icon: "car",
-      mode: "ios",
-      id: "bikes"
-    },
-    {
-      name: "Motor y Accesorios",
-      icon: "car",
-      mode: "ios",
-      id: "motor"
-    },
-    {
-      name: "Bicicletas",
+      name: "Motos, Bicicletas & Patinetes",
       icon: "bicycle",
-      mode: "md",
-      id: "bicycles"
+      id: "bikes",
+      mode: "ios"
     },
     {
-      name: "Deportes y Ocio",
-      icon: "football",
-      mode: "ios",
-      id: "sports"
+      name: "Consolas & Videojuegos",
+      icon: "logo-game-controller-a",
+      id: "gaming",
+      mode: "ios"
+    },
+    {
+      name: "Coleccionismo & Arte",
+      icon: "easel",
+      id: "art",
+      mode: "ios"
+    },
+    {
+      name: "Joyas",
+      icon: "watch",
+      id: "",
+      mode: "md"
+    },
+    {
+      name: "Moda & Accesorios",
+      icon: "shirt",
+      id: "moda",
+      mode: "md"
+    },
+    {
+      name: "Inmobiliaria",
+      icon: "home",
+      id: "home",
+      mode: "md"
+    },
+    {
+      name: "Libros & Música",
+      icon: "bookmarks",
+      id: "books",
+      mode: "md"
+    },
+    {
+      name: "Viajes",
+      icon: "airplane",
+      id: "travel",
+      mode: "ios"
+    },
+    {
+      name: "Electrónica",
+      icon: "desktop",
+      id: "pc",
+      mode: "md"
+    },
+    {
+      name: "Otros",
+      icon: "globe",
+      id: "others",
+      mode: "ios"
+    },
+    {
+      name: "+ 18",
+      icon: "flame",
+      id: "nfsw",
+      mode: "md",
+      color: "danger"
     },
   ]
 
@@ -71,4 +120,5 @@ interface categories {
   icon: string,
   id: string,
   mode: string
+  color?: string
 }

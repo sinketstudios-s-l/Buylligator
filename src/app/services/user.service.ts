@@ -63,7 +63,7 @@ export class UserService {
 
 
   logout(){
-    this.afAuth.auth.signOut()
+	this.afAuth.auth.signOut()
   }
 
 }

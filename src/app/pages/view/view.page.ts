@@ -20,7 +20,7 @@ export class ViewPage implements OnInit {
   mainprod
   sub
 
-  productImg
+  productImg: any[]
   PI: number
   PA: number
   PE
@@ -32,9 +32,13 @@ export class ViewPage implements OnInit {
 
   userID
 
-  precioPuja
+  precioPuja: number
 
-
+  sliderOpts = {
+    initialSlide: 1,
+    slidesPerView: 1,
+    slidesPerColumn: 1,
+  }
 
 
   constructor(
@@ -59,6 +63,7 @@ export class ViewPage implements OnInit {
         this.userID = ev.userID
         this.date = ev.date
         this.title = ev.title
+
         this.productImg = ev.img
 
       })
@@ -92,7 +97,7 @@ export class ViewPage implements OnInit {
 
     this.afs.doc(`products/${this.productID}`).update({
       PA: this.PA
-    }).then(() => {this.precioPuja = ""})
+    }).then(() => { this.precioPuja = 0.00 })
 
   }
 

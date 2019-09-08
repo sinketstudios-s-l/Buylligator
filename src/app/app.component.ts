@@ -11,25 +11,34 @@ import { Router } from '@angular/router';
 import { LoginModalPage } from './pages/login-modal/login-modal.page';
 import { UserService } from './services/user.service';
 
+import * as firebase from 'firebase'
+
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit{
-  
+export class AppComponent implements OnInit {
+
   img = "https://www.akamai.com/es/es/multimedia/images/intro/image-manager-intro.png?imwidth=1366"
-  
+
   username
   mainuser
   sub
   profilePic
 
+  currentUser
+  userProf
+
   menuOpts: menuOpts[] = [
     {
+      title: "Envíos",
+      redirectTo: "/shipping",
+    },
+    {
       title: "Ayuda",
-      redirectTo: "/help"
+      redirectTo: "/help",
     }
   ]
   constructor(
@@ -41,6 +50,7 @@ export class AppComponent implements OnInit{
     private route: Router,
     private afs: AngularFirestore,
     private userSvc: UserService
+
   ) {
     this.initializeApp();
   }
@@ -52,47 +62,51 @@ export class AppComponent implements OnInit{
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.currentUser = user
+        this.userProf = firebase.firestore().doc(`users/${user.uid}`)
 
-   // let uid = localStorage.getItem('uid')
+        this.mainuser = this.afs.doc(`users/${user.uid}`)
+        this.sub = this.mainuser.valueChanges().subscribe(event => {
+          this.username = event.username
+          this.profilePic = event.profilePic
+        })
+      } else {
+        this.username = ""
+      }
+    })
 
-   /* this.mainuser = this.afs.doc(`users/${uid}`)
-    this.sub = this.mainuser.valueChanges().subscribe(event => {
-        this.username = event.username
-        this.profilePic = event.profilePic
-  
-    }) 
-
-    this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
-    this.sub = this.mainuser.valueChanges().subscribe(event => {
-        this.username = event.username
-    })  
-*/
   }
 
-  profile(){
+  profile() {
     this.menuCtrl.close()
     this.route.navigate(['/profile'])
   }
 
-  login(){
+  login() {
     this.route.navigate(['/login'])
   }
 
- /* async login(){
-    this.menuCtrl.close()
-    const modal = await this.modalCtrl.create({
-        component: LoginModalPage,
-        cssClass: "loginPageModal",
-    })
-    return await modal.present()
+  logout(){
+    this.userSvc.logout()
   }
- */
+  /* async login(){
+     this.menuCtrl.close()
+     const modal = await this.modalCtrl.create({
+         component: LoginModalPage,
+         cssClass: "loginPageModal",
+     })
+     return await modal.present()
+   }
+  */
 
 }
 
 interface menuOpts {
   title: string
-  redirectTo: string
+  redirectTo: string,
+
 }

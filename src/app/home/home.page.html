@@ -17,7 +17,7 @@
   <ion-slides class="catSlider" [options]="slideOpts">
     <ion-slide *ngFor="let cat of categories" (click)="category($event)" [id]="cat.id">
       <div class="catSlide" (click)="category($event)" [id]="cat.id">
-        <ion-icon [name]="cat.icon" [mode]="cat.mode" (click)="category($event)" [id]="cat.id"></ion-icon> <br>
+        <ion-icon [name]="cat.icon" [mode]="cat.mode" (click)="category($event)" [id]="cat.id" [color]="cat?.color"></ion-icon> <br>
         <span (click)="category($event)" [id]="cat.id">{{cat.name}}</span>
       </div>
     </ion-slide>
@@ -26,24 +26,25 @@
 
   <div class="productsRow">
 
-    <div class="productCard" *ngFor="let item of products" >
+    <div class="productCard" *ngFor="let item of products">
       <div *ngIf="item.verificated == true">
         <div class="productCardExp" *ngIf="item.express == true">
           <img [src]="item.expressImg" alt="">
         </div>
-        <img [src]="item.img" (click)="view($event)" id="{{item.productID}}">
+        <img [src]="item.img[0]" (click)="view($event)" id="{{item.productID}}">
         <div class="productCardInfo" (click)="view($event)" id="{{item.productID}}">
           <span class="productCardPrice" (click)="view($event)" id="{{item.productID}}">P.A: {{item.PA}} €</span>
-          <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon>
+          <!-- <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon> -->
           <p class="productCardDesc" (click)="view($event)" id="{{item.productID}}">{{item.desc}}</p>
         </div>
         <div class="productCardBtns">
           <ion-button slot="end" mode="ios" color="light" class="btn" (click)="save()" *ngIf="item.express == false">
             <ion-icon name="heart-empty" color="danger" mode="md"></ion-icon>
           </ion-button>
-          <ion-button slot="end" mode="ios" class="btn" (click)="pujar($event)" id="{{item.productID}}" *ngIf="item.express == false">
+          <ion-button slot="end" mode="ios" class="btn" (click)="pujar($event)" id="{{item.productID}}"
+            *ngIf="item.express == false">
             <ion-icon slot="start" name="trending-up" mode="ios"></ion-icon>
-            <ion-label slot="start" >Pujar</ion-label>
+            <ion-label slot="start">Pujar</ion-label>
           </ion-button>
           <ion-button slot="end" class="btn" (click)="pujaExp()" *ngIf="item.express == true">
             <!-- <ion-icon slot="start" name="trending-up" mode="ios"></ion-icon> -->

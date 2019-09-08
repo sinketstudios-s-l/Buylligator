@@ -31,6 +31,9 @@
           <ion-item lines="none" *ngFor="let item of menuOpts" [routerLink]="item.redirectTo" details="off">
             <ion-label>{{item.title}}</ion-label>
           </ion-item>
+          <ion-item lines="none" *ngIf="username" (click)="logout()">
+              <ion-label color="danger">Desconectar</ion-label>
+            </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

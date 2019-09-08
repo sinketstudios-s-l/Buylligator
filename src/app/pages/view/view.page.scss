@@ -1,5 +1,6 @@
 ion-content {
     font-family: sans-serif;
+    --offset-top: -20px !important;
 }
 
 .product{
@@ -12,6 +13,11 @@ ion-content {
     height: 300px;
     max-height: 300px;
 
+}
+
+.slideImg{
+    height: 300px;
+    max-height: 300px;
 }
 
 .productImg{
@@ -75,4 +81,5 @@ ion-content {
     left: 0;
     width: 100%;
     color: #fff;
+    z-index: 100;
 }

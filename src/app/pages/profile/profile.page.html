@@ -21,4 +21,10 @@
 
     <ion-label>{{username}}</ion-label>
 
+    <ion-list>
+      <ion-item lines="none" *ngFor="let my of myProducts">
+        <ion-label>{{my.id}}</ion-label>
+      </ion-item>
+    </ion-list>
+
 </ion-content>

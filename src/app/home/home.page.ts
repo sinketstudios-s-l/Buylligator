@@ -43,11 +43,17 @@ export class HomePage implements OnInit {
     initialSlide: 0,
     speed: 300,
     slidesPerView: 4.5,
-    spaceBetween: 50,
+    spaceBetween: 5,
     centeredSlides: false
   }
 
   categories = [
+    {
+      name: "Todas las Categorias",
+      icon: "infinite",
+      id: "all",
+      mode: "ios"
+    },
     {
       name: "Coches",
       icon: "car",
@@ -55,46 +61,71 @@ export class HomePage implements OnInit {
       mode: "ios"
     },
     {
-      name: "Coches",
-      icon: "car",
-      id: "2",
+      name: "Motos, Bicicletas & Patinete",
+      icon: "bicycle",
+      id: "bikes",
       mode: "ios"
     },
     {
-      name: "Coches",
-      icon: "car",
-      id: "3",
+      name: "Consolas & Videojuegos",
+      icon: "logo-game-controller-a",
+      id: "gaming",
       mode: "ios"
     },
     {
-      name: "Coches",
-      icon: "car",
-      id: "4",
+      name: "Coleccionismo & Arte",
+      icon: "easel",
+      id: "art",
       mode: "ios"
     },
     {
-      name: "Coches",
-      icon: "car",
-      id: "5",
+      name: "Joyas",
+      icon: "watch",
+      id: "",
+      mode: "md"
+    },
+    {
+      name: "Moda & Accesorios",
+      icon: "shirt",
+      id: "moda",
+      mode: "md"
+    },
+    {
+      name: "Inmobiliaria",
+      icon: "home",
+      id: "home",
+      mode: "md"
+    },
+    {
+      name: "Libros & Música",
+      icon: "bookmarks",
+      id: "books",
+      mode: "md"
+    },
+    {
+      name: "Viajes",
+      icon: "airplane",
+      id: "travel",
       mode: "ios"
     },
     {
-      name: "Coches",
-      icon: "car",
-      id: "6",
+      name: "Electrónica",
+      icon: "desktop",
+      id: "pc",
+      mode: "md"
+    },
+    {
+      name: "Otros",
+      icon: "globe",
+      id: "others",
       mode: "ios"
     },
     {
-      name: "Coches",
-      icon: "car",
-      id: "7",
-      mode: "ios"
-    },
-    {
-      name: "Coches",
-      icon: "car",
-      id: "8",
-      mode: "ios"
+      name: "+ 18",
+      icon: "flame",
+      id: "nfsw",
+      mode: "md",
+      color: "danger"
     },
   ]
 

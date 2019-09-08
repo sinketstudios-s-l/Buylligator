@@ -14,23 +14,25 @@ export class ProfilePage implements OnInit {
   sub
   profilePic
   email
+
+  myProducts
   constructor(
     private userSvc: UserService,
     private afs: AngularFirestore ) { }
 
   ngOnInit() {
 
-    let uid = localStorage.getItem('uid')
+      
 
-    if(uid){
-      this.mainuser = this.afs.doc(`users/${uid}`)
+      this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
       this.sub = this.mainuser.valueChanges().subscribe(event => {
           this.username = event.username
           this.profilePic = event.profilePic
           this.email = event.email
+          this.myProducts = event.myProducts
   
       })
-    }
+    
     
       
 

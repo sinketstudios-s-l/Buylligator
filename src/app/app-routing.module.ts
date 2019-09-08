@@ -10,6 +10,8 @@ const routes: Routes = [
   { path: 'upload/:id', loadChildren: './pages/upload/upload.module#UploadPageModule' },
   { path: 'view/:id', loadChildren: './pages/view/view.module#ViewPageModule' },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' },
+  { path: 'shipping', loadChildren: './pages/shipping/shipping.module#ShippingPageModule' },
 
 
 
