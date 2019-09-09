@@ -17,17 +17,27 @@
     </div>
 
     <div class="productHead">
+      <span class="productTlt">{{productTitle}}</span><br>
       <span class="productPA">P.A: {{PA}} €</span><br>
       <span class="productPI">P.E: --- € </span><br>
       <span class="productPI">P.I: {{PI}} €</span>
     </div>
 
     <div class="productInfo">
-      <span class="productDesc">{{desc}}€</span>
+      <span class="productDesc">{{desc}}</span>
     </div>
 
-    <ion-input class="inp" [(ngModel)]="precioPuja" type="number" placeholder="Ej. 1.00 €"></ion-input>
-    <ion-button class="btn" color="primary" mode="ios" (click)="pujar()">Pujar</ion-button>
+    <ion-list>
+      <ion-item *ngFor="let bid of bidders | slice:biddersLenghtShow:biddersLenght; " lines="none">
+        <ion-label>+ {{bid.price}} €</ion-label>
+        <ion-label >{{bid.username}}</ion-label>
+        <ion-label >{{bid.date?.toDate() | date: 'HH:mm a'}}</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div class="bidBtn">
+      <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()">Pujar</ion-button>
+    </div>
 
   </div>
 

@@ -1,11 +1,16 @@
 ion-content {
     font-family: sans-serif;
-    --offset-top: -20px !important;
+    --offset-top: -25px !important;
 }
 
 .product{
     width: 100%;
     height: 100vh;
+}
+
+.productTlt{
+    font-size: 15px;
+    color: rgb(160, 160, 160);
 }
 
 .productImgDiv{
@@ -65,14 +70,20 @@ ion-content {
     text-align: center;
 }
 
-.btn{
+.bidBtn{
+    text-align: center;
+    width: 100%;
     position: absolute;
-    bottom: 0rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 1rem;
+    background: #fff;
+    overflow-y: hidden; 
+}
+
+
+
+.btn{
     width: 90%;
     --border-radius: 40px;
-
 }
 
 .toolbar{

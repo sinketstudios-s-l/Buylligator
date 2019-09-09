@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 // MODALS
 import { UploadPage } from '../pages/upload/upload.page';
 import { LoginModalPage } from '../pages/login-modal/login-modal.page';
+import { map } from 'rxjs/operators';
 
 
 
@@ -37,6 +38,14 @@ export class HomePage implements OnInit {
   sub
 
   searchterm
+  category
+
+  mainprod
+  subprod
+  bidders: any[]
+  lastBidder
+
+  PA:number
 
   slideOpts = {
     loop: false,
@@ -51,79 +60,80 @@ export class HomePage implements OnInit {
     {
       name: "Todas las Categorias",
       icon: "infinite",
-      id: "all",
-      mode: "ios"
+      id: "Todas las Categorias",
+      mode: "ios",
+      color: "primary"
     },
     {
       name: "Coches",
       icon: "car",
-      id: "cars",
+      id: "Coches",
       mode: "ios"
     },
     {
-      name: "Motos, Bicicletas & Patinete",
+      name: "Motos, Bicicletas & Patinetes",
       icon: "bicycle",
-      id: "bikes",
+      id: "Motos, Bicicletas & Patinetes",
       mode: "ios"
     },
     {
       name: "Consolas & Videojuegos",
       icon: "logo-game-controller-a",
-      id: "gaming",
+      id: "Consolas & Videojuegos",
       mode: "ios"
     },
     {
       name: "Coleccionismo & Arte",
       icon: "easel",
-      id: "art",
+      id: "Coleccionismo & Arte",
       mode: "ios"
     },
     {
       name: "Joyas",
       icon: "watch",
-      id: "",
+      id: "Joyas",
       mode: "md"
     },
     {
       name: "Moda & Accesorios",
       icon: "shirt",
-      id: "moda",
+      id: "Moda & Accesorios",
       mode: "md"
     },
     {
       name: "Inmobiliaria",
       icon: "home",
-      id: "home",
+      id: "Inmobiliaria",
       mode: "md"
     },
     {
       name: "Libros & Música",
       icon: "bookmarks",
-      id: "books",
+      id: "Libros & Música",
       mode: "md"
     },
     {
       name: "Viajes",
       icon: "airplane",
-      id: "travel",
+      id: "Viajes",
       mode: "ios"
     },
     {
       name: "Electrónica",
       icon: "desktop",
-      id: "pc",
+      id: "Electrónica",
       mode: "md"
     },
     {
       name: "Otros",
       icon: "globe",
-      id: "others",
+      id: "Otros",
       mode: "ios"
     },
     {
       name: "+ 18",
       icon: "flame",
-      id: "nfsw",
+      id: "+ 18",
       mode: "md",
       color: "danger"
     },
@@ -144,19 +154,19 @@ export class HomePage implements OnInit {
 
       })
 
+
     this.userRef.on('value', res => {
       this.items = snapshotToArray(res)
     })
   }
 
   ngOnInit() {
-
-    this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
-    this.sub = this.mainuser.valueChanges().subscribe(event => {
-      this.username = event.username
-      
+    this.userSvc.isAuthenticated().then(() => {
+      this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
+      this.sub = this.mainuser.valueChanges().subscribe(ev => {
+        this.username = ev.username
+      })
     })
-
   }
 
   async openLoginModal() {
@@ -186,6 +196,12 @@ export class HomePage implements OnInit {
       }
     })
     return await modal.present()
+
+
+  }
+
+  reload() {
+
   }
 
   async pujaAlert(id: string) {
@@ -196,8 +212,8 @@ export class HomePage implements OnInit {
       inputs: [
         {
           name: 'cant',
-          placeholder: 'Ej. 10€',
-          type: 'number'
+          type: "number",
+          placeholder: 'Ej. 10€'
         }
       ],
       buttons: [
@@ -208,7 +224,7 @@ export class HomePage implements OnInit {
         {
           text: "Pujar",
           handler: data => {
-            console.log(data.cant)
+             const cant = Number(data.cant)
           }
         }
       ]
@@ -226,6 +242,28 @@ export class HomePage implements OnInit {
     }
   }
 
+  closeSub(event) {
+
+    const productID = event.target.id
+
+    this.mainprod = this.afs.doc(`products/${productID}`)
+    this.subprod = this.mainprod.valueChanges().subscribe(ev => {
+
+      this.bidders = ev.bidders
+      this.lastBidder = this.bidders.length -1
+
+      console.log(this.bidders[this.lastBidder].price)
+
+    })
+
+    this.afs.doc(`products/${productID}`).update({
+      open: false
+    }).then(() => {
+      console.log("Subasta cerrada")
+      document.getElementById(productID).style.opacity = ".5";
+    })
+  }
+
   view(event) {
     let id = event.target.id
 
@@ -239,10 +277,14 @@ export class HomePage implements OnInit {
     firebase.database().ref('users/' + key).remove();
   }
 
+  delCategory() {
+    this.category = ""
+  }
 
+  selCategory(event) {
+    this.category = event.target.id
 
-  category(event) {
-    console.log(event.target.id)
+    console.log(this.category)
   }
 
 

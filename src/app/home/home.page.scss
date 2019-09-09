@@ -44,7 +44,18 @@ ion-badge.notificationsMenu{
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
     position: relative;
     break-inside: avoid-column;
+    padding-bottom: 10px;
 }
+
+.closedTxt{
+    font-family: sans-serif;
+    font-size: 15px;
+    color: #8a8a8a;
+    text-transform: capitalize;
+    font-style: italic;
+
+}
+
 
 .productCardExp{
     width: 30px;

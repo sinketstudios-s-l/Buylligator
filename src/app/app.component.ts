@@ -31,16 +31,6 @@ export class AppComponent implements OnInit {
   currentUser
   userProf
 
-  menuOpts: menuOpts[] = [
-    {
-      title: "Envíos",
-      redirectTo: "/shipping",
-    },
-    {
-      title: "Ayuda",
-      redirectTo: "/help",
-    }
-  ]
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -81,6 +71,27 @@ export class AppComponent implements OnInit {
 
   }
 
+  redirectTo(event){
+    const id = event.target.id
+
+    console.log(id)
+
+    if(id == "shipping"){
+      this.route.navigate(['/shipping'])
+      this.menuCtrl.close()
+    }else if(id == "help"){
+      this.route.navigate(['/help'])
+      this.menuCtrl.close()
+    }else if(id == "sales"){
+      this.route.navigate(['/sales'])
+      this.menuCtrl.close()
+    }else if(id == "purchases"){
+      this.route.navigate(['/purchases'])
+      this.menuCtrl.close()
+    }
+
+  }
+
   profile() {
     this.menuCtrl.close()
     this.route.navigate(['/profile'])
@@ -90,8 +101,9 @@ export class AppComponent implements OnInit {
     this.route.navigate(['/login'])
   }
 
-  logout(){
+  logout() {
     this.userSvc.logout()
+    firebase.auth().signOut()
   }
   /* async login(){
      this.menuCtrl.close()
@@ -105,8 +117,3 @@ export class AppComponent implements OnInit {
 
 }
 
-interface menuOpts {
-  title: string
-  redirectTo: string,
-
-}

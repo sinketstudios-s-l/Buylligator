@@ -1,42 +1,51 @@
 <ion-app>
 
   <ion-menu side="start" menuId="main" contentId="main" type="push">
-      <ion-header>
-        <ion-toolbar color="light" no-padding (click)="login()" *ngIf="!username">
-          <ion-item lines="none" class="menuHeader">
-            <ion-avatar slot="start" class="profilePic">
-              <ion-img [src]="img"></ion-img>
-            </ion-avatar>
-            <div class="headerTitles" >
-              <ion-label class="headerTitle">Regístrate</ion-label>
-              <ion-label class="headerSubtitle">o inicia sesión</ion-label>
-            </div>
-          </ion-item>
-        </ion-toolbar>
-        <ion-toolbar color="light" no-padding (click)="profile()" *ngIf="username">
-            <ion-item lines="none" class="menuHeader">
-              <ion-avatar slot="start" class="profilePic">
-                <ion-img [src]="profilePic"></ion-img>
-              </ion-avatar>
-              <div class="headerTitles">
-                <ion-label class="headerTitle">{{username}}</ion-label>
-                <ion-label class="headerSubtitle">Ir a mi Perfil</ion-label>
-              </div>
-            </ion-item>
-          </ion-toolbar>
-      </ion-header>
+    <ion-header>
+      <ion-toolbar color="light" no-padding (click)="login()" *ngIf="!username">
+        <ion-item lines="none" class="menuHeader">
+          <ion-avatar slot="start" class="profilePic">
+            <ion-img [src]="img"></ion-img>
+          </ion-avatar>
+          <div class="headerTitles">
+            <ion-label class="headerTitle">Regístrate</ion-label>
+            <ion-label class="headerSubtitle">o inicia sesión</ion-label>
+          </div>
+        </ion-item>
+      </ion-toolbar>
+      <ion-toolbar color="light" no-padding (click)="profile()" *ngIf="username">
+        <ion-item lines="none" class="menuHeader">
+          <ion-avatar slot="start" class="profilePic">
+            <ion-img [src]="profilePic"></ion-img>
+          </ion-avatar>
+          <div class="headerTitles">
+            <ion-label class="headerTitle">{{username}}</ion-label>
+            <ion-label class="headerSubtitle">Ir a mi Perfil</ion-label>
+          </div>
+        </ion-item>
+      </ion-toolbar>
+    </ion-header>
 
-      <ion-content>
-        <ion-list>
-          <ion-item lines="none" *ngFor="let item of menuOpts" [routerLink]="item.redirectTo" details="off">
-            <ion-label>{{item.title}}</ion-label>
-          </ion-item>
-          <ion-item lines="none" *ngIf="username" (click)="logout()">
-              <ion-label color="danger">Desconectar</ion-label>
-            </ion-item>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
+    <ion-content>
+      <ion-list>
+        <ion-item lines="none" (click)="redirectTo($event)" id="purchases">
+          <ion-label id="purchases">Mis Compras</ion-label>
+        </ion-item>
+        <ion-item lines="none" (click)="redirectTo($event)" id="sales">
+          <ion-label id="sales">Mis Ventas</ion-label>
+        </ion-item>
+        <ion-item lines="none" (click)="redirectTo($event)" id="shipping">
+          <ion-label id="shipping">Envíos</ion-label>
+        </ion-item>
+        <ion-item lines="none" (click)="redirectTo($event)" id="help">
+          <ion-label id="help">Ayuda</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="username" (click)="logout()">
+          <ion-label color="danger">Desconectar</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
 
   <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

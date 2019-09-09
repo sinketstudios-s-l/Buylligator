@@ -1,43 +1,152 @@
 <ion-header mode="ios">
   <ion-toolbar mode="ios">
+    <ion-title (click)="openCat()" *ngIf="category == null">
+      Selecciona una categoria
+      <ion-icon mode="ios" name="arrow-down"></ion-icon>
+    </ion-title>
+    <ion-title (click)="openCat()" *ngIf="category != null">
+      Publicando en <span class="catTlt">{{category}}</span>
+      <ion-icon size="small" mode="ios" name="arrow-down"></ion-icon>
+    </ion-title>
     <ion-buttons slot="start">
       <ion-button (click)="cancelUpl()" mode="ios" *ngIf="category != null">
-        <ion-icon name="close" mode="md"></ion-icon>
+        <ion-icon name="close" color="dark" mode="md"></ion-icon>
       </ion-button>
       <ion-button (click)="closeModal()" mode="ios" *ngIf="category == null">
         <ion-icon name="close" mode="md"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines="none" (click)="openCat()">
-      <span>Selecciona una categoria </span>
-      <ion-icon size="small" mode="ios" name="arrow-down"></ion-icon>
-    </ion-item>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <div class="images">
-    <div class="img">
-      <img [src]="noImg" class="prodImg">
+    <ion-label *ngIf="urlImg1">{{urlImg1 | async}}</ion-label>
+
+  <div class="uploadDiv" *ngIf="category">
+
+    <div class="images">
+      <div class="img" (click)="focusInp('f1')">
+        <img [src]="urlImg1 | async" class="prodImg" *ngIf="urlImg1">
+        <input type="file" id="f1" class="inp" (change)="uploadImg($event)" required hidden>
+      </div>
+      <div class="img" (click)="focusInp('f2')">
+        <img [src]="urlImg2 | async" class="prodImg" *ngIf="urlImg2">
+        <input type="file" id="f2" class="inp" (change)="uploadImg($event)" required hidden>
+      </div>
+      <div class="img" (click)="focusInp('f3')">
+        <img [src]="urlImg3 | async" class="prodImg" *ngIf="urlImg3">
+        <input type="file" id="f3" class="inp" (change)="uploadImg($event)" required hidden>
+      </div>
+      <div class="img" (click)="focusInp('f4')">
+        <img [src]="urlImg4 | async" class="prodImg" *ngIf="urlImg4">
+        <input type="file" id="f4" class="inp" (change)="uploadImg($event)" required hidden>
+      </div>
+      <div class="img" (click)="focusInp('f5')">
+        <img [src]="urlImg5 | async" class="prodImg" *ngIf="urlImg5">
+        <input type="file" id="f5" class="inp" (change)="uploadImg($event)" required hidden>
+      </div>
     </div>
-    <div class="img">
-      <img [src]="noImg" class="prodImg">
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Título *</ion-label>
+          <ion-input type="text" [(ngModel)]="title" required></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Descripción *</ion-label>
+          <ion-input type="text" [(ngModel)]="desc" required></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="8">
+        <ion-item>
+          <ion-label position="floating">Precio de Inicio*</ion-label>
+          <ion-input type="number" [(ngModel)]="PI" required></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4">
+        <ion-item>
+          <ion-label position="floating">Divisa</ion-label>
+          <ion-select placeholder="Select One" (ionChange)="divisa($event)" required>
+            <ion-select-option value="EUR" selected>€</ion-select-option>
+            <ion-select-option value="LIB">£</ion-select-option>
+            <ion-select-option value="DOL">$</ion-select-option>
+            <ion-select-option value="ARS">ARS</ion-select-option>
+            <ion-select-option value="MXN">MXN</ion-select-option>
+            <ion-select-option value="COP">COP</ion-select-option>
+            <ion-select-option value="BRL">BRL</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <div class="uploadBtn">
+      <ion-button class="btn" *ngIf="category != null" (click)="upload()">Upload</ion-button>
     </div>
-    <div class="img">
-      <img [src]="noImg" class="prodImg">
-    </div>
-    <div class="img">
-      <img [src]="noImg" class="prodImg">
-    </div>
-    <div class="img">
-      <img [src]="noImg" class="prodImg">
-    </div>
+
   </div>
 
-  
+  <div class="uploadDiv" *ngIf="!category">
 
-  <ion-button *ngIf="category != null">Upload</ion-button>
-  <ion-button *ngIf="category == null" disabled>Upload</ion-button>
+    <div class="images">
+      <div class="img">
+        <img [src]="noImg" class="prodImg">
+      </div>
+      <div class="img">
+        <img [src]="noImg" class="prodImg">
+      </div>
+      <div class="img">
+        <img [src]="noImg" class="prodImg">
+      </div>
+      <div class="img">
+        <img [src]="noImg" class="prodImg">
+      </div>
+      <div class="img">
+        <img [src]="noImg" class="prodImg">
+      </div>
+    </div>
 
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Título *</ion-label>
+          <ion-input type="text" [(ngModel)]="title" disabled></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Descripción *</ion-label>
+          <ion-input type="text" [(ngModel)]="title" disabled></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="8">
+        <ion-item>
+          <ion-label position="floating">Precio *</ion-label>
+          <ion-input type="number" [(ngModel)]="title" disabled></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4">
+        <ion-item>
+          <ion-label position="floating">Divisa</ion-label>
+          <ion-select placeholder="Select One" (ionChange)="divisa($event)" disabled>
+            <ion-select-option value="EUR" selected>€</ion-select-option>
+            <ion-select-option value="LIB">£</ion-select-option>
+            <ion-select-option value="DOL">$</ion-select-option>
+            <ion-select-option value="ARS">ARS</ion-select-option>
+            <ion-select-option value="MXN">MXN</ion-select-option>
+            <ion-select-option value="COP">COP</ion-select-option>
+            <ion-select-option value="BRL">BRL</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <div class="uploadBtn">
+      <ion-button class="btn" *ngIf="category == null" disabled>Upload</ion-button>
+    </div>
+
+  </div>
 </ion-content>

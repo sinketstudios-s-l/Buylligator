@@ -11,81 +11,75 @@ export class CategoriesPage implements OnInit {
 
   categories: categories[] = [
     {
-      name: "Todas las Categorias",
-      icon: "infinite",
-      id: "all",
-      mode: "ios"
-    },
-    {
       name: "Coches",
       icon: "car",
-      id: "cars",
+      id: "Coches",
       mode: "ios"
     },
     {
       name: "Motos, Bicicletas & Patinetes",
       icon: "bicycle",
-      id: "bikes",
+      id: "Motos, Bicicletas & Patinetes",
       mode: "ios"
     },
     {
       name: "Consolas & Videojuegos",
       icon: "logo-game-controller-a",
-      id: "gaming",
+      id: "Consolas & Videojuegos",
       mode: "ios"
     },
     {
       name: "Coleccionismo & Arte",
       icon: "easel",
-      id: "art",
+      id: "Coleccionismo & Arte",
       mode: "ios"
     },
     {
       name: "Joyas",
       icon: "watch",
-      id: "",
+      id: "Joyas",
       mode: "md"
     },
     {
       name: "Moda & Accesorios",
       icon: "shirt",
-      id: "moda",
+      id: "Moda & Accesorios",
       mode: "md"
     },
     {
       name: "Inmobiliaria",
       icon: "home",
-      id: "home",
+      id: "Inmobiliaria",
       mode: "md"
     },
     {
       name: "Libros & Música",
       icon: "bookmarks",
-      id: "books",
+      id: "Libros & Música",
       mode: "md"
     },
     {
       name: "Viajes",
       icon: "airplane",
-      id: "travel",
+      id: "Viajes",
       mode: "ios"
     },
     {
       name: "Electrónica",
       icon: "desktop",
-      id: "pc",
+      id: "Electrónica",
       mode: "md"
     },
     {
       name: "Otros",
       icon: "globe",
-      id: "others",
+      id: "Otros",
       mode: "ios"
     },
     {
       name: "+ 18",
       icon: "flame",
-      id: "nfsw",
+      id: "+ 18",
       mode: "md",
       color: "danger"
     },

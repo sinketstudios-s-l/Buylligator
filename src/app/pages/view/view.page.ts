@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase'
 import { UserService } from 'src/app/services/user.service';
-import { snapshotToArray } from 'src/environments/environment';
+import { AlertController } from '@ionic/angular';
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.page.html',
@@ -28,23 +29,29 @@ export class ViewPage implements OnInit {
   desc
   express: boolean
   expressImg
-  title
+  productTitle
 
   userID
 
   precioPuja: number
+
+  bidders: any[]
+  biddersLenght: number;
+  biddersLenghtShow: number;
 
   sliderOpts = {
     initialSlide: 1,
     slidesPerView: 1,
     slidesPerColumn: 1,
   }
+ 
 
 
   constructor(
     private actvRoute: ActivatedRoute,
     private afs: AngularFirestore,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -62,41 +69,72 @@ export class ViewPage implements OnInit {
         this.expressImg = ev.expressImg
         this.userID = ev.userID
         this.date = ev.date
-        this.title = ev.title
+        this.productTitle = ev.title
 
         this.productImg = ev.img
 
-      })
-
-      let uid = localStorage.getItem('uid')
-
-      this.mainuser = this.afs.doc(`users/${uid}`)
-      this.subUser = this.mainuser.valueChanges().subscribe(ev => {
-
-        this.username = ev.username
+        this.bidders = ev.bidders
+        if(this.bidders){
+          this.biddersLenght = this.bidders.length 
+          this.biddersLenghtShow = this.biddersLenght - 2
+        }
 
       })
+
+      this.userSvc.isAuthenticated().then(() => {
+        this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
+        this.subUser = this.mainuser.valueChanges().subscribe(ev => {
+          this.username = ev.username
+        })
+      })
+
     }
 
   }
+  async pujaAlert() {
+
+    const puja = await this.alertCtrl.create({
+      header: "Precio Actual: " + this.PA + "€",
+      mode: "ios",
+      inputs: [
+        {
+          name: 'cant',
+          placeholder: 'Ej. 10€',
+          type: 'number'
+        }
+      ],
+      buttons: [
+        {
+          text: "Cancelar",
+          role: "destructive"
+        },
+        {
+          text: "Pujar",
+          handler: data => {
+            const cant = Number(data.cant)
+            this.pujar(cant)
+          }
+        }
+      ]
+    })
+    await puja.present()
+  }
 
 
-  pujar() {
-
-    const RTB_DB = firebase.database().ref(`products/${this.productID}`)
-
-    this.PA = this.PA + this.precioPuja
-    /*
-        RTB_DB.set( snapshotToArray([{
-          username: this.username,
-          price: (this.PA + this.precioPuja),
-          date: new Date()
+  pujar(precioPuja: number) {
     
-        }])).then(() => {this.precioPuja = ""})
-    */
+    this.PA = precioPuja + this.PA
 
     this.afs.doc(`products/${this.productID}`).update({
-      PA: this.PA
+      PA: this.PA,
+      bidders: firebase.firestore.FieldValue.arrayUnion(
+        {
+          userID: this.userSvc.getUID(),
+          username: this.username,
+          price: precioPuja,
+          date: new Date()
+        }
+      )
     }).then(() => { this.precioPuja = 0.00 })
 
   }
