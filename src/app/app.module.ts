@@ -28,6 +28,10 @@ import { CategoriesPageModule } from './pages/categories/categories.module';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { SessionService } from './services/session.service';
 
+// QR SERVICES
+import { NgxQRCodeModule } from 'ngx-qrcode2'
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
+
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
   authDomain: "buylligator.firebaseapp.com",
@@ -52,6 +56,7 @@ var firebaseConfig = {
     UploadPageModule,
     CategoriesPageModule,
     LoginModalPageModule,
+    NgxQRCodeModule
   ],
   providers: [
     StatusBar,
@@ -62,6 +67,7 @@ var firebaseConfig = {
     ModalController,
     MenuController,
     FCM,
+    BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@ionic-native/barcode-scanner": "^5.13.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/fcm": "^5.13.0",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -31,6 +32,8 @@
     "cordova-plugin-fcm-with-dependecy-updated": "^3.0.0",
     "core-js": "^2.5.4",
     "firebase": "^6.5.0",
+    "ngx-qrcode2": "0.0.9",
+    "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
@@ -83,6 +86,9 @@
         "FCM_VERSION": "18.0.0",
         "GRADLE_TOOLS_VERSION": "2.3.+",
         "GOOGLE_SERVICES_VERSION": "3.0.0"
+      },
+      "phonegap-plugin-barcodescanner": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
       }
     },
     "platforms": [

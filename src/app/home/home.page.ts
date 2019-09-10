@@ -27,11 +27,14 @@ export class HomePage implements OnInit {
   example
 
   products: any[]
+  prodTitle
+
 
   items = []
   userRef = firebase.database().ref('products/')
 
   prodDesc
+  prodImg
 
   username
   mainuser
@@ -272,9 +275,12 @@ export class HomePage implements OnInit {
 
     this.mainprod = this.afs.doc(`products/${productID}`)
     this.subprod = this.mainprod.valueChanges().subscribe(ev => {
+      this.prodTitle = ev.title
+      this.prodDesc = ev.desc
       this.finalPrice = ev.PA
       this.bidders = ev.bidders
       this.lastBidder = this.bidders.length - 1
+      this.prodImg = ev.img[0]
 
       this.lastBidderName = this.bidders[this.lastBidder].username
       this.lastBidderID = this.bidders[this.lastBidder].userID
@@ -290,8 +296,13 @@ export class HomePage implements OnInit {
           {
             productID: productID,
             date: new Date(),
-            verificated: false,
-            price: this.finalPrice
+            status: "waiting",
+            price: this.finalPrice,
+            clientID: this.lastBidderID,
+            clientName: this.lastBidderName,
+            desc: this.prodDesc,
+            title: this.prodTitle,
+            img: this.prodImg
           }
         )
       }).then(() => {
@@ -300,10 +311,13 @@ export class HomePage implements OnInit {
             {
               productID: productID,
               date: new Date(),
-              verificated: false,
+              status: "waiting",
               price: this.finalPrice,
               clientID: this.lastBidderID,
-              clientName: this.lastBidderName
+              clientName: this.lastBidderName,
+              desc: this.prodDesc,
+              title: this.prodTitle,
+              img: this.prodImg
             }
           )
         })

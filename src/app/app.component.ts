@@ -88,7 +88,7 @@ export class AppComponent implements OnInit {
       this.route.navigate(['/sales'])
       this.menuCtrl.close()
     }else if(id == "purchases"){
-      this.route.navigate(['/purchases'])
+      this.route.navigate(['/cart/purcharses'])
       this.menuCtrl.close()
     }
 
