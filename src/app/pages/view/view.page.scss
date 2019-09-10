@@ -3,6 +3,11 @@ ion-content {
     --offset-top: -25px !important;
 }
 
+ion-toolbar{
+    --background: transparent;
+    color: #fff;
+}
+
 .product{
     width: 100%;
     height: 100vh;
@@ -93,4 +98,15 @@ ion-content {
     width: 100%;
     color: #fff;
     z-index: 100;
+}
+
+.profileDiv{
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.profAvatar {
+    width: 60px;
+    height: 60px;
 }

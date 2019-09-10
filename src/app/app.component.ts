@@ -21,7 +21,7 @@ import * as firebase from 'firebase'
 })
 export class AppComponent implements OnInit {
 
-  img = "https://www.akamai.com/es/es/multimedia/images/intro/image-manager-intro.png?imwidth=1366"
+  img = "http://khaoyaiconcrete.co.th/images/no-img.jpg"
 
   username
   mainuser
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
   currentUser
   userProf
+  currentUserID
 
   constructor(
     private platform: Platform,
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.currentUser = user
+        this.currentUserID = user.uid
         this.userProf = firebase.firestore().doc(`users/${user.uid}`)
 
         this.mainuser = this.afs.doc(`users/${user.uid}`)
@@ -94,7 +96,7 @@ export class AppComponent implements OnInit {
 
   profile() {
     this.menuCtrl.close()
-    this.route.navigate(['/profile'])
+    this.route.navigate(['/profile/'+this.currentUserID])
   }
 
   login() {

@@ -3,15 +3,12 @@
     <ion-buttons slot="start" mode="md">
       <ion-back-button defaultHref="/" text="" mode="md"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end" mode="md">
+    <ion-buttons slot="end" mode="md" *ngIf="profileID == ownID">
       <ion-button fill="clear">
         <ion-icon name="settings" mode="md"></ion-icon>
       </ion-button>
       <ion-button fill="clear">
         <ion-icon name="create" mode="md"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear">
-        <ion-icon name="share-alt" mode="ios"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -19,12 +16,14 @@
 
 <ion-content>
 
-    <ion-label>{{username}}</ion-label>
-
-    <ion-list>
-      <ion-item lines="none" *ngFor="let my of myProducts">
-        <ion-label>{{my.id}}</ion-label>
-      </ion-item>
-    </ion-list>
+  <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="{{profilePic}}">
+    </ion-avatar>
+    <ion-label slot="start">
+      <h3>{{username}}</h3>
+      <h6 *ngIf="profileID == ownID">{{email}}</h6>
+    </ion-label>
+  </ion-item>
 
 </ion-content>

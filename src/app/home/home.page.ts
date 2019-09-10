@@ -44,8 +44,15 @@ export class HomePage implements OnInit {
   subprod
   bidders: any[]
   lastBidder
+  lastBidderID
+  lastBidderName
+  finalPrice: number
 
-  PA:number
+  PA: number
+  newPrice: number
+
+  expressImg: string = "https://firebasestorage.googleapis.com/v0/b/buylligator.appspot.com/o/flash.png?alt=media&token=a3d886d8-63e8-47d0-9bcf-968026d1ef11"
+
 
   slideOpts = {
     loop: false,
@@ -149,9 +156,7 @@ export class HomePage implements OnInit {
 
     afs.collection('products').valueChanges().pipe()
       .subscribe(event => {
-
         this.products = event
-
       })
 
 
@@ -224,7 +229,26 @@ export class HomePage implements OnInit {
         {
           text: "Pujar",
           handler: data => {
-             const cant = Number(data.cant)
+
+            const precioPuja = Number(data.cant)
+
+            this.afs.doc(`products/${productID}`).valueChanges().subscribe(res => {
+              this.PA = res['PA']
+              this.newPrice = this.PA + precioPuja
+            })
+
+            this.afs.doc(`products/${productID}`).update({
+              PA: this.newPrice,
+              bidders: firebase.firestore.FieldValue.arrayUnion(
+                {
+                  userID: this.userSvc.getUID(),
+                  username: this.username,
+                  price: precioPuja,
+                  date: new Date()
+                }
+              )
+            })
+
           }
         }
       ]
@@ -248,20 +272,51 @@ export class HomePage implements OnInit {
 
     this.mainprod = this.afs.doc(`products/${productID}`)
     this.subprod = this.mainprod.valueChanges().subscribe(ev => {
-
+      this.finalPrice = ev.PA
       this.bidders = ev.bidders
-      this.lastBidder = this.bidders.length -1
+      this.lastBidder = this.bidders.length - 1
 
-      console.log(this.bidders[this.lastBidder].price)
+      this.lastBidderName = this.bidders[this.lastBidder].username
+      this.lastBidderID = this.bidders[this.lastBidder].userID
 
     })
 
     this.afs.doc(`products/${productID}`).update({
       open: false
     }).then(() => {
+
+      this.afs.doc(`users/${this.lastBidderID}`).update({
+        purcharses: firebase.firestore.FieldValue.arrayUnion(
+          {
+            productID: productID,
+            date: new Date(),
+            verificated: false,
+            price: this.finalPrice
+          }
+        )
+      }).then(() => {
+        this.afs.doc(`users/${this.userSvc.getUID()}`).update({
+          sales: firebase.firestore.FieldValue.arrayUnion(
+            {
+              productID: productID,
+              date: new Date(),
+              verificated: false,
+              price: this.finalPrice,
+              clientID: this.lastBidderID,
+              clientName: this.lastBidderName
+            }
+          )
+        })
+      })
+
       console.log("Subasta cerrada")
       document.getElementById(productID).style.opacity = ".5";
     })
+  }
+
+
+  save(ev) {
+    console.log(ev.target.id)
   }
 
   view(event) {

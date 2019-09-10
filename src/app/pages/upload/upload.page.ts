@@ -106,6 +106,8 @@ export class UploadPage implements OnInit {
 
     if (this.urlImg1 == null) {
       task.snapshotChanges().pipe(finalize(() => this.urlImg1 = ref.getDownloadURL())).subscribe()
+
+      
     } else if (this.urlImg2 == null) {
       task.snapshotChanges().pipe(finalize(() => this.urlImg2 = ref.getDownloadURL())).subscribe()
     } else if (this.urlImg3 == null) {

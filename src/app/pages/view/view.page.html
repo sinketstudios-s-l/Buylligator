@@ -1,15 +1,25 @@
 <ion-content>
 
   <div class="toolbar">
-    <ion-buttons slot="start">
-      <ion-back-button text="" class="margin-start" mode="md" defaultHref="/"></ion-back-button>
-    </ion-buttons>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button text="" class="margin-start" mode="md" defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <ion-buttons slot="end" margin-end *ngFor="let fav of saves" hidden>
+        <ion-button (click)="saveFav()" *ngIf="fav.productID != productID && favs != true">
+          <ion-icon name="heart-empty"></ion-icon>
+        </ion-button>
+        <ion-button (click)="delFav()" *ngIf="fav.productID == productID && favs == true">
+          <ion-icon name="heart"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
   </div>
 
   <div class="product">
 
     <div class="productImgDiv">
-      <ion-slides pager="true" [options]="sliderOpts" >
+      <ion-slides pager="true" [options]="sliderOpts">
         <ion-slide class="slideImg" *ngFor="let img of productImg">
           <img class="productImg" [src]="img" alt="">
         </ion-slide>
@@ -27,16 +37,32 @@
       <span class="productDesc">{{desc}}</span>
     </div>
 
+    <div class="profileDiv" (click)="profile()">
+      <ion-item lines="none">
+        <ion-avatar class="profAvatar" size="small" slot="start">
+          <img [src]="userPropImg" alt="">
+        </ion-avatar>
+        <ion-label>
+          <h2 style="text-transform: capitalize;">{{userProfName}}</h2>
+          <h3>I'm a big deal</h3>
+          <p>Listen, I've had a pretty messed up day...</p>
+        </ion-label>
+      </ion-item>
+
+    </div>
+
     <ion-list>
       <ion-item *ngFor="let bid of bidders | slice:biddersLenghtShow:biddersLenght; " lines="none">
         <ion-label>+ {{bid.price}} €</ion-label>
-        <ion-label >{{bid.username}}</ion-label>
-        <ion-label >{{bid.date?.toDate() | date: 'HH:mm a'}}</ion-label>
+        <ion-label>{{bid.username}}</ion-label>
+        <ion-label>{{bid.date?.toDate() | date: 'HH:mm a'}}</ion-label>
       </ion-item>
     </ion-list>
 
+
+
     <div class="bidBtn">
-      <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()">Pujar</ion-button>
+      <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()" *ngIf="open == true">Pujar</ion-button>
     </div>
 
   </div>

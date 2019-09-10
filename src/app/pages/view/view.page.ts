@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase'
 import { UserService } from 'src/app/services/user.service';
@@ -30,8 +30,13 @@ export class ViewPage implements OnInit {
   express: boolean
   expressImg
   productTitle
+  open: boolean
 
   userID
+  prodUs
+  prodSub
+  userProfName
+  userPropImg
 
   precioPuja: number
 
@@ -44,14 +49,18 @@ export class ViewPage implements OnInit {
     slidesPerView: 1,
     slidesPerColumn: 1,
   }
- 
 
+  savemain
+  savesub
+  saves: any[]
+  favs:boolean = false
 
   constructor(
     private actvRoute: ActivatedRoute,
     private afs: AngularFirestore,
     private userSvc: UserService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -70,14 +79,21 @@ export class ViewPage implements OnInit {
         this.userID = ev.userID
         this.date = ev.date
         this.productTitle = ev.title
+        this.open = ev.open
 
         this.productImg = ev.img
 
         this.bidders = ev.bidders
-        if(this.bidders){
-          this.biddersLenght = this.bidders.length 
+        if (this.bidders) {
+          this.biddersLenght = this.bidders.length
           this.biddersLenghtShow = this.biddersLenght - 2
         }
+
+        this.prodUs = this.afs.doc(`users/${this.userID}`)
+        this.prodSub = this.prodUs.valueChanges().subscribe(ev => {
+          this.userProfName = ev.username
+          this.userPropImg = ev.profilePic
+        })
 
       })
 
@@ -85,12 +101,37 @@ export class ViewPage implements OnInit {
         this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
         this.subUser = this.mainuser.valueChanges().subscribe(ev => {
           this.username = ev.username
+          this.saves = ev.favorites
         })
       })
 
     }
 
   }
+
+  saveFav() {
+
+    
+
+    this.afs.doc(`users/${this.userSvc.getUID()}`).update({
+      favorites: firebase.firestore.FieldValue.arrayUnion(
+        {
+          productID: this.productID,
+          date: new Date()  
+        }
+      )
+    }).then( () => this.favs = true)
+
+  }
+
+  delFav(){
+    
+  }
+
+  profile() {
+    this.route.navigate(['/profile/' + this.userID])
+  }
+
   async pujaAlert() {
 
     const puja = await this.alertCtrl.create({
@@ -122,7 +163,7 @@ export class ViewPage implements OnInit {
 
 
   pujar(precioPuja: number) {
-    
+
     this.PA = precioPuja + this.PA
 
     this.afs.doc(`products/${this.productID}`).update({

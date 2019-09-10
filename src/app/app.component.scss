@@ -6,6 +6,7 @@
 
 ion-toolbar{
     --border-width: 0 !important;
+    border-bottom: 1px solid #f1f1f1;
 }
 
 ion-item.menuHeader{
@@ -34,5 +35,8 @@ ion-item .headerTitles .headerSubtitle{
     color: rgb(196, 196, 196);
     font-size: 13px;
     font-weight: bold;
-    
+}
+
+ion-avatar{
+    border: 1px solid #f1f1f1;
 }
