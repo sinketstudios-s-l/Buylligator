@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { PurchasesPage } from './purchases.page';
+import { PayPal } from '@ionic-native/paypal/ngx';
 
 const routes: Routes = [
   {
@@ -20,6 +21,9 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes)
+  ],
+  providers: [
+    PayPal
   ],
   declarations: [PurchasesPage]
 })

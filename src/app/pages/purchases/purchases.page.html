@@ -1,9 +1,66 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>purchases</ion-title>
+<ion-header mode="ios" no-border>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" margin-start>
+      <ion-back-button color="dark" text="" mode="ios" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Compras</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+
+  <div class="no-purch" *ngIf="!purchases">
+    De momento no tienes ninguna compra.
+  </div>
+
+
+  <ion-list *ngIf="purchases">
+
+
+    <ion-item-sliding *ngFor="let p of purchases" [id]="p.productID" lines="none">
+      <div *ngFor="let pid of products">
+        <ion-item lines="none" *ngIf="p.productID == pid.productID">
+          <ion-avatar slot="start" [id]="p.productID">
+            <img [src]="p.img" [id]="p.productID">
+          </ion-avatar>
+          <ion-label [id]="p.productID" slot="start">
+            <h3 [id]="p.productID">{{p.title}}</h3>
+            <p [id]="p.productID">{{p.desc}}</p>
+          </ion-label>
+          <ion-label slot="end" [id]="p.productID">
+            <h4 [id]="p.productID">{{p.price}}€</h4>
+          </ion-label>
+          <ion-button slot="end" color="warning" *ngIf="pid.status == 'waiting'" (click)="makePayment($event)"
+            [id]="p.productID">
+            Pagar</ion-button>
+          <ion-label slot="end" color="success" (click)="statusInfo(pid.status)" [id]="p.productID"
+            *ngIf="pid.status == 'paidout'">
+            <ion-icon name="checkmark-circle" mode="ios" [id]="p.productID"></ion-icon>
+          </ion-label>
+          <ion-label slot="end" color="danger" (click)="statusInfo(pid.status)" [id]="p.productID"
+            *ngIf="pid.status == 'cancelled'">
+            <ion-icon name="close-circle" mode="ios" [id]="p.productID"></ion-icon>
+          </ion-label>
+          <ion-label slot="end" color="primary" (click)="statusInfo(pid.status)" [id]="s.productID"
+            *ngIf="pid.status == 'delivered'">
+            <ion-icon name="home" mode="md" [id]="s.productID"></ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-item-options side="start" lines="none" *ngIf="pid.status == 'paidout'">
+          <ion-item-option (click)="qrScann($event)" color="light" [id]="p.productID">
+            <ion-label text-center [id]="p.productID">
+              <ion-icon name="barcode" mode="ios" [id]="p.productID"></ion-icon>
+              <h4 [id]="p.productID">Escanear QR</h4>
+            </ion-label>
+          </ion-item-option>
+        </ion-item-options>
+      </div>
+    </ion-item-sliding>
+
+
+
+  </ion-list>
 
 </ion-content>

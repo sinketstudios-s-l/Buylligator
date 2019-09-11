@@ -292,11 +292,10 @@ export class HomePage implements OnInit {
     }).then(() => {
 
       this.afs.doc(`users/${this.lastBidderID}`).update({
-        purcharses: firebase.firestore.FieldValue.arrayUnion(
+        purchases: firebase.firestore.FieldValue.arrayUnion(
           {
             productID: productID,
             date: new Date(),
-            status: "waiting",
             price: this.finalPrice,
             clientID: this.lastBidderID,
             clientName: this.lastBidderName,
@@ -311,7 +310,6 @@ export class HomePage implements OnInit {
             {
               productID: productID,
               date: new Date(),
-              status: "waiting",
               price: this.finalPrice,
               clientID: this.lastBidderID,
               clientName: this.lastBidderName,

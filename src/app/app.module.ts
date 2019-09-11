@@ -32,6 +32,11 @@ import { SessionService } from './services/session.service';
 import { NgxQRCodeModule } from 'ngx-qrcode2'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 
+// PAYMENT
+import { PaymentService } from './services/payment.service';
+import { Stripe } from '@ionic-native/stripe/ngx';
+import { PayPal } from '@ionic-native/paypal/ngx'
+
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
   authDomain: "buylligator.firebaseapp.com",
@@ -56,7 +61,8 @@ var firebaseConfig = {
     UploadPageModule,
     CategoriesPageModule,
     LoginModalPageModule,
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    
   ],
   providers: [
     StatusBar,
@@ -64,9 +70,12 @@ var firebaseConfig = {
     UserService,
     AuthService,
     SessionService,
+    PaymentService,
     ModalController,
     MenuController,
     FCM,
+    Stripe,
+    PayPal,
     BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
