@@ -2,7 +2,7 @@
   <ion-toolbar mode="ios">
     <ion-title (click)="openCat()" *ngIf="category == null">
       Selecciona una categoria
-      <ion-icon mode="ios" name="arrow-down"></ion-icon>
+      <ion-icon mode="ios" color="dark" name="arrow-down"></ion-icon>
     </ion-title>
     <ion-title (click)="openCat()" *ngIf="category != null">
       Publicando en <span class="catTlt">{{category}}</span>
@@ -13,7 +13,7 @@
         <ion-icon name="close" color="dark" mode="md"></ion-icon>
       </ion-button>
       <ion-button (click)="closeModal()" mode="ios" *ngIf="category == null">
-        <ion-icon name="close" mode="md"></ion-icon>
+        <ion-icon color="dark" name="close" mode="md"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -21,27 +21,34 @@
 
 <ion-content>
 
+  <ion-progress-bar color="primary" [value]="uploadProgress" type="indeterminate" *ngIf="uploading == true"></ion-progress-bar>
+
   <div class="uploadDiv" *ngIf="category">
 
     <div class="images">
-      <div class="img" (click)="focusInp('f1')">
-        <img [src]="urlImg1" class="prodImg" *ngIf="urlImg1">
+      
+      <img [src]="urlImg1" class="prodImg" *ngIf="urlImg1">
+      <div class="img" (click)="focusInp('f1')" *ngIf="!urlImg1">
         <input type="file" id="f1" class="inp" (change)="uploadImg($event)" required hidden>
       </div>
-      <div class="img" (click)="focusInp('f2')">
-        <img [src]="urlImg2" class="prodImg" *ngIf="urlImg2">
+
+      <img [src]="urlImg2" class="prodImg" *ngIf="urlImg2">
+      <div class="img" (click)="focusInp('f2')" *ngIf="!urlImg2">
         <input type="file" id="f2" class="inp" (change)="uploadImg($event)" required hidden>
       </div>
-      <div class="img" (click)="focusInp('f3')">
-        <img [src]="urlImg3" class="prodImg" *ngIf="urlImg3">
+
+      <img [src]="urlImg3" class="prodImg" *ngIf="urlImg3">
+      <div class="img" (click)="focusInp('f3')" *ngIf="!urlImg3">
         <input type="file" id="f3" class="inp" (change)="uploadImg($event)" required hidden>
       </div>
-      <div class="img" (click)="focusInp('f4')">
-        <img [src]="urlImg4" class="prodImg" *ngIf="urlImg4">
+
+      <img [src]="urlImg4" class="prodImg" *ngIf="urlImg4">
+      <div class="img" (click)="focusInp('f4')" *ngIf="!urlImg4">
         <input type="file" id="f4" class="inp" (change)="uploadImg($event)" required hidden>
       </div>
-      <div class="img" (click)="focusInp('f5')">
-        <img [src]="urlImg5" class="prodImg" *ngIf="urlImg5">
+
+      <img [src]="urlImg5" class="prodImg" *ngIf="urlImg5">
+      <div class="img" (click)="focusInp('f5')" *ngIf="!urlImg5">
         <input type="file" id="f5" class="inp" (change)="uploadImg($event)" required hidden>
       </div>
     </div>
@@ -68,7 +75,7 @@
       <ion-col size="4">
         <ion-item>
           <ion-label position="floating">Divisa</ion-label>
-          <ion-select placeholder="Select One" (ionChange)="divisa($event)" required>
+          <ion-select placeholder="Select One" (ionChange)="divisa($event)" required [(ngModel)]="currency">
             <ion-select-option value="EUR" selected>€</ion-select-option>
             <ion-select-option value="LIB">£</ion-select-option>
             <ion-select-option value="DOL">$</ion-select-option>
@@ -90,21 +97,11 @@
   <div class="uploadDiv" *ngIf="!category">
 
     <div class="images">
-      <div class="img">
-        <img [src]="noImg" class="prodImg">
-      </div>
-      <div class="img">
-        <img [src]="noImg" class="prodImg">
-      </div>
-      <div class="img">
-        <img [src]="noImg" class="prodImg">
-      </div>
-      <div class="img">
-        <img [src]="noImg" class="prodImg">
-      </div>
-      <div class="img">
-        <img [src]="noImg" class="prodImg">
-      </div>
+      <div class="img"></div>
+      <div class="img"></div>
+      <div class="img"></div>
+      <div class="img"></div>
+      <div class="img"></div>
     </div>
 
     <ion-row>

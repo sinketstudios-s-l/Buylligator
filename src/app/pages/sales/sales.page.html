@@ -9,11 +9,17 @@
 
 <ion-content>
 
+
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="radio-button-off" refreshingSpinner="circular" pullFactor="0.5" pullMin="100"
+      pullMax="150">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div class="no-sales" *ngIf="!sales">
     De momento no tienes ninguna venta.
   </div>
-
-
 
   <ion-list *ngIf="sales">
 
@@ -48,6 +54,15 @@
             <ion-icon name="home" mode="md" [id]="s.productID"></ion-icon>
           </ion-label>
         </ion-item>
+
+        <ion-item-options side="start" lines="none" *ngIf="pid.status != 'paidout'">
+          <ion-item-option color="light" [id]="s.productID" disabled>
+            <ion-label text-center [id]="s.productID">
+              <ion-icon name="qr-scanner" mode="ios" [id]="s.productID"></ion-icon>
+              <h4 [id]="s.productID">Código QR</h4>
+            </ion-label>
+          </ion-item-option>
+        </ion-item-options>
 
         <ion-item-options side="start" lines="none" *ngIf="pid.status == 'paidout'">
           <ion-item-option (click)="qrCode($event)" color="light" [id]="s.productID">

@@ -37,6 +37,8 @@ export class UploadPage implements OnInit {
   urlImg4
   urlImg5
 
+  uploadProgress
+  uploading = false
   constructor(
     private modalCtrl: ModalController,
     private afs: AngularFirestore,
@@ -67,8 +69,8 @@ export class UploadPage implements OnInit {
         open: true,
         date: new Date(),
         status: "selling",
-        currency: null
-
+        currency: null,
+        userID: this.userID
       })
 
 
@@ -111,48 +113,59 @@ export class UploadPage implements OnInit {
 
 
     if (this.urlImg1 == null) {
-      this.storage.ref(filePath).put(file).then(() => {
+      this.storage.ref(filePath).put(file).then(upl => {
+        this.uploading = true
+        this.uploadProgress = (upl.bytesTransferred / upl.totalBytes) * 100
+
         this.storage.ref(filePath).getDownloadURL().subscribe(url => {
           this.urlImg1 = url
           this.afs.doc(`products/${this.productID}`).update({
-            img: [this.urlImg1]
-          })
+            img: firestore.FieldValue.arrayUnion(this.urlImg1)
+          }).then(() => this.uploading = false)
         })
       })
     } else if (this.urlImg2 == null) {
-      this.storage.ref(filePath).put(file).then(() => {
+      this.storage.ref(filePath).put(file).then(upl => {
+        this.uploading = true
+        this.uploadProgress = (upl.bytesTransferred / upl.totalBytes) * 100
         this.storage.ref(filePath).getDownloadURL().subscribe(url => {
           this.urlImg2 = url
           this.afs.doc(`products/${this.productID}`).update({
-            img: [this.urlImg2]
-          })
+            img: firestore.FieldValue.arrayUnion(this.urlImg2)
+          }).then(() => this.uploading = false)
         })
       })
     } else if (this.urlImg3 == null) {
-      this.storage.ref(filePath).put(file).then(() => {
+      this.storage.ref(filePath).put(file).then(upl => {
+        this.uploading = true
+        this.uploadProgress = (upl.bytesTransferred / upl.totalBytes) * 100
         this.storage.ref(filePath).getDownloadURL().subscribe(url => {
           this.urlImg3 = url
           this.afs.doc(`products/${this.productID}`).update({
-            img: [this.urlImg3]
-          })
+            img: firestore.FieldValue.arrayUnion(this.urlImg3)
+          }).then(() => this.uploading = false)
         })
       })
     } else if (this.urlImg4 == null) {
-      this.storage.ref(filePath).put(file).then(() => {
+      this.storage.ref(filePath).put(file).then(upl => {
+        this.uploading = true
+        this.uploadProgress = (upl.bytesTransferred / upl.totalBytes) * 100
         this.storage.ref(filePath).getDownloadURL().subscribe(url => {
           this.urlImg4 = url
           this.afs.doc(`products/${this.productID}`).update({
-            img: [this.urlImg4]
-          })
+            img: firestore.FieldValue.arrayUnion(this.urlImg4)
+          }).then(() => this.uploading = false)
         })
       })
     } else if (this.urlImg5 == null) {
-      this.storage.ref(filePath).put(file).then(() => {
+      this.storage.ref(filePath).put(file).then(upl => {
+        this.uploading = true
+        this.uploadProgress = (upl.bytesTransferred / upl.totalBytes) * 100
         this.storage.ref(filePath).getDownloadURL().subscribe(url => {
           this.urlImg5 = url
           this.afs.doc(`products/${this.productID}`).update({
-            img: [this.urlImg5]
-          })
+            img: firestore.FieldValue.arrayUnion(this.urlImg5)
+          }).then(() => this.uploading = false)
         })
       })
     }
@@ -174,6 +187,7 @@ export class UploadPage implements OnInit {
       express: false,
       verificated: true,
       currency: this.currency
+
     }).then(() => { this.modalCtrl.dismiss() })
   }
 

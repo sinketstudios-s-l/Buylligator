@@ -62,7 +62,13 @@
 
 
     <div class="bidBtn">
-      <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()" *ngIf="open == true">Pujar</ion-button>
+      <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()" *ngIf="open == true && userID != ownID">
+        Pujar</ion-button>
+      <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub($event)" id="{{productID}}"
+        *ngIf="userID == ownID && open != false">
+        <ion-icon slot="start" name="close" mode="ios" id="{{productID}}"></ion-icon>
+        <ion-label slot="start" id="{{productID}}">Cerrar Subasta</ion-label>
+      </ion-button>
     </div>
 
   </div>

@@ -41,8 +41,8 @@ export class LoginPage implements OnInit {
     if(this.username && this.email && this.passwd){
     
     let alert = await this.alertCtrl.create({
-      header: 'terms',
-      message: 'asdas',
+      header: 'Términos y Condiciones',
+      message: 'Estoy de acuerdo y Acepto los Términos y Condiciones de Buylligator.',
       buttons: [
         {
           text: 'Rechazar',

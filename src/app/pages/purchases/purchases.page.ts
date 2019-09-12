@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from 'src/app/services/user.service';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, ModalController } from '@ionic/angular';
 import { PaymentService } from 'src/app/services/payment.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Router } from '@angular/router';
+import { SettingsPage } from '../settings/settings.page';
 
 @Component({
   selector: 'app-purchases',
@@ -29,6 +31,7 @@ export class PurchasesPage implements OnInit {
   qrData
 
   amount
+  currency
   desc
 
   db
@@ -37,6 +40,17 @@ export class PurchasesPage implements OnInit {
   VerfProdDesc
 
   scannedCode = null;
+
+  mainuser
+  subuser
+  street
+  street2
+  city
+  province
+  pCode
+  phone
+  strtNum
+
   constructor(
 
     private afs: AngularFirestore,
@@ -44,7 +58,8 @@ export class PurchasesPage implements OnInit {
     private toastCtrl: ToastController,
     private paySvc: PaymentService,
     private barcodeScanner: BarcodeScanner,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -71,6 +86,33 @@ export class PurchasesPage implements OnInit {
       buttons: ['Aceptar']
     })
     await alert.present()
+  }
+
+  async noAddress(header: string, message: string) {
+    const alert = await this.alertCtrl.create({
+
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: "Añadir Dirección",
+          handler: () => {
+            this.editProf()
+          }
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  async editProf() {
+    const modal = await this.modalCtrl.create({
+      component: SettingsPage,
+      componentProps: {
+        id: "address"
+      }
+    })
+    await modal.present()
   }
 
   async statusInfo(status: string) {
@@ -125,33 +167,51 @@ export class PurchasesPage implements OnInit {
 
   }
 
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
   makePayment(event) {
 
     this.prodID = event.target.id
 
     this.mainprod = this.afs.doc(`products/${this.prodID}`)
-    this.subprod = this.mainprod.valueChanges().subscribe(res => {
+    this.subprod = this.mainprod.valueChanges().subscribe(prod => {
 
-      this.desc = res.desc
-      this.amount = res.PA
+      this.amount = prod.PA
+      this.desc = prod.title
+      this.currency = prod.currency
+    })
+
+
+    this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
+    this.subuser = this.mainuser.valueChanges().subscribe(data => {
+
+       this.street = data.street
+       this.street2 = data.street2
+       this.pCode = data.pCode
+       this.phone = data.phone
+       this.province = data.province
+       this.city = data.city
+       this.strtNum = data.strtNum
 
     })
 
     this.amount = String(this.amount)
-    console.log(this.amount)
-    console.log(this.desc)
+    
+    if( this.street == "" || this.street2 == "" || this.pCode == "" || this.strtNum == "" || this.province == "" || this.city == ""){
 
-    // let number = '4242424242424242'
-    // let expMonth:number = 12
-    // let expYear:number = 23
-    // let cvc = '123'
+      this.noAddress('Error!', 'No existe ninguna dirección de entrega, añade la dirección y vuelve a intentarlo. INFO: Tanto el vendedor como el resto de usuarios, no tendrán accesso a dicha información.')
 
-    // this.paySvc.payment(number, expMonth, expYear, cvc)
+    } else {
+      this.paySvc.paypalPay(this.amount, this.desc, this.currency, this.prodID)
+    }
 
-
-
-
-    this.paySvc.paypalPay(this.amount, this.desc, this.prodID)
 
   }
 

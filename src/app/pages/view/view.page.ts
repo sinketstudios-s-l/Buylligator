@@ -13,7 +13,7 @@ import { AlertController } from '@ionic/angular';
 export class ViewPage implements OnInit {
 
   productID
-
+  ownID
   username
   mainuser
   subUser
@@ -53,7 +53,7 @@ export class ViewPage implements OnInit {
   savemain
   savesub
   saves: any[]
-  favs:boolean = false
+  favs: boolean = false
 
   constructor(
     private actvRoute: ActivatedRoute,
@@ -98,7 +98,8 @@ export class ViewPage implements OnInit {
       })
 
       this.userSvc.isAuthenticated().then(() => {
-        this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
+        this.ownID = this.userSvc.getUID()
+        this.mainuser = this.afs.doc(`users/${this.ownID}`)
         this.subUser = this.mainuser.valueChanges().subscribe(ev => {
           this.username = ev.username
           this.saves = ev.favorites
@@ -111,21 +112,21 @@ export class ViewPage implements OnInit {
 
   saveFav() {
 
-    
+
 
     this.afs.doc(`users/${this.userSvc.getUID()}`).update({
       favorites: firebase.firestore.FieldValue.arrayUnion(
         {
           productID: this.productID,
-          date: new Date()  
+          date: new Date()
         }
       )
-    }).then( () => this.favs = true)
+    }).then(() => this.favs = true)
 
   }
 
-  delFav(){
-    
+  delFav() {
+
   }
 
   profile() {
