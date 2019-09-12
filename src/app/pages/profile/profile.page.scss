@@ -1,0 +1,152 @@
+ion-content, body, html {
+
+    --pading:0;
+    --margin: 0;
+}
+
+ion-toolbar, ion-back-button {
+    --color: #484848;
+}
+
+.notificationsMenuIcon{
+    font-size: 30px;
+    font-weight: 100;
+}
+ion-badge.notificationsMenu{
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 1;
+    background: red;
+    padding: 2px;
+    font-size: 9px;
+    width: 15px;
+    height: 15px;
+    z-index: 100;
+}
+
+.searchBar{
+    font-family: 'BuylligatorN';
+}
+
+.productsRow {
+    padding: 10px;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    column-gap: 0px;
+    break-inside: avoid-column;
+}
+
+.productCard{
+
+    background: #fff;
+    border-radius: 10px;
+    margin: 5px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    position: relative;
+    break-inside: avoid-column;
+    padding-bottom: 10px;
+}
+
+.closedTxt{
+    font-family: sans-serif;
+    font-size: 15px;
+    color: #8a8a8a;
+    text-transform: capitalize;
+    font-style: italic;
+
+}
+
+
+.productCardExp{
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    position: absolute;
+    background: #8be4a5;
+    border-radius: 50%;
+    top: 10px;
+    right: 10px;
+}
+
+.productCard img{
+    border-radius: 10px 10px 0px 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.productCardInfo{
+    font-family: sans-serif;
+    padding: 10px;
+    text-align-last: left;
+}
+
+.productCardInfo .productCardPrice{
+    font-weight: bold;
+}
+
+.productCardInfo p{
+    color: #808080;
+}
+
+.productCardBtns{
+    text-align: center;
+  
+}
+
+
+.timeCardNum{
+    padding: 5px;
+    margin-left: 1px;
+    background: #fff;
+    color: #000;
+}
+
+.productCard img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn{
+    --border-radius: 40px;
+    --background: #8be4a5 !important;
+}
+
+ion-button.uploadBtn {
+    font-size: 17px;
+    position: fixed;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    background: #8be4a5 !important;
+}
+
+
+.profAvatar{
+    width: 80px;
+    height: 80px;
+}
+
+
+h2{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-family: sans-serif;
+}
+
+.myProducts{
+    margin-top: 1rem;
+    padding: 20px;
+    background: #f9f9f9;
+    text-align: center;
+    font-weight: bold;
+}

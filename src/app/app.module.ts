@@ -24,6 +24,7 @@ import { LoginModalPageModule } from './pages/login-modal/login-modal.module';
 import { UploadPage } from './pages/upload/upload.page';
 import { CategoriesPageModule } from './pages/categories/categories.module';
 
+
 // FIREBASE CLOUD MESSAGE
 import { FCM } from '@ionic-native/fcm/ngx';
 import { SessionService } from './services/session.service';
@@ -36,6 +37,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { PaymentService } from './services/payment.service';
 import { Stripe } from '@ionic-native/stripe/ngx';
 import { PayPal } from '@ionic-native/paypal/ngx'
+import { SettingsPageModule } from './pages/settings/settings.module';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
@@ -61,6 +63,7 @@ var firebaseConfig = {
     UploadPageModule,
     CategoriesPageModule,
     LoginModalPageModule,
+    SettingsPageModule,
     NgxQRCodeModule,
     
   ],

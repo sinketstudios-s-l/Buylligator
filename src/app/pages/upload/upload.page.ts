@@ -4,7 +4,7 @@ import { CategoriesPage } from '../categories/categories.page';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { firestore } from 'firebase'
 
@@ -19,20 +19,23 @@ export class UploadPage implements OnInit {
   main
   sub
   username
+  userID
   productID = this.navParams.get('id')
 
-  title:string
-  desc:string
+  title: string
+  desc: string
+  currency: string
 
   express: boolean
   PI: number
 
+  fileUrl
   noImg = ""
   urlImg1
-  urlImg2: Observable<any>;
-  urlImg3: Observable<any>;
-  urlImg4: Observable<any>;
-  urlImg5: Observable<any>;
+  urlImg2
+  urlImg3
+  urlImg4
+  urlImg5
 
   constructor(
     private modalCtrl: ModalController,
@@ -43,6 +46,7 @@ export class UploadPage implements OnInit {
 
   ngOnInit() {
     this.username = this.navParams.get('username')
+    this.userID = this.navParams.get('userID')
 
     console.log(this.productID)
 
@@ -56,11 +60,14 @@ export class UploadPage implements OnInit {
         PI: 0,
         img: [],
         desc: null,
+        title: null,
         express: false,
         username: this.username,
         verificated: false,
         open: true,
         date: new Date(),
+        status: "selling",
+        currency: null
 
       })
 
@@ -93,50 +100,85 @@ export class UploadPage implements OnInit {
       document.getElementById('f5').click()
     }
 
-    
+
   }
 
-  async uploadImg(event) {
+  uploadImg(event) {
 
     const id = Math.random().toString(36).substring(2)
     const file = event.target.files[0]
     const filePath = `products/${id}`
-    const ref = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, file)
+
 
     if (this.urlImg1 == null) {
-      task.snapshotChanges().pipe(finalize(() => this.urlImg1 = ref.getDownloadURL())).subscribe()
-
-      
+      this.storage.ref(filePath).put(file).then(() => {
+        this.storage.ref(filePath).getDownloadURL().subscribe(url => {
+          this.urlImg1 = url
+          this.afs.doc(`products/${this.productID}`).update({
+            img: [this.urlImg1]
+          })
+        })
+      })
     } else if (this.urlImg2 == null) {
-      task.snapshotChanges().pipe(finalize(() => this.urlImg2 = ref.getDownloadURL())).subscribe()
+      this.storage.ref(filePath).put(file).then(() => {
+        this.storage.ref(filePath).getDownloadURL().subscribe(url => {
+          this.urlImg2 = url
+          this.afs.doc(`products/${this.productID}`).update({
+            img: [this.urlImg2]
+          })
+        })
+      })
     } else if (this.urlImg3 == null) {
-      task.snapshotChanges().pipe(finalize(() => this.urlImg3 = ref.getDownloadURL())).subscribe()
+      this.storage.ref(filePath).put(file).then(() => {
+        this.storage.ref(filePath).getDownloadURL().subscribe(url => {
+          this.urlImg3 = url
+          this.afs.doc(`products/${this.productID}`).update({
+            img: [this.urlImg3]
+          })
+        })
+      })
     } else if (this.urlImg4 == null) {
-      task.snapshotChanges().pipe(finalize(() => this.urlImg4 = ref.getDownloadURL())).subscribe()
+      this.storage.ref(filePath).put(file).then(() => {
+        this.storage.ref(filePath).getDownloadURL().subscribe(url => {
+          this.urlImg4 = url
+          this.afs.doc(`products/${this.productID}`).update({
+            img: [this.urlImg4]
+          })
+        })
+      })
     } else if (this.urlImg5 == null) {
-      task.snapshotChanges().pipe(finalize(() => this.urlImg5 = ref.getDownloadURL())).subscribe()
+      this.storage.ref(filePath).put(file).then(() => {
+        this.storage.ref(filePath).getDownloadURL().subscribe(url => {
+          this.urlImg5 = url
+          this.afs.doc(`products/${this.productID}`).update({
+            img: [this.urlImg5]
+          })
+        })
+      })
     }
-
   }
 
   upload() {
 
+    
     const { PI, desc, productID, title } = this
-
+    if(this.currency == ""){
+      this.currency = "EUR"
+    }
+    
     this.afs.doc(`products/${productID}`).update({
       PI: PI,
       PA: PI,
       desc: desc,
       title: title,
       express: false,
-      expressImg: "../../../assets/flash.png",
-      verificated: true
-    }).then(() => { this.modalCtrl.dismiss() } )
+      verificated: true,
+      currency: this.currency
+    }).then(() => { this.modalCtrl.dismiss() })
   }
 
   divisa(event) {
-    console.log(event.target.value)
+    this.currency = event.target.value
   }
 
 

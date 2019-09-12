@@ -1,0 +1,22 @@
+ion-content{
+    font-family: sans-serif;
+    text-align: center;
+}
+
+section{
+    width: 100%;
+    font-weight: bold;
+}
+
+section span{
+    text-align-last: left;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.btn{
+
+    width: 90%;
+    --border-radius: 40px;
+
+}

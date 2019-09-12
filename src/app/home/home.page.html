@@ -14,6 +14,12 @@
 
 <ion-content no-padding>
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="radio-button-off" refreshingSpinner="circular" pullFactor="0.5" pullMin="100"
+      pullMax="150">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-chip *ngIf="category" color="secondary" margin-start margin-top>
     <ion-icon name="infinite"></ion-icon>
     <ion-label>{{category}}</ion-label>
@@ -32,14 +38,14 @@
 
 
   <div class="productsRow">
-    <div class="productCard" *ngFor="let item of products" id="{{item.productID}}">
-      <div *ngIf="item.verificated == true">
+    <div *ngFor="let item of products">
+      <div class="productCard" *ngIf="item.verificated == true" id="{{item.productID}}">
         <div class="productCardExp" *ngIf="item.express == true">
           <img [src]="expressImg" alt="">
         </div>
         <img [src]="item.img[0]" (click)="view($event)" id="{{item.productID}}">
         <div class="productCardInfo" id="{{item.productID}}" (click)="view($event)">
-          <span class="productCardPrice" id="{{item.productID}}">P.A: {{item.PA}} €</span><br>
+          <span class="productCardPrice" id="{{item.productID}}">P.A: {{item.PA}} {{item.currency}}</span><br>
           <span class="productCardTitle" id="{{item.title}}">{{item.title}}</span>
           <!-- <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon> -->
           <p class="productCardDesc" id="{{item.productID}}">{{item.desc}}</p>

@@ -1,14 +1,14 @@
 <ion-header mode="ios" no-border>
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start" mode="md">
-      <ion-back-button defaultHref="/" text="" mode="md"></ion-back-button>
+    <ion-buttons slot="start" mode="ios" margin-start>
+      <ion-back-button defaultHref="/" text="" mode="ios"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end" mode="md" *ngIf="profileID == ownID">
-      <ion-button fill="clear">
-        <ion-icon name="settings" mode="md"></ion-icon>
+      <ion-button fill="clear" (click)="settings($event)" id="settings">
+        <ion-icon name="settings" mode="md" id="settings"></ion-icon>
       </ion-button>
-      <ion-button fill="clear">
-        <ion-icon name="create" mode="md"></ion-icon>
+      <ion-button fill="clear" (click)="settings($event)" id="edit">
+        <ion-icon name="create" mode="md" id="edit"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -17,13 +17,69 @@
 <ion-content>
 
   <ion-item lines="none">
-    <ion-avatar slot="start">
-      <img src="{{profilePic}}">
-    </ion-avatar>
     <ion-label slot="start">
-      <h3>{{username}}</h3>
-      <h6 *ngIf="profileID == ownID">{{email}}</h6>
+      <h2>{{username}}</h2>
+      <h6>
+        <ion-icon slot="start" name="stats" mode="ios"></ion-icon> <b>{{ sales }}</b> Ventas <b>{{ purchases }}</b>
+        Compras
+      </h6>
     </ion-label>
+    <ion-avatar slot="end" class="profAvatar">
+      <img [src]="profilePic" alt="">
+    </ion-avatar>
   </ion-item>
+
+  <div class="myProducts">
+    <span>Mis Prodcutos</span>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="radio-button-off" refreshingSpinner="circular" pullFactor="0.5" pullMin="100"
+      pullMax="150">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="productsRow">
+    <div *ngFor="let item of myProducts">
+      <div class="productCard" *ngIf="item.verificated == true && item.userID == ownID" id="{{item.productID}}">
+        <div class="productCardExp" *ngIf="item.express == true">
+          <img [src]="expressImg" alt="">
+        </div>
+        <img [src]="item.img[0]" (click)="view($event)" id="{{item.productID}}">
+        <div class="productCardInfo" id="{{item.productID}}" (click)="view($event)">
+          <span class="productCardPrice" id="{{item.productID}}">P.A: {{item.PA}} €</span><br>
+          <span class="productCardTitle" id="{{item.title}}">{{item.title}}</span>
+          <!-- <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon> -->
+          <p class="productCardDesc" id="{{item.productID}}">{{item.desc}}</p>
+        </div>
+        <div class="productCardBtns">
+          <ion-button slot="end" mode="ios" color="light" class="btn" (click)="save($ev)"
+            *ngIf="item.express == true && item.username != username && item.open != false" id="{{item.productID}}">
+            <ion-icon name="heart-empty" color="danger" mode="md" id="{{item.productID}}"></ion-icon>
+          </ion-button>
+          <ion-button slot="end" mode="ios" class="btn" (click)="pujar($event)" id="{{item.productID}}"
+            *ngIf="item.express == true && item.username != username && item.open != false">
+            <ion-icon slot="start" name="trending-up" mode="ios" id="{{item.productID}}"></ion-icon>
+            <ion-label slot="start" id="{{item.productID}}">Pujar</ion-label>
+          </ion-button>
+          <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub($event)"
+            id="{{item.productID}}" *ngIf="item.username == username && item.open != false">
+            <ion-icon slot="start" name="close" mode="ios" id="{{item.productID}}"></ion-icon>
+            <ion-label slot="start" id="{{item.productID}}">Cerrar Subasta</ion-label>
+          </ion-button>
+          <ion-label class="closedTxt" *ngIf="item.open == false">
+            Subasta cerrada
+          </ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" slot="fixed">
+    <ion-button class="btn uploadBtn" mode="ios" (click)="openModal()">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      <ion-label slot="start">Empezar Subasta</ion-label>
+    </ion-button>
+  </ion-fab>
 
 </ion-content>

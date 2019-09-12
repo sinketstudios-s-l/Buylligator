@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "888470690948",
+    "firebase_url": "https://buylligator.firebaseio.com",
+    "project_id": "buylligator",
+    "storage_bucket": "buylligator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888470690948:android:241c58477cbd91dde2b6d1",
+        "android_client_info": {
+          "package_name": "com.sinketstudios.buylligator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888470690948-vkqt6tb4t9rrl9redcm37a0k7t4lcr0o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sinketstudios.buylligator",
+            "certificate_hash": "9a4697151f0ccf798bc59b9cacffc701206e8fbe"
+          }
+        },
+        {
+          "client_id": "888470690948-mg6dg0kjgpjbumrh4oldpjqdp99tp23m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzu0Uuai2Oes5XwYm6hmVeIDsTZiZHmvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888470690948-mg6dg0kjgpjbumrh4oldpjqdp99tp23m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "888470690948-tqoda61k6n6p0hap6mr7qb73e6ka1u32.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sinketstudios.buylligator"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -27,7 +27,8 @@ export class PaymentService {
       this.paypal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
         acceptCreditCards: true,
         merchantName: "Buylligator",
-        payPalShippingAddressOption: 2
+        payPalShippingAddressOption: 3,
+        rememberUser: true
       })).then(() => {
 
         let payment = new PayPalPayment(amount, 'EUR', desc, 'sale')

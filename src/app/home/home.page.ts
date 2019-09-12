@@ -35,6 +35,7 @@ export class HomePage implements OnInit {
 
   prodDesc
   prodImg
+  
 
   username
   mainuser
@@ -162,10 +163,6 @@ export class HomePage implements OnInit {
         this.products = event
       })
 
-
-    this.userRef.on('value', res => {
-      this.items = snapshotToArray(res)
-    })
   }
 
   ngOnInit() {
@@ -200,7 +197,8 @@ export class HomePage implements OnInit {
       component: UploadPage,
       componentProps: {
         id: ref,
-        username: this.username
+        username: this.username,
+        userID: this.userSvc.getUID()
       }
     })
     return await modal.present()
@@ -288,7 +286,8 @@ export class HomePage implements OnInit {
     })
 
     this.afs.doc(`products/${productID}`).update({
-      open: false
+      open: false,
+      status: "waiting"
     }).then(() => {
 
       this.afs.doc(`users/${this.lastBidderID}`).update({
@@ -324,6 +323,15 @@ export class HomePage implements OnInit {
       console.log("Subasta cerrada")
       document.getElementById(productID).style.opacity = ".5";
     })
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 
 
