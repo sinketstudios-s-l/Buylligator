@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
-import { snapshotToArray } from 'src/environments/environment';
 import { ModalController, MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -11,9 +10,7 @@ import { UserService } from '../services/user.service';
 // MODALS
 import { UploadPage } from '../pages/upload/upload.page';
 import { LoginModalPage } from '../pages/login-modal/login-modal.page';
-import { map } from 'rxjs/operators';
-
-
+import { delay } from 'rxjs/operators';
 
 
 
@@ -27,6 +24,7 @@ export class HomePage implements OnInit {
   example
 
   products: any[]
+  productsLoadedList: any[]
   prodTitle
 
 
@@ -71,7 +69,7 @@ export class HomePage implements OnInit {
     {
       name: "Todas las Categorias",
       icon: "infinite",
-      id: "Todas las Categorias",
+      id: "all",
       mode: "ios",
       color: "primary"
     },
@@ -158,14 +156,20 @@ export class HomePage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController) {
 
-    afs.collection('products').valueChanges().pipe()
-      .subscribe(event => {
-        this.products = event
-      })
+      
 
   }
 
   ngOnInit() {
+
+    this.afs.collection(`products`).valueChanges()
+      .pipe( delay( 1000 ) ).subscribe(ev =>{        
+
+        this.products = ev
+        this.productsLoadedList = ev
+        
+      })
+
     this.userSvc.isAuthenticated().then(() => {
       this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
       this.sub = this.mainuser.valueChanges().subscribe(ev => {
@@ -206,10 +210,7 @@ export class HomePage implements OnInit {
 
   }
 
-  reload() {
-
-  }
-
+  
   async pujaAlert(id: string) {
     let productID = id
     const puja = await this.alertCtrl.create({
@@ -362,6 +363,39 @@ export class HomePage implements OnInit {
     console.log(this.category)
   }
 
+  initializeItems(): void {
+    this.products = this.productsLoadedList;
+  }
+
+  search(event) {
+
+    this.initializeItems()
+
+    const searchterm = event.srcElement.value;
+    
+    if(!searchterm){
+      return
+    }
+    
+    this.products = this.products.filter(currentProd =>{
+      console.log(currentProd)
+      if(currentProd.title && searchterm || currentProd.category && searchterm){
+        if(currentProd.title.toLowerCase().indexOf(searchterm.toLowerCase()) > -1){
+          return true
+        } else if(currentProd.category.toLowerCase().indexOf(searchterm.toLowerCase()) > -1){
+          return true  
+        }
+        return false
+      }
+    })
+
+
+    console.log(event)
+
+
+  }
+
+  
 
 }
 

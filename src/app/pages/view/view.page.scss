@@ -110,3 +110,22 @@ ion-toolbar{
     width: 60px;
     height: 60px;
 }
+
+
+ion-button.uploadBtn {
+    font-size: 17px;
+    position: fixed;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    background: #8be4a5 !important;
+}
+
+ion-fab{
+    bottom: 2rem;
+}
+
+.bidders{
+    border-bottom: 1px solid #f1f1f1;
+}

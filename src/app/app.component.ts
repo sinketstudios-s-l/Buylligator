@@ -12,6 +12,7 @@ import { LoginModalPage } from './pages/login-modal/login-modal.page';
 import { UserService } from './services/user.service';
 
 import * as firebase from 'firebase'
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class AppComponent implements OnInit {
     private modalCtrl: ModalController,
     private route: Router,
     private afs: AngularFirestore,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private fcm: FCM
 
   ) {
     this.initializeApp();
@@ -51,9 +53,19 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    this.fcm.getToken()
+    .then((token:string)=>{
+     console.log("The token to use is: ",token);
+    })
+    .catch(error=>{
+      console.error(error);
+    });
   }
 
   ngOnInit() {
+
+    
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

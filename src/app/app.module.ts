@@ -39,6 +39,11 @@ import { Stripe } from '@ionic-native/stripe/ngx';
 import { PayPal } from '@ionic-native/paypal/ngx'
 import { SettingsPageModule } from './pages/settings/settings.module';
 
+// ADS
+import { AdMobFree } from '@ionic-native/admob-free/ngx'
+import { AdMobFreeService } from './services/admobfree.service';
+import { NotificationsService } from './services/notifications.service';
+
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
   authDomain: "buylligator.firebaseapp.com",
@@ -72,6 +77,7 @@ var firebaseConfig = {
     SplashScreen,
     UserService,
     AuthService,
+    NotificationsService,
     SessionService,
     PaymentService,
     ModalController,

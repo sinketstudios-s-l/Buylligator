@@ -4,15 +4,4 @@
 
 export const environment = {
   production: false
-};
-
-export const snapshotToArray = snapshot => {
-  let returnArray = []
-  snapshot.forEach(element => {
-      let item = element.val()
-      item.key = element.key;
-      returnArray.push(item)
-
-  });
-  return returnArray
 }

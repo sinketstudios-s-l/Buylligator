@@ -37,6 +37,9 @@ export class ViewPage implements OnInit {
   prodSub
   userProfName
   userPropImg
+  accType
+  sales = 0
+  purch = 0
 
   precioPuja: number
 
@@ -93,6 +96,9 @@ export class ViewPage implements OnInit {
         this.prodSub = this.prodUs.valueChanges().subscribe(ev => {
           this.userProfName = ev.username
           this.userPropImg = ev.profilePic
+          this.accType = ev.accType
+          this.sales = ev.sales.length
+          this.purch = ev.purchases.length
         })
 
       })

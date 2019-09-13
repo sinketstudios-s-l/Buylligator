@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@ionic-native/admob-free": "^5.13.0",
     "@ionic-native/barcode-scanner": "^5.13.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/fcm": "^5.13.0",
@@ -31,10 +32,13 @@
     "@ionic/angular": "^4.7.1",
     "card.io.cordova.mobilesdk": "^2.1.0",
     "com.paypal.cordova.mobilesdk": "^3.5.0",
-    "cordova-android": "^8.0.0",
-    "cordova-ios": "^5.0.1",
+    "cordova-admob-sdk": "0.24.1",
+    "cordova-android": "8.0.0",
+    "cordova-ios": "5.0.1",
+    "cordova-plugin-admob-free": "^0.27.0",
     "cordova-plugin-fcm-with-dependecy-updated": "^3.0.0",
     "cordova-plugin-stripe": "^1.5.3",
+    "cordova-promise-polyfill": "0.0.2",
     "core-js": "^2.5.4",
     "firebase": "^6.5.0",
     "ngx-qrcode2": "0.0.9",
@@ -96,11 +100,17 @@
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
       "cordova-plugin-stripe": {},
-      "com.paypal.cordova.mobilesdk": {}
+      "com.paypal.cordova.mobilesdk": {},
+      "cordova-plugin-admob-free": {
+        "ADMOB_APP_ID": "ca-app-pub-3993710682934611~5041864538"
+      },
+      "cordova-admob-sdk": {
+        "PLAY_SERVICES_VERSION": "11.6.0"
+      }
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

@@ -29,13 +29,22 @@
     <div class="productHead">
       <span class="productTlt">{{productTitle}}</span><br>
       <span class="productPA">P.A: {{PA}} €</span><br>
-      <span class="productPI">P.E: --- € </span><br>
+      <!-- <span class="productPI">P.E: --- € </span><br> -->
       <span class="productPI">P.I: {{PI}} €</span>
     </div>
 
     <div class="productInfo">
       <span class="productDesc">{{desc}}</span>
     </div>
+
+    <div class="bidders">
+      <ion-item *ngFor="let bid of bidders | slice:biddersLenghtShow:biddersLenght; " lines="none">
+        <ion-label>{{bid.username}}</ion-label>
+        <ion-label>+ {{bid.price}} €</ion-label>
+        <ion-label><p>{{bid.date?.toDate() | date: 'HH:mm a'}}</p></ion-label>
+      </ion-item>
+    </div>
+
 
     <div class="profileDiv" (click)="profile()">
       <ion-item lines="none">
@@ -44,26 +53,26 @@
         </ion-avatar>
         <ion-label>
           <h2 style="text-transform: capitalize;">{{userProfName}}</h2>
-          <h3>I'm a big deal</h3>
-          <p>Listen, I've had a pretty messed up day...</p>
+
+          <p>
+            <ion-icon name="stats" mode="ios"></ion-icon> {{sales}} Ventas {{purch}} Compras
+          </p>
         </ion-label>
       </ion-item>
 
     </div>
 
-    <ion-list>
-      <ion-item *ngFor="let bid of bidders | slice:biddersLenghtShow:biddersLenght; " lines="none">
-        <ion-label>+ {{bid.price}} €</ion-label>
-        <ion-label>{{bid.username}}</ion-label>
-        <ion-label>{{bid.date?.toDate() | date: 'HH:mm a'}}</ion-label>
-      </ion-item>
-    </ion-list>
 
 
 
     <div class="bidBtn">
-      <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()" *ngIf="open == true && userID != ownID">
-        Pujar</ion-button>
+      <!-- <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()" *ngIf="open == true && userID != ownID">
+        Pujar</ion-button> -->
+      <ion-fab vertical="bottom" slot="fixed" *ngIf="open == true && userID != ownID">
+        <ion-button class="btn uploadBtn" mode="ios" (click)="pujaAlert()">
+          <ion-label slot="start">Pujar</ion-label>
+        </ion-button>
+      </ion-fab>
       <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub($event)" id="{{productID}}"
         *ngIf="userID == ownID && open != false">
         <ion-icon slot="start" name="close" mode="ios" id="{{productID}}"></ion-icon>
