@@ -43,6 +43,7 @@ import { SettingsPageModule } from './pages/settings/settings.module';
 import { AdMobFree } from '@ionic-native/admob-free/ngx'
 import { AdMobFreeService } from './services/admobfree.service';
 import { NotificationsService } from './services/notifications.service';
+import { ShippingModalPageModule } from './pages/shipping-modal/shipping-modal.module';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
@@ -69,8 +70,8 @@ var firebaseConfig = {
     CategoriesPageModule,
     LoginModalPageModule,
     SettingsPageModule,
+    ShippingModalPageModule,
     NgxQRCodeModule,
-    
   ],
   providers: [
     StatusBar,

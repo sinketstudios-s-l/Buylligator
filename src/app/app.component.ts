@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
 
     this.fcm.getToken()
     .then((token:string)=>{
-     console.log("The token to use is: ",token);
+     localStorage.setItem('fcm_token', token)
     })
     .catch(error=>{
       console.error(error);

@@ -15,7 +15,7 @@ export class PaymentService {
   purchases
   constructor(private stripe: Stripe, private afs: AngularFirestore, private userSvc: UserService, private paypal: PayPal) { }
 
-  paypalPay(amount: string, desc: string, ID: string, currency: string) {
+  paypalPay(amount: string, desc: string, currency: string, ID: string) {
 
     this.prodID = ID  
 
@@ -27,7 +27,7 @@ export class PaymentService {
       this.paypal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
         acceptCreditCards: true,
         merchantName: "Buylligator",
-        payPalShippingAddressOption: 3,
+        payPalShippingAddressOption: 1,
         rememberUser: true
       })).then(() => {
         let payment = new PayPalPayment(amount, currency, desc, 'sale')

@@ -33,14 +33,14 @@
     "card.io.cordova.mobilesdk": "^2.1.0",
     "com.paypal.cordova.mobilesdk": "^3.5.0",
     "cordova-admob-sdk": "0.24.1",
-    "cordova-android": "8.0.0",
     "cordova-ios": "5.0.1",
     "cordova-plugin-admob-free": "^0.27.0",
-    "cordova-plugin-fcm-with-dependecy-updated": "^3.0.0",
+    "cordova-plugin-fcm": "2.1.2",
     "cordova-plugin-stripe": "^1.5.3",
     "cordova-promise-polyfill": "0.0.2",
     "core-js": "^2.5.4",
     "firebase": "^6.5.0",
+    "guava": "0.0.5",
     "ngx-qrcode2": "0.0.9",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
@@ -90,12 +90,6 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {
-        "FCM_CORE_VERSION": "16.0.9",
-        "FCM_VERSION": "18.0.0",
-        "GRADLE_TOOLS_VERSION": "2.3.+",
-        "GOOGLE_SERVICES_VERSION": "3.0.0"
-      },
       "phonegap-plugin-barcodescanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
@@ -106,11 +100,11 @@
       },
       "cordova-admob-sdk": {
         "PLAY_SERVICES_VERSION": "11.6.0"
-      }
+      },
+      "cordova-plugin-fcm": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "ios"
     ]
   }
 }

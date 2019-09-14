@@ -43,6 +43,9 @@ export class ViewPage implements OnInit {
 
   precioPuja: number
 
+  lastBidder
+  lastBidderID
+  lastBidderName
   bidders: any[]
   biddersLenght: number;
   biddersLenghtShow: number;
@@ -88,6 +91,9 @@ export class ViewPage implements OnInit {
 
         this.bidders = ev.bidders
         if (this.bidders) {
+          this.lastBidder = this.bidders.length -1
+          this.lastBidderName = this.bidders[this.lastBidder].username
+          this.lastBidderID = this.bidders[this.lastBidder].userID
           this.biddersLenght = this.bidders.length
           this.biddersLenghtShow = this.biddersLenght - 2
         }
@@ -187,4 +193,42 @@ export class ViewPage implements OnInit {
 
   }
 
+  closeSub() {
+
+    this.afs.doc(`products/${this.productID}`).update({
+      open: false,
+      status: "waiting"
+    }).then(() => {
+
+      this.afs.doc(`users/${this.lastBidderID}`).update({
+        purchases: firebase.firestore.FieldValue.arrayUnion(
+          {
+            productID: this.productID,
+            date: new Date(),
+            price: this.PA,
+            clientID: this.lastBidderID,
+            clientName: this.lastBidderName,
+            desc: this.desc,
+            title: this.productTitle,
+            img: this.productImg
+          }
+        )
+      }).then(() => {
+        this.afs.doc(`users/${this.userSvc.getUID()}`).update({
+          sales: firebase.firestore.FieldValue.arrayUnion(
+            {
+              productID: this.productID,
+              date: new Date(),
+              price: this.PA,
+              clientID: this.lastBidderID,
+              clientName: this.lastBidderName,
+              desc: this.desc,
+              title: this.productTitle,
+              img: this.productImg
+            }
+          )
+        })
+      })
+    })
+  }
 }

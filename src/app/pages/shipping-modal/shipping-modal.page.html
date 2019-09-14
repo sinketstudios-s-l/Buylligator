@@ -1,0 +1,90 @@
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" margin-start>
+      <ion-button mode="ios" (click)="close()">
+        <ion-icon name="close" mode="md" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="id == 'locations'">Mis Direcciones</ion-title>
+    <ion-title *ngIf="id == 'pickUp'">Solicitud de Recogida</ion-title>
+    <ion-title *ngIf="id == 'requests'">Mis Solicitudes</ion-title>
+    <ion-buttons slot="end" margin-end *ngIf="id == 'locations' && !locations">
+      <ion-button mode="ios" (click)="newLoc()">
+        <ion-icon color="primary" name="add" color="dark" mode="md"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div class="no-locations" *ngIf="id == 'locations' && !locations">
+    <p>Todavía no existe ninguna dirección.</p>
+  </div>
+
+  <div class="allLocations" *ngIf="locations">
+    <ion-item *ngFor="let loc of locations" class="locItem" lines="none"  mode="ios">
+      <ion-icon name="home" mode="md" slot="start"></ion-icon>
+      <ion-label slot="start">
+        <h3><b>{{loc.name}}</b></h3>
+        <h5>{{loc.street}}, {{loc.strtNum}}</h5>
+        <p>{{loc.city}} {{loc.province}}</p>
+      </ion-label>
+      <ion-label slot="end" class="defaultTxt">
+        <p *ngIf="loc.default == true" text-wrap>Por defecto</p>
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <div class="addLoc" *ngIf="!locations && add == 1">
+    <ion-input class="inp" type="text" placeholder="Nombre para guardar" [(ngModel)]="name"></ion-input>
+    <ion-row>
+      <ion-col size="8">
+        <ion-input class="inp" type="text" placeholder="Calle, Avenida, Barrio..." [(ngModel)]="street"></ion-input>
+      </ion-col>
+      <ion-col size="4">
+        <ion-input class="inp" type="text" placeholder="Número" [(ngModel)]="strtNum"></ion-input>
+      </ion-col>
+      <ion-col size="5">
+        <ion-input class="inp" type="text" placeholder="Bloque, Piso y Puerta" [(ngModel)]="street2"></ion-input>
+      </ion-col>
+      <ion-col size="7">
+        <ion-input class="inp" type="text" placeholder="postCode" [(ngModel)]="postCode"></ion-input>
+      </ion-col>
+      <ion-col size="6">
+        <ion-input class="inp" type="text" placeholder="city" [(ngModel)]="city"></ion-input>
+      </ion-col>
+      <ion-col size="6">
+        <ion-input class="inp" type="text" placeholder="province" [(ngModel)]="province"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-button (click)="addLocation()">Location</ion-button>
+  </div>
+
+
+
+  <!-- PICK UP -->
+  <div class="allProducts" *ngIf="products">
+    <ion-list>
+      <ion-radio-group>
+        <div *ngFor="let item of products">
+          <ion-item *ngIf="item.userID == ownID && item.status == 'paidout'" class="prodItem" lines="none" (ionSelect)="select($event)" mode="ios">
+            <ion-radio slot="start" [value]="item.productID" mode="ios"></ion-radio>
+            <ion-avatar slot="start">
+              <img [src]="item.img[0]" alt="">
+            </ion-avatar>
+            <ion-label slot="start">
+              <h3><b>{{item.title}}</b></h3>
+              <p>{{item.desc}}</p>
+            </ion-label>
+            <ion-label slot="end" class="defaultTxt" margin-end>
+              <p>{{item.date.toDate() | date: 'dd/MM'}}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+      </ion-radio-group>
+    </ion-list>
+  </div>
+
+
+</ion-content>

@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { SettingsPage } from '../settings/settings.page';
+import { UploadPage } from '../upload/upload.page';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,8 @@ export class ProfilePage implements OnInit {
 
   myProducts: any[]
 
+  expressImg: string = "https://firebasestorage.googleapis.com/v0/b/buylligator.appspot.com/o/flash.png?alt=media&token=a3d886d8-63e8-47d0-9bcf-968026d1ef11"
+  save
 
   constructor(
     private userSvc: UserService,
@@ -101,6 +104,19 @@ export class ProfilePage implements OnInit {
 
     console.log(id)
 
+  }
+
+  async openModal(){
+    const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
+    const modal = await this.modalCtrl.create({
+      component: UploadPage,
+      componentProps: {
+        userID: this.userSvc.getUID(),
+        id: ref,
+        username: this.username
+      }
+    })
+    await modal.present()
   }
 
 

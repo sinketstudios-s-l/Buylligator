@@ -1,0 +1,27 @@
+ion-content {
+    --overflow: hidden;
+}
+
+.pickUp{
+    --background: #8be4a615;
+    width: 90%;
+    border: 1px solid #8be4a5;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+.requests{
+    --background: #ffce0015;
+    width: 90%;
+    border: 1px solid #ffce00;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+.locations{
+    --background: #f1f1f125;
+    width: 90%;
+    border: 1px solid #dfdfdf;
+    border-radius: 10px;
+    margin: 1rem auto;
+}

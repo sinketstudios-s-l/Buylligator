@@ -39,6 +39,7 @@
           </ion-label>
           <ion-button slot="end" mode="ios" color="warning" *ngIf="pid.status == 'waiting'" (click)="makePayment($event)"
             [id]="p.productID">
+            <ion-icon name="card"></ion-icon>
             Pagar</ion-button>
           <ion-label slot="end" color="success" (click)="statusInfo(pid.status)" [id]="p.productID"
             *ngIf="pid.status == 'paidout'">
@@ -48,9 +49,9 @@
             *ngIf="pid.status == 'cancelled'">
             <ion-icon name="close-circle" mode="ios" [id]="p.productID"></ion-icon>
           </ion-label>
-          <ion-label slot="end" color="primary" (click)="statusInfo(pid.status)" [id]="s.productID"
+          <ion-label slot="end" color="primary" (click)="statusInfo(pid.status)" [id]="p.productID"
             *ngIf="pid.status == 'delivered'">
-            <ion-icon name="home" mode="md" [id]="s.productID"></ion-icon>
+            <ion-icon name="home" mode="md" [id]="p.productID"></ion-icon>
           </ion-label>
         </ion-item>
 

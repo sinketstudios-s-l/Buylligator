@@ -186,6 +186,7 @@ export class PurchasesPage implements OnInit {
       this.amount = prod.PA
       this.desc = prod.title
       this.currency = prod.currency
+      console.log(this.currency);
     })
 
 
@@ -203,14 +204,17 @@ export class PurchasesPage implements OnInit {
     })
 
     this.amount = String(this.amount)
+
+
+    console.log(this.currency);
     
-    if( this.street == "" || this.street2 == "" || this.pCode == "" || this.strtNum == "" || this.province == "" || this.city == ""){
+    // if( this.street == "" || this.street2 == "" || this.pCode == "" || this.strtNum == "" || this.province == "" || this.city == ""){
 
-      this.noAddress('Error!', 'No existe ninguna dirección de entrega, añade la dirección y vuelve a intentarlo. INFO: Tanto el vendedor como el resto de usuarios, no tendrán accesso a dicha información.')
+    //   this.noAddress('Error!', 'No existe ninguna dirección de entrega, añade la dirección y vuelve a intentarlo. INFO: Tanto el vendedor como el resto de usuarios, no tendrán accesso a dicha información.')
 
-    } else {
+    // } else {
       this.paySvc.paypalPay(this.amount, this.desc, this.currency, this.prodID)
-    }
+    // }
 
 
   }

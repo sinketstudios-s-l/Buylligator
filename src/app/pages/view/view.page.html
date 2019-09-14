@@ -53,7 +53,8 @@
         </ion-avatar>
         <ion-label>
           <h2 style="text-transform: capitalize;">{{userProfName}}</h2>
-
+          <h6 *ngIf="accType == 'particular'" class="particularTlt">{{accType}}</h6>
+          <h6 *ngIf="accType == 'professional'" class="profesionalTlt">{{accType}}</h6>
           <p>
             <ion-icon name="stats" mode="ios"></ion-icon> {{sales}} Ventas {{purch}} Compras
           </p>
@@ -73,7 +74,7 @@
           <ion-label slot="start">Pujar</ion-label>
         </ion-button>
       </ion-fab>
-      <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub($event)" id="{{productID}}"
+      <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub()" id="{{productID}}"
         *ngIf="userID == ownID && open != false">
         <ion-icon slot="start" name="close" mode="ios" id="{{productID}}"></ion-icon>
         <ion-label slot="start" id="{{productID}}">Cerrar Subasta</ion-label>

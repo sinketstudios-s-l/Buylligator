@@ -41,35 +41,16 @@
 
   <div class="productsRow">
     <div *ngFor="let item of myProducts">
-      <div class="productCard" *ngIf="item.verificated == true && item.userID == ownID" id="{{item.productID}}">
+      <div class="productCard" *ngIf="item.verificated == true && item.userID == ownID">
         <div class="productCardExp" *ngIf="item.express == true">
           <img [src]="expressImg" alt="">
         </div>
-        <img [src]="item.img[0]" (click)="view($event)" id="{{item.productID}}">
-        <div class="productCardInfo" id="{{item.productID}}" (click)="view($event)">
-          <span class="productCardPrice" id="{{item.productID}}">P.A: {{item.PA}} €</span><br>
+        <img [src]="item.img[0]" (click)="view($event)">
+        <div class="productCardInfo" (click)="view($event)">
+          <span class="productCardPrice">P.A: {{item.PA}} €</span><br>
           <span class="productCardTitle" id="{{item.title}}">{{item.title}}</span>
           <!-- <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon> -->
-          <p class="productCardDesc" id="{{item.productID}}">{{item.desc}}</p>
-        </div>
-        <div class="productCardBtns">
-          <ion-button slot="end" mode="ios" color="light" class="btn" (click)="save($ev)"
-            *ngIf="item.express == true && item.username != username && item.open != false" id="{{item.productID}}">
-            <ion-icon name="heart-empty" color="danger" mode="md" id="{{item.productID}}"></ion-icon>
-          </ion-button>
-          <ion-button slot="end" mode="ios" class="btn" (click)="pujar($event)" id="{{item.productID}}"
-            *ngIf="item.express == true && item.username != username && item.open != false">
-            <ion-icon slot="start" name="trending-up" mode="ios" id="{{item.productID}}"></ion-icon>
-            <ion-label slot="start" id="{{item.productID}}">Pujar</ion-label>
-          </ion-button>
-          <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub($event)"
-            id="{{item.productID}}" *ngIf="item.username == username && item.open != false">
-            <ion-icon slot="start" name="close" mode="ios" id="{{item.productID}}"></ion-icon>
-            <ion-label slot="start" id="{{item.productID}}">Cerrar Subasta</ion-label>
-          </ion-button>
-          <ion-label class="closedTxt" *ngIf="item.open == false">
-            Subasta cerrada
-          </ion-label>
+          <p class="productCardDesc">{{item.desc}}</p>
         </div>
       </div>
     </div>

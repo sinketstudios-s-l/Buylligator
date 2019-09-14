@@ -52,6 +52,9 @@ export class HomePage implements OnInit {
 
   PA: number
   newPrice: number
+  $ev
+  notifications
+
 
   expressImg: string = "https://firebasestorage.googleapis.com/v0/b/buylligator.appspot.com/o/flash.png?alt=media&token=a3d886d8-63e8-47d0-9bcf-968026d1ef11"
 

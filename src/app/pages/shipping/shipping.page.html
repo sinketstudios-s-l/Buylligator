@@ -1,9 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>shipping</ion-title>
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" margin-start>
+      <ion-back-button color="dark" text="" mode="ios" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Envíos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-item lines="none" class="locations" detail (click)="modal($event)" id="locations">
+    <ion-icon color="dark" slot="start" name="home" mode="md" id="locations"></ion-icon>
+    <ion-label color="dark" slot="start" id="locations">Mis direcciones</ion-label>
+  </ion-item>
+
+  <!-- <ion-item lines="none" class="pickUp" detail>
+    <ion-icon color="primary" slot="start" name="archive" mode="md"></ion-icon>
+    <ion-label color="primary" slot="start">Solicitar Recogida</ion-label>
+  </ion-item> -->
+
+  <ion-item lines="none" class="pickUp" detail (click)="modal($event)" id="pickUp">
+    <ion-icon color="primary" slot="start" name="locate" mode="md" id="pickUp"></ion-icon>
+    <ion-label color="primary" slot="start" id="pickUp">Solicitar Recogida</ion-label>
+  </ion-item>
+
+  <ion-item lines="none" class="requests" detail (click)="modal($event)" id="requests">
+    <ion-icon color="warning" slot="start" name="copy" mode="md" id="requests"></ion-icon>
+    <ion-label color="warning" slot="start" id="requests">Mis Solicitudes</ion-label>
+  </ion-item>
 
 </ion-content>
