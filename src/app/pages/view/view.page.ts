@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase'
 import { UserService } from 'src/app/services/user.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-view',
@@ -40,7 +40,7 @@ export class ViewPage implements OnInit {
   accType
   sales = 0
   purch = 0
-
+  currSymbol
   precioPuja: number
 
   lastBidder
@@ -66,7 +66,8 @@ export class ViewPage implements OnInit {
     private afs: AngularFirestore,
     private userSvc: UserService,
     private alertCtrl: AlertController,
-    private route: Router
+    private route: Router,
+    private actionSheetCtrl: ActionSheetController
   ) { }
 
   ngOnInit() {
@@ -77,8 +78,8 @@ export class ViewPage implements OnInit {
       this.mainprod = this.afs.doc(`products/${this.productID}`)
       this.sub = this.mainprod.valueChanges().subscribe(ev => {
 
-        this.PI = ev.PI
-        this.PA = ev.PA
+        this.PI =  ev.PI.toString().replace("\.", ",")
+        this.PA = ev.PA.toString().replace("\.", ",")
         this.desc = ev.desc
         this.express = ev.express
         this.expressImg = ev.expressImg
@@ -86,6 +87,7 @@ export class ViewPage implements OnInit {
         this.date = ev.date
         this.productTitle = ev.title
         this.open = ev.open
+        this.currSymbol = ev.currSymbol
 
         this.productImg = ev.img
 
@@ -120,6 +122,61 @@ export class ViewPage implements OnInit {
 
     }
 
+  }
+
+
+  async presentAlert(header: string, message: string){
+    const alert = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      mode: "ios",
+      buttons: [
+        {
+          text: "Eliminar de todos modos",
+          role: "destructive",
+          handler: () => {
+            this.afs.doc(`products/${this.productID}`).delete().then(() => this.route.navigate(['/login']))
+          }
+        },
+        {
+          text: "Cancelar",
+          role: "cancel"
+        }
+      ]
+    })
+    await alert.present()
+  }
+
+  async moreProd(){
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: this.productTitle,
+      mode: "ios",
+      buttons: [
+        {
+          text: "Editar",
+          handler: () => {
+
+          }
+        },
+        {
+          text: "Eliminar",
+          role: "destructive",
+          handler: () =>{
+            if(!this.bidders){
+              this.afs.doc(`products/${this.productID}`).delete()
+            } else{
+              this.presentAlert('¡Cuidado!','Hay clientes pujando por este producto, ¿Quieres eliminarlo igualmente?')
+            }
+          }
+        },
+        {
+          text: "Cerrar",
+          role: "cancel"
+        }
+      ]
+    })
+    await actionSheet.present()
   }
 
   saveFav() {

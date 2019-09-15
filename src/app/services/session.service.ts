@@ -58,7 +58,7 @@ export class SessionService {
         uid: res.user.uid
       })
 
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home']).then(() => window.location.reload())
 
     } catch (error) {
 
@@ -83,7 +83,7 @@ export class SessionService {
           uid: res.user.uid
         })
 
-        this.router.navigate(['/home'])
+        this.router.navigate(['/home']).then(() => window.location.reload())
 
       }
 

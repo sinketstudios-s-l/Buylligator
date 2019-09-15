@@ -13,7 +13,6 @@ import { LoginModalPage } from '../pages/login-modal/login-modal.page';
 import { delay } from 'rxjs/operators';
 
 
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -33,7 +32,7 @@ export class HomePage implements OnInit {
 
   prodDesc
   prodImg
-  
+
 
   username
   mainuser
@@ -159,19 +158,26 @@ export class HomePage implements OnInit {
     private router: Router,
     private alertCtrl: AlertController) {
 
-      
 
   }
 
   ngOnInit() {
 
     this.afs.collection(`products`).valueChanges()
-      .pipe( delay( 1000 ) ).subscribe(ev =>{        
+      .pipe(delay(1000)).subscribe(ev => {
 
         this.products = ev
         this.productsLoadedList = ev
-        
-      })
+
+    })
+
+    firebase.auth().onAuthStateChanged(auth => {
+      if(auth){
+
+      } else {
+
+      }
+    })
 
     this.userSvc.isAuthenticated().then(() => {
       this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
@@ -199,21 +205,26 @@ export class HomePage implements OnInit {
   }
 
   async openModal() {
-    const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
-    const modal = await this.modalCtrl.create({
-      component: UploadPage,
-      componentProps: {
-        id: ref,
-        username: this.username,
-        userID: this.userSvc.getUID()
-      }
-    })
-    return await modal.present()
+    if (!this.username) {
+      this.router.navigate(['/login'])
+    } else {
+      const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
+      const modal = await this.modalCtrl.create({
+        component: UploadPage,
+        componentProps: {
+          id: ref,
+          username: this.username,
+          userID: this.userSvc.getUID()
+        }
+      })
 
+      return await modal.present()
+
+    }
 
   }
 
-  
+
   async pujaAlert(id: string) {
     let productID = id
     const puja = await this.alertCtrl.create({
@@ -375,18 +386,18 @@ export class HomePage implements OnInit {
     this.initializeItems()
 
     const searchterm = event.srcElement.value;
-    
-    if(!searchterm){
+
+    if (!searchterm) {
       return
     }
-    
-    this.products = this.products.filter(currentProd =>{
+
+    this.products = this.products.filter(currentProd => {
       console.log(currentProd)
-      if(currentProd.title && searchterm || currentProd.category && searchterm){
-        if(currentProd.title.toLowerCase().indexOf(searchterm.toLowerCase()) > -1){
+      if (currentProd.title && searchterm || currentProd.category && searchterm) {
+        if (currentProd.title.toLowerCase().indexOf(searchterm.toLowerCase()) > -1) {
           return true
-        } else if(currentProd.category.toLowerCase().indexOf(searchterm.toLowerCase()) > -1){
-          return true  
+        } else if (currentProd.category.toLowerCase().indexOf(searchterm.toLowerCase()) > -1) {
+          return true
         }
         return false
       }
@@ -398,7 +409,7 @@ export class HomePage implements OnInit {
 
   }
 
-  
+
 
 }
 

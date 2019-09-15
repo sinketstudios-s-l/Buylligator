@@ -26,6 +26,10 @@ export class ShippingModalPage implements OnInit {
   locations: any[]
   products: any[]
   add:number = 0
+
+  block
+  floorDoor
+  icon
   constructor(
     private navParams: NavParams, 
     private modalCtrl: ModalController,
@@ -33,6 +37,9 @@ export class ShippingModalPage implements OnInit {
     private userSvc: UserService) { }
 
   ngOnInit() {
+
+
+    console.log(this.icon)
 
     this.ownID = this.userSvc.getUID()
 
@@ -71,6 +78,8 @@ export class ShippingModalPage implements OnInit {
 
   addLocation(){
 
+    this.street2 = "Bloque: " + this.block + ', ' + this.floorDoor
+
     this.afs.doc(`users/${this.userSvc.getUID()}`).update({
       locations: firebase.firestore.FieldValue.arrayUnion({
           city: this.city,
@@ -83,6 +92,20 @@ export class ShippingModalPage implements OnInit {
           default: true
       })
     }).then(() => this.add = 0)
+
+  }
+
+  iconL(event){
+
+    console.log(event.target.value)
+    
+  }
+
+  delLoc(){
+
+    this.afs.doc(`users/${this.userSvc.getUID()}`).update({
+      locations: null
+    })
 
   }
 

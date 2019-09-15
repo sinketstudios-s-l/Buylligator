@@ -39,6 +39,11 @@ export class UploadPage implements OnInit {
 
   uploadProgress
   uploading = false
+
+  weight: number
+
+  shippingCost: number
+  currSymbol
   constructor(
     private modalCtrl: ModalController,
     private afs: AngularFirestore,
@@ -70,7 +75,9 @@ export class UploadPage implements OnInit {
         date: new Date(),
         status: "selling",
         currency: null,
-        userID: this.userID
+        userID: this.userID,
+        currSymbol: null
+
       })
 
 
@@ -173,12 +180,25 @@ export class UploadPage implements OnInit {
 
   upload() {
 
-    
+
     const { PI, desc, productID, title } = this
-    if(this.currency == ""){
+    if (this.currency == "") {
       this.currency = "EUR"
+      this.currSymbol = "€"
     }
-    
+
+    if (this.weight == 2) {
+      this.shippingCost = 3.49
+    } else if (this.weight == 5) {
+      this.shippingCost = 4.49
+    } else if (this.weight == 10) {
+      this.shippingCost = 6.49
+    } else if (this.weight == 20) {
+      this.shippingCost = 9.49
+    } else if (this.weight == 30) {
+      this.shippingCost = 12.49
+    }
+
     this.afs.doc(`products/${productID}`).update({
       PI: PI,
       PA: PI,
@@ -186,7 +206,10 @@ export class UploadPage implements OnInit {
       title: title,
       express: false,
       verificated: true,
-      currency: this.currency
+      currency: this.currency,
+      weight: this.weight,
+      shippingCost: this.shippingCost,
+      currSymbol: this.currSymbol
 
     }).then(() => { this.modalCtrl.dismiss() })
   }
@@ -215,6 +238,74 @@ export class UploadPage implements OnInit {
     })
     await actionSheet.present()
 
+  }
+
+
+  prodWeight(wght: number) {
+
+    this.weight = wght
+
+    if (this.weight == 2) {
+      document.getElementById('p2').style.color = "#8be4a5"
+      document.getElementById('p2').style.fill = "#8be4a5"
+
+      document.getElementById('p5').style.color = "#adadad"
+      document.getElementById('p5').style.fill = "#adadad"
+      document.getElementById('p10').style.color = "#adadad"
+      document.getElementById('p10').style.fill = "#adadad"
+      document.getElementById('p20').style.color = "#adadad"
+      document.getElementById('p20').style.fill = "#adadad"
+      document.getElementById('p30').style.color = "#adadad"
+      document.getElementById('p30').style.fill = "#adadad"
+    } else if (this.weight == 5) {
+      document.getElementById('p5').style.color = "#8be4a5"
+      document.getElementById('p5').style.fill = "#8be4a5"
+
+      document.getElementById('p2').style.color = "#adadad"
+      document.getElementById('p2').style.fill = "#adadad"
+      document.getElementById('p10').style.color = "#adadad"
+      document.getElementById('p10').style.fill = "#adadad"
+      document.getElementById('p20').style.color = "#adadad"
+      document.getElementById('p20').style.fill = "#adadad"
+      document.getElementById('p30').style.color = "#adadad"
+      document.getElementById('p30').style.fill = "#adadad"
+    } else if (this.weight == 10) {
+      document.getElementById('p10').style.color = "#8be4a5"
+      document.getElementById('p10').style.fill = "#8be4a5"
+
+      document.getElementById('p2').style.color = "#adadad"
+      document.getElementById('p2').style.fill = "#adadad"
+      document.getElementById('p5').style.color = "#adadad"
+      document.getElementById('p5').style.fill = "#adadad"
+      document.getElementById('p20').style.color = "#adadad"
+      document.getElementById('p20').style.fill = "#adadad"
+      document.getElementById('p30').style.color = "#adadad"
+      document.getElementById('p30').style.fill = "#adadad"
+    } else if (this.weight == 20) {
+      document.getElementById('p20').style.color = "#8be4a5"
+      document.getElementById('p20').style.fill = "#8be4a5"
+
+      document.getElementById('p2').style.color = "#adadad"
+      document.getElementById('p2').style.fill = "#adadad"
+      document.getElementById('p5').style.color = "#adadad"
+      document.getElementById('p5').style.fill = "#adadad"
+      document.getElementById('p10').style.color = "#adadad"
+      document.getElementById('p10').style.fill = "#adadad"
+      document.getElementById('p30').style.color = "#adadad"
+      document.getElementById('p30').style.fill = "#adadad"
+    } else if (this.weight == 30) {
+      document.getElementById('p30').style.color = "#8be4a5"
+      document.getElementById('p30').style.fill = "#8be4a5"
+
+      document.getElementById('p2').style.color = "#adadad"
+      document.getElementById('p2').style.fill = "#adadad"
+      document.getElementById('p5').style.color = "#adadad"
+      document.getElementById('p5').style.fill = "#adadad"
+      document.getElementById('p10').style.color = "#adadad"
+      document.getElementById('p10').style.fill = "#adadad"
+      document.getElementById('p20').style.color = "#adadad"
+      document.getElementById('p20').style.fill = "#adadad"
+    }
   }
 
   async openCat() {

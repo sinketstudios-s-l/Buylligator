@@ -55,17 +55,17 @@ export class AppComponent implements OnInit {
     });
 
     this.fcm.getToken()
-    .then((token:string)=>{
-     localStorage.setItem('fcm_token', token)
-    })
-    .catch(error=>{
-      console.error(error);
-    });
+      .then((token: string) => {
+        localStorage.setItem('fcm_token', token)
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   ngOnInit() {
 
-    
+
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -85,30 +85,47 @@ export class AppComponent implements OnInit {
 
   }
 
-  redirectTo(event){
+  redirectTo(event) {
     const id = event.target.id
 
     console.log(id)
 
-    if(id == "shipping"){
-      this.route.navigate(['/shipping'])
+    if (id == "shipping") {
+      if (!this.username) {
+        this.route.navigate(['/login'])
+      } else {
+        this.route.navigate(['/shipping'])
+      }
       this.menuCtrl.close()
-    }else if(id == "help"){
-      this.route.navigate(['/help'])
+    } else if (id == "help") {
+      if (!this.username) {
+        this.route.navigate(['/login'])
+      } else {
+        this.route.navigate(['/help'])
+      }
       this.menuCtrl.close()
-    }else if(id == "sales"){
-      this.route.navigate(['/sales'])
+    } else if (id == "sales") {
+      if (!this.username) {
+        this.route.navigate(['/login'])
+      } else {
+        this.route.navigate(['/sales'])
+      }
       this.menuCtrl.close()
-    }else if(id == "purchases"){
-      this.route.navigate(['/purchases'])
+    } else if (id == "purchases") {
+      if (!this.username) {
+        this.route.navigate(['/login'])
+      } else {
+        this.route.navigate(['/purchases'])
+      }
       this.menuCtrl.close()
+
     }
 
   }
 
   profile() {
     this.menuCtrl.close()
-    this.route.navigate(['/profile/'+this.currentUserID])
+    this.route.navigate(['/profile/' + this.currentUserID])
   }
 
   login() {

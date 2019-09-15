@@ -45,6 +45,7 @@ import { AdMobFreeService } from './services/admobfree.service';
 import { NotificationsService } from './services/notifications.service';
 import { ShippingModalPageModule } from './pages/shipping-modal/shipping-modal.module';
 
+
 var firebaseConfig = {
   apiKey: "AIzaSyB2GtWVNIv2Scjg8zTGxFDvRHaB_VByAWo",
   authDomain: "buylligator.firebaseapp.com",

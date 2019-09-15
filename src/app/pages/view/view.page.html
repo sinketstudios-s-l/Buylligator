@@ -5,6 +5,11 @@
       <ion-buttons slot="start">
         <ion-back-button text="" class="margin-start" mode="md" defaultHref="/"></ion-back-button>
       </ion-buttons>
+      <ion-buttons slot="end" margin-end>
+        <ion-button (click)="moreProd()" *ngIf="ownID == userID">
+          <ion-icon color="light" name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>
       <ion-buttons slot="end" margin-end *ngFor="let fav of saves" hidden>
         <ion-button (click)="saveFav()" *ngIf="fav.productID != productID && favs != true">
           <ion-icon name="heart-empty"></ion-icon>
@@ -28,7 +33,7 @@
 
     <div class="productHead">
       <span class="productTlt">{{productTitle}}</span><br>
-      <span class="productPA">P.A: {{PA}} €</span><br>
+      <span class="productPA">P.A: {{PA}} {{currSymbol}}</span><br>
       <!-- <span class="productPI">P.E: --- € </span><br> -->
       <span class="productPI">P.I: {{PI}} €</span>
     </div>
@@ -41,12 +46,14 @@
       <ion-item *ngFor="let bid of bidders | slice:biddersLenghtShow:biddersLenght; " lines="none">
         <ion-label>{{bid.username}}</ion-label>
         <ion-label>+ {{bid.price}} €</ion-label>
-        <ion-label><p>{{bid.date?.toDate() | date: 'HH:mm a'}}</p></ion-label>
+        <ion-label>
+          <p>{{bid.date?.toDate() | date: 'HH:mm a'}}</p>
+        </ion-label>
       </ion-item>
     </div>
 
-
-    <div class="profileDiv" (click)="profile()">
+    <!-- (click)="profile()" -->
+    <div class="profileDiv" >
       <ion-item lines="none">
         <ion-avatar class="profAvatar" size="small" slot="start">
           <img [src]="userPropImg" alt="">
@@ -69,9 +76,14 @@
     <div class="bidBtn">
       <!-- <ion-button class="btn" color="primary" mode="ios" (click)="pujaAlert()" *ngIf="open == true && userID != ownID">
         Pujar</ion-button> -->
-      <ion-fab vertical="bottom" slot="fixed" *ngIf="open == true && userID != ownID">
+      <ion-fab vertical="bottom" slot="fixed" *ngIf="open == true && userID != ownID && ownID != lastBidderID">
         <ion-button class="btn uploadBtn" mode="ios" (click)="pujaAlert()">
           <ion-label slot="start">Pujar</ion-label>
+        </ion-button>
+      </ion-fab>
+      <ion-fab vertical="bottom" slot="fixed" *ngIf="open == true && userID != ownID && ownID == lastBidderID">
+        <ion-button color="warning" disabled class="btn disabledBtn" mode="ios">
+          <ion-label slot="start">Tu puja es la más alta</ion-label>
         </ion-button>
       </ion-fab>
       <ion-button color="danger" mode="ios" slot="end" class="btn" (click)="closeSub()" id="{{productID}}"

@@ -134,6 +134,16 @@ ion-button.uploadBtn {
     background: #8be4a5 !important;
 }
 
+ion-button.disabledBtn {
+    font-size: 17px;
+    position: fixed;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+
+}
+
 ion-fab{
     bottom: 2rem;
 }
