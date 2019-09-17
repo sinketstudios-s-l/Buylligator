@@ -1,3 +1,7 @@
+ion-content{
+    font-family: sans-serif;
+}
+
 .inp{
     --background: #f9f9f9;
     margin: .25rem auto;
@@ -20,4 +24,63 @@
     text-align: center;
     font-style: italic;
     text-transform:capitalize;
+}
+
+.fundsTotal{
+    padding: 20px;
+    text-align: center;
+    line-height: 20px;
+    background: #f9f9f9;
+}
+
+.fundsTotal span{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.wdAcc, .wdValue{
+    padding: 20px;
+}
+
+.titles h4{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 13px;
+    text-align-last: left;
+}
+
+.wdValue {
+    text-align: center;
+}
+
+ion-input.wdInp{
+    font-size: 25px;
+}
+
+ion-item.wdValueInp{
+    --background: transparent;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+.wdAccIco svg{
+    width: 20px;
+    height: 20px;
+}
+
+.wdAccItem{
+    margin: .5rem auto;
+    border-radius: 10px;
+    --background: #f9f9f9a1;
+    border: 1px solid #f1f1ff;
+}
+.accRow{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.wdBtn{
+    margin: 1rem auto;
 }

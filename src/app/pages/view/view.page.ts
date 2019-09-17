@@ -17,6 +17,7 @@ export class ViewPage implements OnInit {
   username
   mainuser
   subUser
+  familyName
 
   mainprod
   sub
@@ -117,6 +118,7 @@ export class ViewPage implements OnInit {
         this.subUser = this.mainuser.valueChanges().subscribe(ev => {
           this.username = ev.username
           this.saves = ev.favorites
+          this.familyName = ev.familyName
         })
       })
 
@@ -234,7 +236,8 @@ export class ViewPage implements OnInit {
 
   pujar(precioPuja: number) {
 
-    this.PA = precioPuja + this.PA
+
+    this.PA = Number(precioPuja) + Number(this.PA)
 
     this.afs.doc(`products/${this.productID}`).update({
       PA: this.PA,

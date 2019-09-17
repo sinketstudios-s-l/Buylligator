@@ -184,7 +184,6 @@ export class UploadPage implements OnInit {
     const { PI, desc, productID, title } = this
     if (this.currency == "") {
       this.currency = "EUR"
-      this.currSymbol = "€"
     }
 
     if (this.weight == 2) {
@@ -208,8 +207,7 @@ export class UploadPage implements OnInit {
       verificated: true,
       currency: this.currency,
       weight: this.weight,
-      shippingCost: this.shippingCost,
-      currSymbol: this.currSymbol
+      shippingCost: this.shippingCost
 
     }).then(() => { this.modalCtrl.dismiss() })
   }

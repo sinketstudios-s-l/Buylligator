@@ -53,8 +53,8 @@ export class HomePage implements OnInit {
   newPrice: number
   $ev
   notifications
-
-
+  age
+  familyName
   expressImg: string = "https://firebasestorage.googleapis.com/v0/b/buylligator.appspot.com/o/flash.png?alt=media&token=a3d886d8-63e8-47d0-9bcf-968026d1ef11"
 
 
@@ -182,9 +182,52 @@ export class HomePage implements OnInit {
     this.userSvc.isAuthenticated().then(() => {
       this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
       this.sub = this.mainuser.valueChanges().subscribe(ev => {
-        this.username = ev.username
+        this.username = ev.username,
+        this.familyName = ev.familyName,
+        this.age = ev.age 
+
+        if(this.familyName == ""){
+          this.updateProf('¡Un último paso!','Necesitamos saber como nos dirijimos a usted y verificar su edad ya que hay contenido +18.')
+        }
+
       })
     })
+  }
+
+
+  async updateProf(header:string, message:string){
+
+    const update = await this.alertCtrl.create({
+      header: header,
+      message: message,
+      inputs: [
+        {
+          type: "text",
+          name: "name",
+          placeholder: "¿Cómo se llama?",
+        },
+        {
+          type: "date",
+          name: "age",
+          placeholder: "edad"
+        }
+      ],
+      buttons: [
+        {
+          text: "Actualizar",
+          handler: data => {
+
+            console.log()
+            this.afs.doc(`users/${this.userSvc.getUID()}`).update({
+              familyname: data.name,
+              age: data.age
+            })
+          }
+        }
+      ]
+    })
+    await update.present()
+
   }
 
   async openLoginModal() {

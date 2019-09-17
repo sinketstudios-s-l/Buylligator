@@ -25,3 +25,31 @@ ion-content {
     border-radius: 10px;
     margin: 1rem auto;
 }
+
+.funds{
+    --background: #8be4a615;
+    width: 90%;
+    border: 1px solid #8be4a5;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+.withdraw{
+    --background: #ffce0015;
+    width: 90%;
+    border: 1px solid #ffce00;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+
+.titles{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.titles h4{
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: bold;
+}

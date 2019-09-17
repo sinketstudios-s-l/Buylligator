@@ -104,6 +104,7 @@ export class SalesPage implements OnInit {
 
   }
 
+
   go(event) {
 
     this.prodID = this.sales.find(id => id.productID === event.target.id)

@@ -2,9 +2,13 @@ ion-content{
     --background: #f9f9f9;
 }
 
+ion-list {
+    background: transparent;
+}
+
 ion-avatar{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .no-purch{
@@ -12,4 +16,51 @@ ion-avatar{
     text-align: center;
     font-family: sans-serif;
     margin: 1rem auto;
+}
+
+.purchItem{
+
+    width: 90%;
+    border: 1px solid #dfdfdf;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+.purchItemPaid{
+    --background: #8be4a615;
+    width: 90%;
+    border: 1px solid #8be4a5;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+.titles{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.titles h4{
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 13px;
+    text-align-last: left;
+}
+
+.btn{
+    --border-radius: 40px;
+    width: 90%;
+}
+
+ion-button.payBtn {
+    font-size: 17px;
+    position: fixed;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.33);
+
 }

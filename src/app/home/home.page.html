@@ -57,7 +57,7 @@
         </div>
         <img [src]="item.img[0]" (click)="view($event)" id="{{item.productID}}">
         <div class="productCardInfo" id="{{item.productID}}" (click)="view($event)">
-          <span class="productCardPrice" id="{{item.productID}}">P.A: {{item.PA}} {{item.currSymbol}}</span><br>
+          <span class="productCardPrice" id="{{item.productID}}">P.A: {{item.PA}} €</span><br>
           <span class="productCardTitle" id="{{item.title}}">{{item.title}}</span>
           <!-- <ion-icon size="" slot="end" name="information-circle-outline"></ion-icon> -->
           <p class="productCardDesc" id="{{item.productID}}">{{item.desc}}</p>

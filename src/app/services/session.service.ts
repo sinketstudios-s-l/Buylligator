@@ -50,7 +50,9 @@ export class SessionService {
         role: 0,
         verificated: false,
         date: new Date(),
-        accType: "particular"
+        accType: "particular",
+        familyname: "",
+        age: ""
       })
 
       this.userSvc.setUser({

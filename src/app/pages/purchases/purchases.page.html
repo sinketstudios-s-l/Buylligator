@@ -23,60 +23,51 @@
 
   <ion-list *ngIf="purchases">
 
-
-    <ion-item-sliding *ngFor="let p of purchases" [id]="p.productID" lines="none">
-      <div *ngFor="let pid of products">
-        <ion-item lines="none" *ngIf="p.productID == pid.productID">
-          <ion-avatar slot="start" [id]="p.productID">
-            <img [src]="p.img" [id]="p.productID">
+    <div class="titles">
+      <h4>Esperando Pago</h4>
+    </div>
+    <div *ngFor="let purch of purchases">
+      <div *ngFor="let prod of products">
+        <ion-item class="purchItem" lines="none" *ngIf="purch.productID == prod.productID && prod.status != 'paidout'">
+          <ion-avatar slot="start">
+            <img [src]="purch.img" alt="">
           </ion-avatar>
-          <ion-label [id]="p.productID" slot="start">
-            <h3 [id]="p.productID">{{p.title}}</h3>
-            <p [id]="p.productID">{{p.desc}}</p>
+          <ion-label slot="start">
+            <h6>{{purch.title}}</h6>
+            <p>{{purch.desc}}</p>
           </ion-label>
-          <ion-label slot="end" [id]="p.productID">
-            <h4 [id]="p.productID">{{p.price}}€</h4>
-          </ion-label>
-          <ion-button slot="end" mode="ios" color="warning" *ngIf="pid.status == 'waiting'" (click)="makePayment($event)"
-            [id]="p.productID">
-            <ion-icon name="card"></ion-icon>
-            Pagar</ion-button>
-          <ion-label slot="end" color="success" (click)="statusInfo(pid.status)" [id]="p.productID"
-            *ngIf="pid.status == 'paidout'">
-            <ion-icon name="checkmark-circle" mode="ios" [id]="p.productID"></ion-icon>
-          </ion-label>
-          <ion-label slot="end" color="danger" (click)="statusInfo(pid.status)" [id]="p.productID"
-            *ngIf="pid.status == 'cancelled'">
-            <ion-icon name="close-circle" mode="ios" [id]="p.productID"></ion-icon>
-          </ion-label>
-          <ion-label slot="end" color="primary" (click)="statusInfo(pid.status)" [id]="p.productID"
-            *ngIf="pid.status == 'delivered'">
-            <ion-icon name="home" mode="md" [id]="p.productID"></ion-icon>
-          </ion-label>
+          <ion-icon slot="end" name="home" mode="md" color=""></ion-icon>
         </ion-item>
-
-        <ion-item-options side="start" lines="none" *ngIf="pid.status != 'paidout'">
-          <ion-item-option color="light" [id]="p.productID" disabled>
-            <ion-label text-center [id]="p.productID">
-              <ion-icon name="barcode" mode="ios" [id]="p.productID"></ion-icon>
-              <h4 [id]="p.productID">Escanear QR</h4>
-            </ion-label>
-          </ion-item-option>
-        </ion-item-options>
-
-        <ion-item-options side="start" lines="none" *ngIf="pid.status == 'paidout'">
-          <ion-item-option (click)="qrScann($event)" color="light" [id]="p.productID">
-            <ion-label text-center [id]="p.productID">
-              <ion-icon name="barcode" mode="ios" [id]="p.productID"></ion-icon>
-              <h4 [id]="p.productID">Escanear QR</h4>
-            </ion-label>
-          </ion-item-option>
-        </ion-item-options>
       </div>
-    </ion-item-sliding>
+    </div>
 
+    <div class="titles">
+      <h4>Pagado</h4>
+    </div>
+    <div *ngFor="let purch of purchases">
+      <div *ngFor="let prod of products">
+        <ion-item class="purchItemPaid" lines="none"
+          *ngIf="purch.productID == prod.productID && prod.status == 'paidout'">
+          <ion-avatar slot="start">
+            <img [src]="purch.img" alt="">
+          </ion-avatar>
+          <ion-label slot="start">
+            <h6>{{purch.title}}</h6>
+            <p>{{purch.desc}}</p>
+          </ion-label>
+          <ion-icon color="primary" slot="end" name="checkmark-circle" mode="md" color=""></ion-icon>
+        </ion-item>
+      </div>
+    </div>
 
 
   </ion-list>
+
+  <ion-fab vertical="bottom" slot="fixed">
+    <ion-button color="warning" class="btn payBtn" mode="ios">
+      <ion-icon slot="start" name="cash"></ion-icon>
+      <ion-label slot="start">Pagar Producto</ion-label>
+    </ion-button>
+  </ion-fab>
 
 </ion-content>

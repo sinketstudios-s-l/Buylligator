@@ -13,11 +13,12 @@ export class PaymentService {
   main
   sub
   purchases
+
   constructor(private stripe: Stripe, private afs: AngularFirestore, private userSvc: UserService, private paypal: PayPal) { }
 
   paypalPay(amount: string, desc: string, currency: string, ID: string) {
 
-    this.prodID = ID  
+    this.prodID = ID
 
     this.paypal.init({
       PayPalEnvironmentProduction: 'AaTRJ46xz16heiPZ6tk0Up75jJu1S13ztVkCGe7qJg8daXw_CxqT1yG0PLXNq4RNKtonV0_qHc6rehKi',
@@ -32,11 +33,15 @@ export class PaymentService {
       })).then(() => {
         let payment = new PayPalPayment(amount, currency, desc, 'sale')
         this.paypal.renderSinglePaymentUI(payment).then(() => {
-          const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
           
+          console.log('successfully paid')
+          
+          const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
+
           this.afs.doc(`QR-Codes/${ref}`).set({
             buyerName: name,
             buyerID: this.userSvc.getUID(),
+            date: new Date()
           })
 
           this.afs.doc(`products/${this.prodID}`).update({
@@ -44,7 +49,6 @@ export class PaymentService {
             qrRef: ref
           })
 
-          console.log('successfully paid')
         }, err => {
           console.log(err)
         })

@@ -1,12 +1,37 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>settings</ion-title>
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{id}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
 
-  <ion-item lines="none" (click)="logout()">
+  <ion-progress-bar color="primary" [value]="uploadProgress" type="indeterminate" *ngIf="uploading == true">
+  </ion-progress-bar>
+
+  <div class="editProf" *ngIf="id == 'edit'">
+
+    <div class="profAvatar">
+      <ion-avatar (click)="focusImg()">
+        <img [src]="profilePic">
+        <input type="file" id="fileInp" (change)="uploadImg($event)">
+      </ion-avatar>
+
+      <ion-item lines="none">
+        <ion-input [(ngModel)]="username" placeholder="username"></ion-input>
+      </ion-item>
+
+      <ion-button (click)="updateProf()">actualizar</ion-button>
+    </div>
+
+  </div>
+
+  <ion-item lines="none" (click)="logout()" *ngIf="id == 'settings'">
     <ion-icon name="log-out" slot="start"></ion-icon>
     <ion-label color="danger" slot="start">Desconectarse</ion-label>
   </ion-item>

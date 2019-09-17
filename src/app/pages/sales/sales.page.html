@@ -24,8 +24,9 @@
   <ion-list *ngIf="sales">
 
 
-    <ion-item-sliding *ngFor="let s of sales" [id]="s.productID" (click)="go($event)" lines="none">
+    <ion-item-sliding *ngFor="let s of sales"  class="salesItem" [id]="s.productID" lines="none">
       <div *ngFor="let pid of products">
+        
         <ion-item lines="none" *ngIf="s.productID == pid.productID">
           <ion-avatar slot="start" [id]="s.productID">
             <img [src]="s.img" [id]="s.productID">
@@ -55,23 +56,7 @@
           </ion-label>
         </ion-item>
 
-        <ion-item-options side="start" lines="none" *ngIf="pid.status != 'paidout'">
-          <ion-item-option color="light" [id]="s.productID" disabled>
-            <ion-label text-center [id]="s.productID">
-              <ion-icon name="qr-scanner" mode="ios" [id]="s.productID"></ion-icon>
-              <h4 [id]="s.productID">Código QR</h4>
-            </ion-label>
-          </ion-item-option>
-        </ion-item-options>
-
-        <ion-item-options side="start" lines="none" *ngIf="pid.status == 'paidout'">
-          <ion-item-option (click)="qrCode($event)" color="light" [id]="s.productID">
-            <ion-label text-center [id]="s.productID">
-              <ion-icon name="qr-scanner" mode="ios" [id]="s.productID"></ion-icon>
-              <h4 [id]="s.productID">Código QR</h4>
-            </ion-label>
-          </ion-item-option>
-        </ion-item-options>
+        
       </div>
     </ion-item-sliding>
 

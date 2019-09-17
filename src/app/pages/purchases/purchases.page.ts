@@ -43,14 +43,9 @@ export class PurchasesPage implements OnInit {
 
   mainuser
   subuser
-  street
-  street2
-  city
-  province
-  pCode
-  phone
-  strtNum
-
+  mainLocations
+  
+  shippingCost
   constructor(
 
     private afs: AngularFirestore,
@@ -66,6 +61,7 @@ export class PurchasesPage implements OnInit {
 
     this.mainprod = this.afs.collection(`products`)
     this.subprod = this.mainprod.valueChanges().subscribe(ev => {
+      console.log(ev)
       this.products = ev
     })
 
@@ -176,6 +172,9 @@ export class PurchasesPage implements OnInit {
     }, 2000);
   }
 
+ 
+
+
   makePayment(event) {
 
     this.prodID = event.target.id
@@ -184,37 +183,34 @@ export class PurchasesPage implements OnInit {
     this.subprod = this.mainprod.valueChanges().subscribe(prod => {
 
       this.amount = prod.PA
+      this.shippingCost = prod.shippingCost
       this.desc = prod.title
       this.currency = prod.currency
-      console.log(this.currency);
+
+      this.amount = Number(this.amount) + Number(this.shippingCost)
+      this.amount = Number(this.amount).toFixed(2)
+      // console.log(this.amount)
     })
 
 
     this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
     this.subuser = this.mainuser.valueChanges().subscribe(data => {
 
-       this.street = data.street
-       this.street2 = data.street2
-       this.pCode = data.pCode
-       this.phone = data.phone
-       this.province = data.province
-       this.city = data.city
-       this.strtNum = data.strtNum
-
+      this.mainLocations = data.locations
+      
     })
 
     this.amount = String(this.amount)
 
-
-    console.log(this.currency);
+    // console.log(this.amount);
     
-    // if( this.street == "" || this.street2 == "" || this.pCode == "" || this.strtNum == "" || this.province == "" || this.city == ""){
+    //if( !this.mainLocations ){
 
-    //   this.noAddress('Error!', 'No existe ninguna dirección de entrega, añade la dirección y vuelve a intentarlo. INFO: Tanto el vendedor como el resto de usuarios, no tendrán accesso a dicha información.')
+    //  this.noAddress('Error!', 'No existe ninguna dirección de entrega, añade la dirección y vuelve a intentarlo. INFO: Tanto el vendedor como el resto de usuarios, no tendrán accesso a dicha información.')
 
-    // } else {
-      this.paySvc.paypalPay(this.amount, this.desc, this.currency, this.prodID)
-    // }
+    //} else {
+      this.paySvc.paypalPay(this.amount, this.desc, 'EUR', this.prodID)
+     //}
 
 
   }
