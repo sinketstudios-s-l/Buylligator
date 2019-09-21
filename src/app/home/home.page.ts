@@ -13,6 +13,7 @@ import { LoginModalPage } from '../pages/login-modal/login-modal.page';
 import { delay } from 'rxjs/operators';
 
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -33,7 +34,7 @@ export class HomePage implements OnInit {
   prodDesc
   prodImg
 
-
+  days
   username
   mainuser
   sub
@@ -56,8 +57,7 @@ export class HomePage implements OnInit {
   age
   familyName
   expressImg: string = "https://firebasestorage.googleapis.com/v0/b/buylligator.appspot.com/o/flash.png?alt=media&token=a3d886d8-63e8-47d0-9bcf-968026d1ef11"
-
-
+  prodTotal = 0
   slideOpts = {
     loop: false,
     initialSlide: 0,
@@ -86,6 +86,12 @@ export class HomePage implements OnInit {
       icon: "bicycle",
       id: "Motos, Bicicletas & Patinetes",
       mode: "ios"
+    },
+    {
+      name: "Náutica",
+      icon: "boat",
+      id: "Náutica",
+      mode: "md"
     },
     {
       name: "Consolas & Videojuegos",
@@ -156,7 +162,7 @@ export class HomePage implements OnInit {
     private menuCtrl: MenuController,
     private userSvc: UserService,
     private router: Router,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController ) {
 
 
   }
@@ -165,37 +171,46 @@ export class HomePage implements OnInit {
 
     this.afs.collection(`products`).valueChanges()
       .pipe(delay(1000)).subscribe(ev => {
-
+        this.prodTotal = ev.length
         this.products = ev
         this.productsLoadedList = ev
 
-    })
+      })
 
-    firebase.auth().onAuthStateChanged(auth => {
-      if(auth){
-
-      } else {
-
-      }
-    })
 
     this.userSvc.isAuthenticated().then(() => {
       this.mainuser = this.afs.doc(`users/${this.userSvc.getUID()}`)
       this.sub = this.mainuser.valueChanges().subscribe(ev => {
         this.username = ev.username,
-        this.familyName = ev.familyName,
-        this.age = ev.age 
+          this.familyName = ev.familyName,
+          this.age = ev.age
 
-        if(this.familyName == ""){
-          this.updateProf('¡Un último paso!','Necesitamos saber como nos dirijimos a usted y verificar su edad ya que hay contenido +18.')
+        if (this.familyName == "") {
+          this.updateProf('¡Un último paso!', 'Necesitamos saber como nos dirijimos a usted y verificar su edad ya que hay contenido +18.')
         }
 
       })
     })
   }
 
+  something() {
 
-  async updateProf(header:string, message:string){
+    const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
+
+    const fecha = new Date()
+    const dias = 7
+    const total = fecha.setDate(fecha.getDate() + dias)
+
+    this.days = new Date(total).toDateString()
+    console.info(new Date(total))
+
+    this.afs.doc(`something/${ref}`).set({
+      asd: "hi",
+      created: new Date(total)
+    })
+  }
+
+  async updateProf(header: string, message: string) {
 
     const update = await this.alertCtrl.create({
       header: header,

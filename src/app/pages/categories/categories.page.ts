@@ -23,6 +23,12 @@ export class CategoriesPage implements OnInit {
       mode: "ios"
     },
     {
+      name: "Náutica",
+      icon: "boat",
+      id: "Náutica",
+      mode: "md"
+    },
+    {
       name: "Consolas & Videojuegos",
       icon: "logo-game-controller-a",
       id: "Consolas & Videojuegos",
@@ -77,11 +83,23 @@ export class CategoriesPage implements OnInit {
       mode: "ios"
     },
     {
+      name: "",
+      icon: "",
+      id: "",
+      mode: ""
+    },
+    {
       name: "+ 18",
       icon: "flame",
       id: "+ 18",
       mode: "md",
       color: "danger"
+    },
+    {
+      name: "",
+      icon: "",
+      id: "",
+      mode: ""
     },
   ]
 
@@ -97,13 +115,16 @@ export class CategoriesPage implements OnInit {
 
     const catID = event.target.id
 
-    this.afs.doc(`products/${this.id}`).update({
-      category: catID
-    }).then(() =>{
-      this.modalCtrl.dismiss({
-        
+    if(catID != ""){
+      this.afs.doc(`products/${this.id}`).update({
+        category: catID
+      }).then(() =>{
+        this.modalCtrl.dismiss({
+          
+        })
       })
-    })
+    }
+
 
   }
 

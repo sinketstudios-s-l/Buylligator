@@ -60,7 +60,6 @@ ion-toolbar{
     padding: 10px 15px 10px 15px;
     color: #2c2c2c;
     text-align: justify;
-    border-bottom: 1px solid #f1f1f1;
 }
 
 .inp{
@@ -128,7 +127,7 @@ ion-button.uploadBtn {
     font-size: 17px;
     position: fixed;
     left: 50%;
-    bottom: 2%;
+    bottom: 0%;
     transform: translate(-50%, -50%);
     border-radius: 40px;
     background: #8be4a5 !important;
@@ -138,7 +137,7 @@ ion-button.disabledBtn {
     font-size: 17px;
     position: fixed;
     left: 50%;
-    bottom: 2%;
+    bottom: 0%;
     transform: translate(-50%, -50%);
     border-radius: 40px;
 
@@ -149,5 +148,22 @@ ion-fab{
 }
 
 .bidders{
+    padding: 10px 0 10px 0;
     border-bottom: 1px solid #f1f1f1;
+    border-top: 1px solid #f1f1f1;
+    text-transform:capitalize;
+}
+
+
+.shippingIcon svg{
+    width: 32px;
+    height: 32px;
+}
+
+.productShipping{
+    font-size: 13px;
+    padding: 10px 15px 10px 15px;
+    color: #2c2c2c;
+    text-align: justify;
+
 }

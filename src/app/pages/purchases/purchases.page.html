@@ -1,7 +1,12 @@
 <ion-header mode="ios" no-border>
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start" margin-start>
+    <ion-buttons slot="start" margin-start *ngIf="pay != 1">
       <ion-back-button color="dark" text="" mode="ios" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start" *ngIf="pay == 1">
+      <ion-button (click)="cancelPay()">
+        <ion-icon name="close" mode="md" color="dark"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Mis Compras</ion-title>
   </ion-toolbar>
@@ -21,7 +26,7 @@
     De momento no tienes ninguna compra.
   </div>
 
-  <ion-list *ngIf="purchases">
+  <ion-list *ngIf="purchases && pay != 1">
 
     <div class="titles">
       <h4>Esperando Pago</h4>
@@ -59,14 +64,43 @@
         </ion-item>
       </div>
     </div>
-
-
   </ion-list>
 
-  <ion-fab vertical="bottom" slot="fixed">
-    <ion-button color="warning" class="btn payBtn" mode="ios">
+
+  <ion-list *ngIf="purchases && pay == 1">
+
+    <div class="titles">
+      <h4>Selecciona el Producto</h4>
+    </div>
+    <ion-radio-group>
+      <div *ngFor="let purch of purchases">
+        <div *ngFor="let prod of products">
+          <ion-item class="purchItem" lines="none" (ionSelect)="select($event)"
+            *ngIf="purch.productID == prod.productID && prod.status == 'waiting'">
+            <ion-avatar slot="start">
+              <img [src]="purch.img" alt="">
+            </ion-avatar>
+            <ion-label slot="start">
+              <h6>{{purch.title}}</h6>
+              <p>{{purch.desc}}</p>
+            </ion-label>
+            <ion-radio slot="end" [value]="purch.productID" mode="ios"></ion-radio>
+          </ion-item>
+        </div>
+      </div>
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-fab vertical="bottom" slot="fixed" *ngIf="purchases && pay != 1">
+    <ion-button color="warning" class="btn payBtn" mode="ios" (click)="paymentBtn()">
       <ion-icon slot="start" name="cash"></ion-icon>
       <ion-label slot="start">Pagar Producto</ion-label>
+    </ion-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" slot="fixed" *ngIf="purchases && pay == 1 && prodID != ''">
+    <ion-button color="warning" class="btn payBtn" mode="ios" (click)="makePayment()">
+      <ion-label slot="start">Pagar</ion-label>
     </ion-button>
   </ion-fab>
 

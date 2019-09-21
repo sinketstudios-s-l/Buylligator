@@ -6,7 +6,7 @@
 
 <ion-content padding>
 
-  <ion-row no-padding>
+  <ion-row no-padding style="text-align: center;">
     <ion-col size="4" *ngFor="let cat of categories">
       <ion-button color="dark" fill="clear" [id]="cat.id" (click)="category($event)">
         <ion-icon [mode]="cat.mode" [name]="cat.icon"></ion-icon>

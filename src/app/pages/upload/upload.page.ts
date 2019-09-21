@@ -55,7 +55,7 @@ export class UploadPage implements OnInit {
     this.username = this.navParams.get('username')
     this.userID = this.navParams.get('userID')
 
-    console.log(this.productID)
+    // console.log(this.productID)
 
     if (this.navParams.get('id')) {
       this.openCat()

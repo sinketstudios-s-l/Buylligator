@@ -44,6 +44,8 @@ import { AdMobFree } from '@ionic-native/admob-free/ngx'
 import { AdMobFreeService } from './services/admobfree.service';
 import { NotificationsService } from './services/notifications.service';
 import { ShippingModalPageModule } from './pages/shipping-modal/shipping-modal.module';
+import { QrCodesPageModule } from './pages/qr-codes/qr-codes.module';
+import { QrCodesPage } from './pages/qr-codes/qr-codes.page';
 
 
 var firebaseConfig = {
@@ -58,7 +60,7 @@ var firebaseConfig = {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [UploadPage],
+  entryComponents: [UploadPage, QrCodesPage],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
@@ -71,6 +73,7 @@ var firebaseConfig = {
     CategoriesPageModule,
     LoginModalPageModule,
     SettingsPageModule,
+    QrCodesPageModule,
     ShippingModalPageModule,
     NgxQRCodeModule,
   ],
@@ -79,6 +82,7 @@ var firebaseConfig = {
     SplashScreen,
     UserService,
     AuthService,
+    AdMobFreeService,
     NotificationsService,
     SessionService,
     PaymentService,

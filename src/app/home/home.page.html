@@ -37,16 +37,17 @@
   </ion-slides>
 
   <div class="productsTlt">
-    <h5 *ngIf="!category"><b>Productos para ti</b></h5>
-    <h5 *ngIf="category"> Productos en <b>{{category}}</b></h5>
+    <h5 *ngIf="!category && prodTotal != 0"><b>Productos para ti</b></h5>
+    <h5 *ngIf="category && prodTotal != 0"> Productos en <b>{{category}}</b></h5>
   </div>
-
-
   
 
   <div class="spinner" *ngIf="!products">
     <ion-spinner name="crescent" color="primary"></ion-spinner>
   </div>
+
+  <ion-button (click)="something()">Click</ion-button>
+  <ion-label *ngIf="days">La puja se cerrará el: {{ days }}</ion-label>
 
   <div class="productsRow">
     <div *ngFor="let item of products">

@@ -42,6 +42,7 @@ export class SessionService {
     try {
       const res = await this.afAuth.auth.createUserWithEmailAndPassword(username + '@buylligator.com', passwd)
 
+      const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
 
       this.afs.doc(`users/${res.user.uid}`).set({
         profilePic,
@@ -51,8 +52,11 @@ export class SessionService {
         verificated: false,
         date: new Date(),
         accType: "particular",
-        familyname: "",
-        age: ""
+        familyName: null,
+        age: null,
+        withdrawAccRef: ref
+      }).then(() => {
+        this.router.navigate(['/home']).finally(() => window.location.reload())
       })
 
       this.userSvc.setUser({
@@ -60,14 +64,18 @@ export class SessionService {
         uid: res.user.uid
       })
 
-      this.router.navigate(['/home']).then(() => window.location.reload())
+      this.afs.doc(`wallet/${ref}`).set({
+        userID: res.user.uid,
+        funds: 0,
+      })
+
 
     } catch (error) {
 
       this.presentAlert('¡Vaya, algo ha salido mal!', error)
 
       console.dir(error)
-    }
+    } 
 
   }
 

@@ -5,14 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ShippingPage } from './shipping.page';
+import { QrCodesPage } from './qr-codes.page';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 const routes: Routes = [
   {
     path: '',
-    component: ShippingPage
+    component: QrCodesPage
   }
 ];
 
@@ -24,9 +23,6 @@ const routes: Routes = [
     NgxQRCodeModule,
     RouterModule.forChild(routes)
   ],
-  providers: [
-    BarcodeScanner
-  ],
-  declarations: [ShippingPage]
+  declarations: [QrCodesPage]
 })
-export class ShippingPageModule {}
+export class QrCodesPageModule {}

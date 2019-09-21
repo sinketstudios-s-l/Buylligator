@@ -1,0 +1,49 @@
+<ion-header mode="ios">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" margin-start>
+      <ion-button mode="ios" (click)="close()">
+        <ion-icon name="close" mode="md" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Códigos QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngIf="!id">
+    <div *ngFor="let prod of products">
+      <ion-item class="prodItem" lines="none" *ngIf="prod.userID == userID && prod.status == 'request'"
+        (click)="showQr($event)" [id]="prod.productID">
+        <ion-avatar slot="start" [id]="prod.productID">
+          <img [src]="prod.img[0]" [id]="prod.productID">
+        </ion-avatar>
+        <ion-label slot="start" [id]="prod.productID">
+          <h6 [id]="prod.productID">{{prod.title}}</h6>
+          <p [id]="prod.productID">{{prod.desc}}</p>
+        </ion-label>
+        <ion-icon slot="end" name="eye" mode="md" [id]="prod.productID"></ion-icon>
+      </ion-item>
+      <div class="qrCode" *ngIf="qrData && id != ''" style="width: 100%; text-align:center;font-family:sans-serif;">
+        <ngx-qrcode qrc-element-type="canvas" [(qrc-value)]="qrData" qrc-version="5"></ngx-qrcode>
+        <ion-button color="warning" (click)="downloadQR()">Descargar QR</ion-button>
+        <ion-button color="danger" (click)="closeQR()">Cerrar</ion-button>
+      </div>
+    </div>
+  </ion-list>
+
+
+
+  <div class="qrCode" *ngIf="qrData && id == ''" style="width: 100%; text-align:center;font-family:sans-serif;">
+
+    <h6>Este es el <b>Código de Referencia</b> de envío, imprímelo y pégalo en el paquete.</h6>
+
+    <ngx-qrcode qrc-element-type="canvas" [(qrc-value)]="qrData" qrc-version="5"></ngx-qrcode>
+
+    <ion-button color="warning" (click)="downloadQR()">Descargar QR</ion-button>
+    <ion-button color="danger" (click)="closeQR()">Cerrar</ion-button>
+
+  </div>
+
+
+</ion-content>

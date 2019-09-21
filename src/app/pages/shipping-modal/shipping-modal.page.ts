@@ -3,6 +3,7 @@ import { NavParams, ModalController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from 'src/app/services/user.service';
 import * as firebase from 'firebase';
+import { QrCodesPage } from '../qr-codes/qr-codes.page';
 
 @Component({
   selector: 'app-shipping-modal',
@@ -20,7 +21,8 @@ export class ShippingModalPage implements OnInit {
   name
 
   ownID
-
+  mainLoc
+  subLoc
   main
   sub
   mainWD
@@ -36,12 +38,22 @@ export class ShippingModalPage implements OnInit {
   floorDoor
   icon
 
-  funds
+  funds = 0
   bankAcc
   paypalAcc
+  mainAcc
+  subAcc
   fundsLimit
   wdValue = 0.00
   fundsAfter
+  prodID
+
+  mainFunds
+  subFunds
+
+  qrCodeRef
+  mainQr
+  subQr
   constructor(
     private navParams: NavParams,
     private modalCtrl: ModalController,
@@ -50,19 +62,16 @@ export class ShippingModalPage implements OnInit {
 
   ngOnInit() {
 
-
-    console.log(this.icon)
-
     this.ownID = this.userSvc.getUID()
 
     this.id = this.navParams.get('id')
-    console.log(this.id)
+    // console.log(this.id)
 
     if (this.id == "locations") {
       this.main = this.afs.doc(`users/${this.ownID}`)
       this.sub = this.main.valueChanges().subscribe(ev => {
 
-        console.log(ev)
+        // console.log(ev)
 
         this.locations = ev.locations
 
@@ -72,41 +81,53 @@ export class ShippingModalPage implements OnInit {
       this.main = this.afs.collection('products')
       this.sub = this.main.valueChanges().subscribe(ev => {
 
-        console.log(ev)
+        // console.log(ev)
 
         this.products = ev
 
       })
+      this.mainLoc = this.afs.doc(`users/${this.ownID}`)
+      this.subLoc = this.mainLoc.valueChanges().subscribe(ev => {
+
+        //console.log(ev)
+
+        this.locations = ev.locations
+
+      })
+
 
     } else if (this.id == "funds") {
       this.main = this.afs.doc(`users/${this.ownID}`)
       this.sub = this.main.valueChanges().subscribe(ev => {
+        this.withdrawAccRef = ev.withdrawAccRef
+      })
+
+      this.mainFunds = this.afs.doc(`wallet/${this.withdrawAccRef}`)
+      this.subFunds = this.mainFunds.valueChanges().subscribe(ev => {
 
         this.funds = ev.funds
 
-        this.funds = this.funds.toString().replace("\.", ",")
 
       })
+
+
     } else if (this.id == "withdraw") {
       this.main = this.afs.doc(`users/${this.ownID}`)
       this.sub = this.main.valueChanges().subscribe(ev => {
 
         this.withdrawAccRef = ev.withdrawAccRef
 
+      })
+
+      this.mainFunds = this.afs.doc(`wallet/${this.withdrawAccRef}`)
+      this.subFunds = this.mainFunds.valueChanges().subscribe(ev => {
+
         this.funds = ev.funds
         this.fundsLimit = Number(this.funds) + 0.01
 
-        this.funds = this.funds.toString().replace("\.", ",")
+
 
         this.fundsAfter = this.funds
-
-        this.main = this.afs.doc(`paymentAcc/${this.withdrawAccRef}`)
-        this.sub = this.main.valueChanges().subscribe(ev => {
-
-          this.withdrawAcc = ev.withdrawAcc
-
-        })
-
       })
     }
 
@@ -116,12 +137,16 @@ export class ShippingModalPage implements OnInit {
     console.log('Segment changed', ev);
   }
 
+
+
   newLoc() {
     this.add = 1
   }
 
   select(event) {
-    console.log(event.target.value)
+
+    this.prodID = event.target.value
+
   }
 
   addLocation() {
@@ -157,10 +182,49 @@ export class ShippingModalPage implements OnInit {
 
   }
 
+
+  pickUpReq() {
+
+    this.mainQr = this.afs.doc(`products/${this.prodID}`)
+    this.subQr = this.mainQr.valueChanges().subscribe(ev => {
+
+      this.qrCodeRef = ev.qrCodeRef
+    })
+
+    const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
+
+    this.afs.doc(`pickUpReq/${ref}`).set({
+      productID: this.prodID,
+      userID: this.userSvc.getUID(),
+      userAddress: this.locations[0]
+    }).then(() => {
+      this.afs.doc(`QrCodes/${this.qrCodeRef}`).update({
+        sellerID: this.userSvc.getUID(),
+        sellerLoc: this.locations[0],
+        productID: this.prodID
+      })
+      this.afs.doc(`products/${this.prodID}`).update({
+        status: "request"
+      }).then(() => {
+        this.modalCtrl.dismiss().then(() => {
+          this.qrCodes(this.qrCodeRef)
+        })
+      })
+    })
+  }
+
+  async qrCodes(prodID) {
+    const modal = await this.modalCtrl.create({
+      component: QrCodesPage,
+      componentProps: {
+        id: prodID
+      }
+    })
+    await modal.present()
+
+  }
+
   withdrawFunds() {
-
-
-
   }
 
   iconL(event) {
@@ -171,8 +235,6 @@ export class ShippingModalPage implements OnInit {
 
   quantity(ev) {
     this.wdValue = ev.target.value
-
-    this.funds = this.funds.toString().replace("\,", ".")
 
     this.fundsAfter = Number(this.funds) - this.wdValue
     this.fundsAfter = Number(this.fundsAfter).toFixed(2)

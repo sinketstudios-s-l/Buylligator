@@ -18,6 +18,7 @@ export class ViewPage implements OnInit {
   mainuser
   subUser
   familyName
+  profilePic
 
   mainprod
   sub
@@ -43,7 +44,7 @@ export class ViewPage implements OnInit {
   purch = 0
   currSymbol
   precioPuja: number
-
+  category
   lastBidder
   lastBidderID
   lastBidderName
@@ -62,6 +63,8 @@ export class ViewPage implements OnInit {
   saves: any[]
   favs: boolean = false
 
+  shippingCost
+
   constructor(
     private actvRoute: ActivatedRoute,
     private afs: AngularFirestore,
@@ -79,7 +82,7 @@ export class ViewPage implements OnInit {
       this.mainprod = this.afs.doc(`products/${this.productID}`)
       this.sub = this.mainprod.valueChanges().subscribe(ev => {
 
-        this.PI =  ev.PI.toString().replace("\.", ",")
+        this.PI = ev.PI.toString().replace("\.", ",")
         this.PA = ev.PA.toString().replace("\.", ",")
         this.desc = ev.desc
         this.express = ev.express
@@ -89,12 +92,13 @@ export class ViewPage implements OnInit {
         this.productTitle = ev.title
         this.open = ev.open
         this.currSymbol = ev.currSymbol
-
+        this.shippingCost = ev.shippingCost
         this.productImg = ev.img
+        this.category = ev.category
 
         this.bidders = ev.bidders
         if (this.bidders) {
-          this.lastBidder = this.bidders.length -1
+          this.lastBidder = this.bidders.length - 1
           this.lastBidderName = this.bidders[this.lastBidder].username
           this.lastBidderID = this.bidders[this.lastBidder].userID
           this.biddersLenght = this.bidders.length
@@ -108,6 +112,7 @@ export class ViewPage implements OnInit {
           this.accType = ev.accType
           this.sales = ev.sales.length
           this.purch = ev.purchases.length
+          this.familyName = ev.familyName
         })
 
       })
@@ -119,6 +124,7 @@ export class ViewPage implements OnInit {
           this.username = ev.username
           this.saves = ev.favorites
           this.familyName = ev.familyName
+          this.profilePic = ev.profilePic
         })
       })
 
@@ -127,7 +133,7 @@ export class ViewPage implements OnInit {
   }
 
 
-  async presentAlert(header: string, message: string){
+  async presentAlert(header: string, message: string) {
     const alert = await this.alertCtrl.create({
       header: header,
       message: message,
@@ -149,7 +155,7 @@ export class ViewPage implements OnInit {
     await alert.present()
   }
 
-  async moreProd(){
+  async moreProd() {
 
     const actionSheet = await this.actionSheetCtrl.create({
       header: this.productTitle,
@@ -164,11 +170,13 @@ export class ViewPage implements OnInit {
         {
           text: "Eliminar",
           role: "destructive",
-          handler: () =>{
-            if(!this.bidders){
-              this.afs.doc(`products/${this.productID}`).delete()
-            } else{
-              this.presentAlert('¡Cuidado!','Hay clientes pujando por este producto, ¿Quieres eliminarlo igualmente?')
+          handler: () => {
+            if (!this.bidders) {
+              this.afs.doc(`products/${this.productID}`).delete().then(() => {
+                this.route.navigate(['/home'])
+              })
+            } else {
+              this.presentAlert('¡Cuidado!', 'Hay clientes pujando por este producto, ¿Quieres eliminarlo igualmente?')
             }
           }
         },
@@ -230,7 +238,11 @@ export class ViewPage implements OnInit {
         }
       ]
     })
-    await puja.present()
+    if(!this.username){
+      this.route.navigate(['/login'])
+    } else {
+      await puja.present()
+    }
   }
 
 
@@ -246,7 +258,9 @@ export class ViewPage implements OnInit {
           userID: this.userSvc.getUID(),
           username: this.username,
           price: precioPuja,
-          date: new Date()
+          date: new Date(),
+          familyName: this.familyName,
+          profilePic: this.profilePic
         }
       )
     }).then(() => { this.precioPuja = 0.00 })

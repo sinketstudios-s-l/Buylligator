@@ -11,36 +11,34 @@ export class AdMobFreeService {
     public platform: Platform
   ) { 
 
-
-    platform.ready().then(() => {
-
-      this.platID = platform.is.name
-
-      this.BannerAd()
-
-    })
+    if(this.platform.is('cordova') || platform.is('ios') || platform.is('android')){
+      platform.ready().then(() => {
+        this.BannerAd()
+      })
+    }
 
   }
 
   BannerAd(){
+
     let ios = "ca-app-pub-3993710682934611/1104271916"
     let android = "ca-app-pub-3993710682934611/7386802758"
 
-    if(this.platID == "ios"){
-      this.platID = ios
-    } else {
-      this.platID = android
+    if(this.platform.is('ios')){
+      this.platID = ios.toString()
+    } else if(this.platform.is('cordova')){
+      this.platID = android.toString()
     }
 
     let bannerConfig: AdMobFreeBannerConfig = {
-      isTesting: false, // Remove in production
+      isTesting: true, // Remove in production
       autoShow: true,
       id: "ca-app-pub-3993710682934611/1104271916"
     };
     this.adModFree.banner.config(bannerConfig);
 
     this.adModFree.banner.prepare().then(() => {
-      // success
+      
     }).catch(e => alert(e));
   }
 }

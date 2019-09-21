@@ -13,6 +13,7 @@ import { UserService } from './services/user.service';
 
 import * as firebase from 'firebase'
 import { FCM } from '@ionic-native/fcm/ngx';
+import { AdMobFreeService } from './services/admobfree.service';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class AppComponent implements OnInit {
     private route: Router,
     private afs: AngularFirestore,
     private userSvc: UserService,
-    private fcm: FCM
+    private fcm: FCM,
 
   ) {
     this.initializeApp();
@@ -64,8 +65,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

@@ -10,6 +10,10 @@ ion-content{
     padding: 5px;
 }
 
+.allLocations{
+    padding: 20px;
+}
+
 .locItem, .prodItem{
     border-radius: 10px;
     --background: #f9f9f9a1;
@@ -83,4 +87,27 @@ ion-item.wdValueInp{
 
 .wdBtn{
     margin: 1rem auto;
+}
+
+
+.allProducts{
+    padding: 20px;
+}
+
+.btn{
+    --border-radius: 40px;
+    width: 90%;
+}
+
+ion-button.payBtn {
+    font-size: 17px;
+    position: fixed;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+
 }

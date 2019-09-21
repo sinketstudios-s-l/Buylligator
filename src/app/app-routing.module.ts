@@ -14,9 +14,6 @@ const routes: Routes = [
   { path: 'shipping', loadChildren: './pages/shipping/shipping.module#ShippingPageModule' },
   { path: 'sales', loadChildren: './pages/sales/sales.module#SalesPageModule' },
   { path: 'purchases', loadChildren: './pages/purchases/purchases.module#PurchasesPageModule' },
-  { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
-
-
 
 ];
 
