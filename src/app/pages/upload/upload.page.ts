@@ -21,10 +21,11 @@ export class UploadPage implements OnInit {
   username
   userID
   productID = this.navParams.get('id')
-
+  days
   title: string
   desc: string
   currency: string
+  timeLeft
 
   express: boolean
   PI: number
@@ -118,7 +119,6 @@ export class UploadPage implements OnInit {
     const file = event.target.files[0]
     const filePath = `products/${id}`
 
-
     if (this.urlImg1 == null) {
       this.storage.ref(filePath).put(file).then(upl => {
         this.uploading = true
@@ -180,6 +180,13 @@ export class UploadPage implements OnInit {
 
   upload() {
 
+    const fecha = new Date()
+    const dias = 15
+    const total = fecha.setDate(fecha.getDate() + dias)
+
+    this.days = new Date(total).toDateString()
+    console.info(new Date(total))
+    this.timeLeft = new Date(total)
 
     const { PI, desc, productID, title } = this
     if (this.currency == "") {
@@ -205,9 +212,10 @@ export class UploadPage implements OnInit {
       title: title,
       express: false,
       verificated: true,
-      currency: this.currency,
+      currency: 'EUR',
       weight: this.weight,
-      shippingCost: this.shippingCost
+      shippingCost: this.shippingCost,
+      timeLeft: this.timeLeft
 
     }).then(() => { this.modalCtrl.dismiss() })
   }

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { FCM } from '@ionic-native/fcm/ngx';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
 
   constructor(
-    private fcm: FCM
+    private fcm: FCM,
+
   ) { }
 
     getToken(){
@@ -15,6 +18,11 @@ export class NotificationsService {
         localStorage.setItem('token', token)
         console.log(token)
       })
+    }
+
+    sendNotification(){
+
+
     }
 
 

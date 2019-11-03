@@ -33,6 +33,7 @@ export class AdMobFreeService {
     let bannerConfig: AdMobFreeBannerConfig = {
       isTesting: true, // Remove in production
       autoShow: true,
+      bannerAtTop:true,
       id: "ca-app-pub-3993710682934611/1104271916"
     };
     this.adModFree.banner.config(bannerConfig);

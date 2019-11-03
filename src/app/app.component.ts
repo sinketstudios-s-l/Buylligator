@@ -97,12 +97,10 @@ export class AppComponent implements OnInit {
       }
       this.menuCtrl.close()
     } else if (id == "help") {
-      if (!this.username) {
-        this.route.navigate(['/login'])
-      } else {
-        this.route.navigate(['/help'])
-      }
+
+      this.route.navigate(['/help'])
       this.menuCtrl.close()
+      
     } else if (id == "sales") {
       if (!this.username) {
         this.route.navigate(['/login'])
@@ -118,7 +116,16 @@ export class AppComponent implements OnInit {
       }
       this.menuCtrl.close()
 
+    } else if (id == "chat") {
+      if (!this.username) {
+        this.route.navigate(['/login'])
+      } else {
+        this.route.navigate(['/chat'])
+      }
+      this.menuCtrl.close()
+
     }
+
 
   }
 

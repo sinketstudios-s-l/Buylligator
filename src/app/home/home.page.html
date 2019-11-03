@@ -46,12 +46,10 @@
     <ion-spinner name="crescent" color="primary"></ion-spinner>
   </div>
 
-  <ion-button (click)="something()">Click</ion-button>
-  <ion-label *ngIf="days">La puja se cerrará el: {{ days }}</ion-label>
 
   <div class="productsRow">
     <div *ngFor="let item of products">
-      <div class="productCard" *ngIf="item.verificated == true && !category || category == 'all'"
+      <div class="productCard" *ngIf="item.verificated == true && !category || item.verificated == true && category == 'all'"
         id="{{item.productID}}">
         <div class="productCardExp" *ngIf="item.express == true">
           <img [src]="expressImg" alt="">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
-import { ModalController, MenuController, AlertController } from '@ionic/angular';
+import { ModalController, MenuController, AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 // SERVICES
@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 import { UploadPage } from '../pages/upload/upload.page';
 import { LoginModalPage } from '../pages/login-modal/login-modal.page';
 import { delay } from 'rxjs/operators';
+import { AdMobFreeService } from '../services/admobfree.service';
 
 
 
@@ -162,12 +163,18 @@ export class HomePage implements OnInit {
     private menuCtrl: MenuController,
     private userSvc: UserService,
     private router: Router,
-    private alertCtrl: AlertController ) {
+    private alertCtrl: AlertController,
+    private platform: Platform,
+    private adMobSvc: AdMobFreeService ) {
 
 
   }
 
   ngOnInit() {
+
+    this.platform.ready().then(() => {
+      this.adMobSvc.BannerAd()
+    })
 
     this.afs.collection(`products`).valueChanges()
       .pipe(delay(1000)).subscribe(ev => {
@@ -190,23 +197,6 @@ export class HomePage implements OnInit {
         }
 
       })
-    })
-  }
-
-  something() {
-
-    const ref = Math.random().toString(36).substring(2, 16) + Math.random().toString(36).substring(2, 16).toUpperCase()
-
-    const fecha = new Date()
-    const dias = 7
-    const total = fecha.setDate(fecha.getDate() + dias)
-
-    this.days = new Date(total).toDateString()
-    console.info(new Date(total))
-
-    this.afs.doc(`something/${ref}`).set({
-      asd: "hi",
-      created: new Date(total)
     })
   }
 

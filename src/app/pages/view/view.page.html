@@ -24,10 +24,14 @@
   <div class="product">
 
     <div class="productImgDiv">
+      <div class="timeLeft" id="timeLeft">
+        
+      </div>
       <ion-slides pager="true" [options]="sliderOpts">
         <ion-slide class="slideImg" *ngFor="let img of productImg">
           <img class="productImg" [src]="img" alt="">
         </ion-slide>
+
       </ion-slides>
     </div>
 
