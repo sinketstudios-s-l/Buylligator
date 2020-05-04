@@ -13,8 +13,8 @@ const routes: Routes = [
   { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' },
   { path: 'shipping', loadChildren: './pages/shipping/shipping.module#ShippingPageModule' },
   { path: 'sales', loadChildren: './pages/sales/sales.module#SalesPageModule' },
-  { path: 'purchases', loadChildren: './pages/purchases/purchases.module#PurchasesPageModule' },  { path: 'chat', loadChildren: './pages/chat/chat.module#ChatPageModule' },
-
+  { path: 'purchases', loadChildren: './pages/purchases/purchases.module#PurchasesPageModule' },
+  { path: 'chat', loadChildren: './pages/chat/chat.module#ChatPageModule' }
 
 ];
 

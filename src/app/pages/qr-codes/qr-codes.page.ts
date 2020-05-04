@@ -60,4 +60,6 @@ export class QrCodesPage implements OnInit {
     this.qrData = ""
   }
 
+  downloadQR(){}
+
 }

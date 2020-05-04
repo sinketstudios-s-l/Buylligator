@@ -164,17 +164,13 @@ export class HomePage implements OnInit {
     private userSvc: UserService,
     private router: Router,
     private alertCtrl: AlertController,
-    private platform: Platform,
-    private adMobSvc: AdMobFreeService ) {
+    private platform: Platform ) {
 
 
   }
 
   ngOnInit() {
 
-    this.platform.ready().then(() => {
-      this.adMobSvc.BannerAd()
-    })
 
     this.afs.collection(`products`).valueChanges()
       .pipe(delay(1000)).subscribe(ev => {
